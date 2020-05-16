@@ -1,0 +1,109 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{times}
+\usepackage{paralist}
+\usepackage{csquotes}
+\usepackage{url}
+
+\usepackage[
+backend=biber,
+style=authoryear-ibid,
+sorting=ynt
+]{biblatex}
+ 
+\addbibresource{soi.bib}
+
+\newif\ifinstructions
+\instructionstrue 
+%\instructionsfalse % removes instruction texts
+
+\newcommand{\komm}[1]{\ifinstructions \noindent [#1] \else \fi}
+
+\sloppy
+
+\begin{document}
+\noindent UPPSALA UNIVERSITET
+
+\noindent Department of Linguistics and Philology
+
+\subsubsection*{Thesis -- Statement of Intent (form with instructions)}
+
+\subsubsection*{Student}
+
+Shifei Chen (Shifei.Chen@student.uu.se)
+
+\subsubsection*{Academic supervisor}
+
+Ali Basirat (Ali.Basirat@lingfil.uu.se)
+
+\subsubsection*{Company/organization, contact person(s) (with e-mails) (if applicable)}
+
+None
+
+\subsubsection*{The title, purpose, and extent of the thesis task}
+
+The supposed thesis title is ``A Study of the Universal Word Embeddings Applicaiton in a Multilingual Neural Machine Translation System''. The topic of the master thesis concerns about the generalizability of neural translation models across languages (from multiple source languages to multiple target languages) with regard to universal word embeddings.
+
+\subsubsection*{Time management}
+
+The thesis will last until mid May (week 20). Here is the proposed detail timeline, with deadline dates in parentheses.
+
+\begin{itemize}
+    \item Background research \hfill week 7-8 (2.23)
+    \item Data preparation \hfill week 9 (3.1)
+    \item Prelimentry experiments \hfill week 10-11 (3.15)
+    \item Reserved for buffering \hfill week 12 (3.22)
+    \item Main experiments \hfill week 13-15 (4.12)
+    \item Reserved for buffering \hfill week 16 (4.19)
+    \item Result analysis \hfill week 17-18 (5.3)
+    \item Overall documentation \hfill week 19-20 (5.17)
+\end{itemize}
+
+\subsubsection*{Thesis content and structure}
+
+The thesis shall consist of 7 chapters, as listed below.
+
+Chapter 1 will descirbe the master thesis briefly, giving out its purpose and the outline of the rest of the work.
+
+Chapter 2 will focus on the background information of the thesis. It should include contents of 
+
+\begin{itemize}
+    \item Introduction to machine translation, multilingual translation and NMT (Neural Machine Translation)
+    \item Introduction to word embeddings
+    \item Introduction to universal word embeddings
+    \item Previous work in multilingual NMT systems with word embeddings
+\end{itemize}
+
+Chapter 3-5 should detail the experiments with a multilingual NMT system and universal word embeddings from different propspectives --- the data, the methodology and the evaluation metrics. In particular, Chapter 4, which is going to write about the methodology, should include things such as
+
+\begin{itemize}
+    \item The training process of the universal word embeddings
+    \item The design of the multilingual NMT system
+    \item Overall experiment settings (hardware, software, etc.)
+\end{itemize}
+
+Chapter 6 will analysis the experiment results. Finally, everything will be concluded in Chapter 7.
+
+\subsubsection*{Language}
+
+The thesis will be written in English.
+
+\subsubsection*{Hardware and software}
+
+During the experiment we expect to use general Deep Learning software kits and frameworks, such as Python, Tensorflow/PyTorch, etc. The software part should not be the bottleneck.
+
+For the hardware, at the time belong we have access the lab computers at the Department of Linguistics and Philology. If they are not enough we will search for additional resources with the help of my supervisor, including resources from other departments of the university, or other third-party partners.
+
+\subsubsection*{Rights to results}
+
+As no third-party will be involved, the author owns the copyright of the thesis and all of the possible products during the thesis period. However, he will make all of these things available to the supervisor and the examiner during the thesis period, and to the public once the thesis is finished.
+
+The dataset of the thesis, if it is not collected by the author, belongs to its own creater. It should be free for academic use.
+
+\subsubsection*{Other things?}
+
+No
+
+\end{document}
