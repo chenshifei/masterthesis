@@ -1,0 +1,58 @@
+64ru_en_pre_pre: !Experiment
+  exp_global: !ExpGlobal
+    model_file: output/{EXP}/tri_tri.mod
+    log_file: output/{EXP}/tri_tri.log
+    default_layer_dim: 512
+    dropout: 0.1
+  model: !DefaultTranslator
+    src_reader: !PlainTextReader
+      vocab: !Vocab
+        vocab_file: corpus/data/tgt_token/en+de+fr_en+de+fr/en+de+fr.vocab
+    trg_reader: !PlainTextReader
+      vocab: !Vocab
+        vocab_file: corpus/data/tgt_token/en+de+fr_en+de+fr/en+de+fr.vocab
+    src_embedder: !PretrainedSimpleWordEmbedder
+      emb_dim: 300
+      filename: embeddings/wiki.en+fr+de.align.vec
+      vocab: !Vocab
+        vocab_file: corpus/data/tgt_token/en+de+fr_en+de+fr/en+de+fr.vocab
+    encoder: !UniLSTMSeqTransducer
+      layers: 1
+    attender: !MlpAttender
+      hidden_dim: 512
+      state_dim: 512
+      input_dim: 512
+    decoder: !AutoRegressiveDecoder
+      embedder: !PretrainedSimpleWordEmbedder
+        emb_dim: 300
+        filename: embeddings/wiki.en+fr+de.align.vec
+        vocab: !Vocab
+          vocab_file: corpus/data/tgt_token/en+de+fr_en+de+fr/en+de+fr.vocab
+      bridge: !CopyBridge {}
+  train: !SimpleTrainingRegimen
+    run_for_epochs: 20
+    src_file: corpus/data/tgt_token/en+de+fr_en+de+fr/train.src
+    trg_file: corpus/data/tgt_token/en+de+fr_en+de+fr/train.tgt
+    restart_trainer: True
+    trainer: !AdamTrainer
+      alpha: 0.0002
+    lr_decay: 0.5
+    dev_tasks:
+      - !AccuracyEvalTask
+        eval_metrics: bleu
+        src_file: corpus/data/tgt_token/en+de+fr_en+de+fr/dev.src
+        ref_file: corpus/data/tgt_token/en+de+fr_en+de+fr/dev.tgt
+        hyp_file: output/{EXP}.dev_hyp
+  evaluate:
+    - !AccuracyEvalTask
+      eval_metrics: bleu
+      src_file: corpus/data/tgt_token/en+de+fr_en+de+fr/test.src
+      ref_file: corpus/data/tgt_token/en+de+fr_en+de+fr/test.tgt
+      hyp_file: output/{EXP}.test_hyp
+      inference: !AutoRegressiveInference
+        reporter:
+        - !AttentionReporter {} # plot attentions
+        - !ReferenceDiffReporter {} # difference highlighting
+        - !CompareMtReporter {} # analyze MT outputs
+        - !OOVStatisticsReporter # report on recovered OOVs, fantasized new words, etc.
+          train_trg_file: corpus/data/tgt_token/en+de+fr_en+de+fr/train.tgt
