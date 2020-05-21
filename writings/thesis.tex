@@ -1,0 +1,105 @@
+\documentclass[thesis,fonts=libertine]{cluu}
+
+\usepackage[style=cluu]{biblatex}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+\addbibresource{thesis.bib}
+
+\usepackage{pythonhighlight}    % for \inputpython at the end
+
+\begin{document}
+\author{Shifei Chen}
+\supervisors{Ali Basirat, Uppsala University}
+\title{Palindromes}
+\subtitle{Never odd or even}
+
+\maketitle
+
+\begin{abstract}
+  The concept of \emph{palindromes} is introduced, and some method for
+  finding palindromes is developed.
+\end{abstract}
+
+\tableofcontents
+
+\addchap{Preface}
+
+I want to thank Donald Knuth for making \TeX, without which
+I wouldn't have written this.
+
+% by using \addchap instead of \chapter this preface isn't numbered.
+
+\chapter{Introduction}
+
+Palindromes are fun. I've tried to find some.
+In Chapter \ref{chap:prev} previous work is reviewed, and
+Chapter \ref{chap:results} is about my results.
+
+\chapter{Previous work}
+\label{chap:prev}
+
+\section{Word Embeddings}
+\subsection{Representing Words in Vectors}
+
+In Natural Language Processing, people need to convert the natural representation of words into form that are more effieicent for computer to process. The idea started with statistical language modelling \parencite{bengio2003neural}. In 2013, \cite{Mikolov:2013aa} introudced Word2Vec, which encapsules words and their latent information into vectors. Besides the benefit that it simplifies representation and storage of words for computers, it also enables the possibilities to calcualte word and their semantic meanings just as vectors.
+
+Take an example vocabulary $V=\{\text{king}, \text{queen}, \text{man}, \text{woman}\}$, if we convert these words into vectors such as 
+
+\begin{align*}
+  \vec{k} &= \text{vec}(\text{king})\\
+  \vec{q} &= \text{vec}(\text{queen})\\
+  \vec{m} &= \text{vec}(\text{man})\\
+  \vec{w} &= \text{vec}(\text{woman})
+\end{align*}
+
+We could have an equation of 
+
+\begin{equation}
+  \label{equa:semantic_vectors}
+  \vec{q}=\vec{k}-\vec{m}+\vec{w}
+\end{equation}
+
+It is meaningful from both the mathmatical prospective and the linguistic prospective. The latter can be illustrated by Figure \ref{fig:semantic_vectors} in a vector space that contains these four vectors. In addition, the two cosine similarity values of vectors $\vec{k}$ and $\vec{q}$, and of $\vec{m}$ and $\vec{w}$ should also be close, as the angles between each two vectors are about the same.
+
+\begin{figure}
+  \centering
+  \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+  \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+    %uncomment if require: \path (0,256); %set diagram left start at 0, and has height of 256
+
+    %Shape: Axis 2D [id:dp40983147480798976]
+    \draw  (49,221.35) -- (260.5,221.35)(70.15,31) -- (70.15,242.5) (253.5,216.35) -- (260.5,221.35) -- (253.5,226.35) (65.15,38) -- (70.15,31) -- (75.15,38)  ;
+    %Straight Lines [id:da3468248594605029]
+    \draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ]   (70.15,221.35) -- (91.04,133.95) ;
+    \draw [shift={(91.5,132)}, rotate = 463.44] [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Straight Lines [id:da060011766798584776]
+    \draw [color={rgb, 255:red, 80; green, 227; blue, 194 }  ,draw opacity=1 ][fill={rgb, 255:red, 182; green, 34; blue, 34 }  ,fill opacity=1 ]   (70.15,221.35) -- (98.61,163.79) ;
+    \draw [shift={(99.5,162)}, rotate = 476.31] [color={rgb, 255:red, 80; green, 227; blue, 194 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Straight Lines [id:da268618270283273]
+    \draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (70.15,221.35) -- (127.85,182.12) ;
+    \draw [shift={(129.5,181)}, rotate = 505.79] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+    %Straight Lines [id:da46956564149919644]
+    \draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ]   (70.15,221.35) -- (131.69,192.84) ;
+    \draw [shift={(133.5,192)}, rotate = 515.14] [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+    % Text Node
+    \draw (83,108) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{k}$};
+    % Text Node
+    \draw (101,142) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{q}$};
+    % Text Node
+    \draw (132,166) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{m}$};
+    % Text Node
+    \draw (138,183) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{w}$};
+  \end{tikzpicture}
+  \caption{Illustraion of a vector space where Equation \ref{equa:semantic_vectors} exists.}
+  \label{fig:semantic_vectors}
+\end{figure}
+
+To turn words into vectors, one could use simple one-hot encoding. Like in the example above we could make $\vec{k}=[1, 0, 0, 0]$. But these one-hot vectors can merely capture any latent semantic meanings between different words. Recent vectorized word representations, or word embeddings, were learning through neural networks, such as Word2Vec which learns word embeddings through Continuous Bag of Words (CBOW) model and Continuous Skip-gram model \parencite{Mikolov:2013ab}. Both of the models have a projection layer between the input and the output layer. The difference is that the CBOW model predicts the target word from the multiple given context words, while the Skip-gram model predicts the context words from one given center word.
+
+\chapter{Results}
+\label{chap:results}
+
+\printbibliography
+\end{document}
