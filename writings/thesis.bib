@@ -1,12 +1,157 @@
 %% This BibTeX bibliography file was created using BibDesk.
 %% https://bibdesk.sourceforge.io/
 
-%% Created for Shifei Chen at 2020-05-18 12:57:53 +0200 
+%% Created for Shifei Chen at 2020-06-13 00:59:29 +0200 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@inproceedings{vulic-moens-2013-study,
+	Address = {Seattle, Washington, USA},
+	Author = {Vuli{\'c}, Ivan and Moens, Marie-Francine},
+	Booktitle = {Proceedings of the 2013 Conference on Empirical Methods in Natural Language Processing},
+	Date-Added = {2020-06-13 00:59:24 +0200},
+	Date-Modified = {2020-06-13 00:59:24 +0200},
+	Month = oct,
+	Pages = {1613--1624},
+	Publisher = {Association for Computational Linguistics},
+	Title = {A Study on Bootstrapping Bilingual Vector Spaces from Non-Parallel Data (and Nothing Else)},
+	Url = {https://www.aclweb.org/anthology/D13-1168.pdf},
+	Year = {2013},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9kMTMtMTE2OC5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8MZDEzLTExNjgucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOmQxMy0xMTY4LnBkZgAOABoADABkADEAMwAtADEAMQA2ADgALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy9kMTMtMTE2OC5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/D13-1168}}
+
+@article{Hermann:2013aa,
+	Abstract = {Distributed representations of meaning are a natural way to encode covariance relationships between words and phrases in NLP. By overcoming data sparsity problems, as well as providing information about semantic relatedness which is not available in discrete representations, distributed representations have proven useful in many NLP tasks. Recent work has shown how compositional semantic representations can successfully be applied to a number of monolingual applications such as sentiment analysis. At the same time, there has been some initial success in work on learning shared word-level representations across languages. We combine these two approaches by proposing a method for learning distributed representations in a multilingual setup. Our model learns to assign similar embeddings to aligned sentences and dissimilar ones to sentence which are not aligned while not requiring word alignments. We show that our representations are semantically informative and apply them to a cross-lingual document classification task where we outperform the previous state of the art. Further, by employing parallel corpora of multiple language pairs we find that our model learns representations that capture semantic relationships across languages for which no parallel data was used.},
+	Author = {Karl Moritz Hermann and Phil Blunsom},
+	Date-Added = {2020-06-13 00:57:25 +0200},
+	Date-Modified = {2020-06-13 00:57:25 +0200},
+	Eprint = {1312.6173},
+	Month = {12},
+	Title = {Multilingual Distributed Representations without Word Alignment},
+	Url = {https://arxiv.org/pdf/1312.6173.pdf},
+	Year = {2013},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAnLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xMzEyLjYxNzMucGRmTxEBUAAAAAABUAACAAAMTWFjaW50b3NoIEhEAAAAAAAAAAAAAAAAAAAAAAAAAEJEAAH/////DTEzMTIuNjE3My5wZGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////8AAAAAAAAAAAAAAAAAAwADAAAKIGN1AAAAAAAAAAAAAAAAAAZQYXBlcnMAAgAtLzpVc2VyczpzaGlmZWk6RG9jdW1lbnRzOlBhcGVyczoxMzEyLjYxNzMucGRmAAAOABwADQAxADMAMQAyAC4ANgAxADcAMwAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIAK1VzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzEzMTIuNjE3My5wZGYAABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE4AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABog==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1312.6173}}
+
+@article{Kim:2019aa,
+	Abstract = {Transfer learning or multilingual model is essential for low-resource neural machine translation (NMT), but the applicability is limited to cognate languages by sharing their vocabularies. This paper shows effective techniques to transfer a pre-trained NMT model to a new, unrelated language without shared vocabularies. We relieve the vocabulary mismatch by using cross-lingual word embedding, train a more language-agnostic encoder by injecting artificial noises, and generate synthetic data easily from the pre-training data without back-translation. Our methods do not require restructuring the vocabulary or retraining the model. We improve plain NMT transfer by up to +5.1% BLEU in five low-resource translation tasks, outperforming multilingual joint training by a large margin. We also provide extensive ablation studies on pre-trained embedding, synthetic data, vocabulary size, and parameter freezing for a better understanding of NMT transfer.},
+	Author = {Yunsu Kim and Yingbo Gao and Hermann Ney},
+	Date-Added = {2020-06-03 18:27:16 +0200},
+	Date-Modified = {2020-06-03 18:27:16 +0200},
+	Eprint = {1905.05475},
+	Month = {05},
+	Title = {Effective Cross-lingual Transfer of Neural Machine Translation Models without Shared Vocabularies},
+	Url = {https://arxiv.org/pdf/1905.05475.pdf},
+	Year = {2019},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xOTA1LjA1NDc1LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xOTA1LjA1NDc1LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTkwNS4wNTQ3NS5wZGYADgAeAA4AMQA5ADAANQAuADAANQA0ADcANQAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE5MDUuMDU0NzUucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1905.05475}}
+
+@article{Baziotis:2020aa,
+	Abstract = {The scarcity of large parallel corpora is an important obstacle for neural machine translation. A common solution is to exploit the knowledge of language models (LM) trained on abundant monolingual data. In this work, we propose a novel approach to incorporate a LM as prior in a neural translation model (TM). Specifically, we add a regularization term, which pushes the output distributions of the TM to be probable under the LM prior, while avoiding wrong predictions when the TM "disagrees" with the LM. This objective relates to knowledge distillation, where the LM can be viewed as teaching the TM about the target language. The proposed approach does not compromise decoding speed, because the LM is used only at training time, unlike previous work that requires it during inference. We present an analysis of the effects that different methods have on the distributions of the TM. Results on two low-resource machine translation datasets show clear improvements even with limited monolingual data.},
+	Author = {Christos Baziotis and Barry Haddow and Alexandra Birch},
+	Date-Added = {2020-06-03 18:26:35 +0200},
+	Date-Modified = {2020-06-03 18:26:35 +0200},
+	Eprint = {2004.14928},
+	Month = {04},
+	Title = {Language Model Prior for Low-Resource Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/2004.14928.pdf},
+	Year = {2020},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8yMDA0LjE0OTI4LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4yMDA0LjE0OTI4LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MjAwNC4xNDkyOC5wZGYADgAeAA4AMgAwADAANAAuADEANAA5ADIAOAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzIwMDQuMTQ5MjgucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/2004.14928}}
+
+@article{Mikolov:2013ac,
+	Abstract = {Dictionaries and phrase tables are the basis of modern statistical machine translation systems. This paper develops a method that can automate the process of generating and extending dictionaries and phrase tables. Our method can translate missing word and phrase entries by learning language structures based on large monolingual data and mapping between languages from small bilingual data. It uses distributed representation of words and learns a linear mapping between vector spaces of languages. Despite its simplicity, our method is surprisingly effective: we can achieve almost 90\% precision@5 for translation of words between English and Spanish. This method makes little assumption about the languages, so it can be used to extend and refine dictionaries and translation tables for any language pairs.},
+	Author = {Tomas Mikolov and Quoc V. Le and Ilya Sutskever},
+	Date-Added = {2020-06-01 16:44:59 +0200},
+	Date-Modified = {2020-06-13 00:18:49 +0200},
+	Eprint = {1309.4168},
+	Month = {09},
+	Title = {Exploiting Similarities among Languages for Machine Translation},
+	Url = {https://arxiv.org/pdf/1309.4168.pdf},
+	Year = {2013},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAnLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xMzA5LjQxNjgucGRmTxEBUAAAAAABUAACAAAMTWFjaW50b3NoIEhEAAAAAAAAAAAAAAAAAAAAAAAAAEJEAAH/////DTEzMDkuNDE2OC5wZGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////8AAAAAAAAAAAAAAAAAAwADAAAKIGN1AAAAAAAAAAAAAAAAAAZQYXBlcnMAAgAtLzpVc2VyczpzaGlmZWk6RG9jdW1lbnRzOlBhcGVyczoxMzA5LjQxNjgucGRmAAAOABwADQAxADMAMAA5AC4ANAAxADYAOAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIAK1VzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzEzMDkuNDE2OC5wZGYAABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE4AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABog==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1309.4168}}
+
+@article{levy-etal-2015-improving,
+	Abstract = {Recent trends suggest that neural-network-inspired word embedding models outperform traditional count-based distributional models on word similarity and analogy detection tasks. We reveal that much of the performance gains of word embeddings are due to certain system design choices and hyperparameter optimizations, rather than the embedding algorithms themselves. Furthermore, we show that these modifications can be transferred to traditional distributional models, yielding similar gains. In contrast to prior reports, we observe mostly local or insignificant performance differences between the methods, with no global advantage to any single approach over the others.},
+	Author = {Levy, Omer and Goldberg, Yoav and Dagan, Ido},
+	Date-Added = {2020-05-29 16:13:23 +0200},
+	Date-Modified = {2020-05-29 16:13:23 +0200},
+	Doi = {10.1162/tacl_a_00134},
+	Journal = {Transactions of the Association for Computational Linguistics},
+	Pages = {211--225},
+	Title = {Improving Distributional Similarity with Lessons Learned from Word Embeddings},
+	Url = {https://www.aclweb.org/anthology/Q15-1016.pdf},
+	Volume = {3},
+	Year = {2015},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9xMTUtMTAxNi5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8McTE1LTEwMTYucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOnExNS0xMDE2LnBkZgAOABoADABxADEANQAtADEAMAAxADYALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy9xMTUtMTAxNi5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/Q15-1016}}
+
+@article{Ruder:2019aa,
+	Abstract = {Cross-lingual representations of words enable us to reason about word meaning in multilingual contexts and are a key facilitator of cross-lingual transfer when developing natural language processing models for low-resource languages. In this survey, we provide a comprehensive typology of cross-lingual word embedding models. We compare their data requirements and objective functions. The recurring theme of the survey is that many of the models presented in the literature optimize for the same objectives, and that seemingly different models are often equivalent modulo optimization strategies, hyper-parameters, and such. We also discuss the different ways cross-lingual word embeddings are evaluated, as well as future challenges and research horizons.},
+	Author = {Sebastian Ruder and Ivan Vuli{\'c} and Anders S{\o}gaard},
+	Date-Added = {2020-05-26 15:52:14 +0200},
+	Date-Modified = {2020-05-26 15:52:14 +0200},
+	Doi = {10.1613/jair.1.11640},
+	Eprint = {1706.04902},
+	Journal = {JAIR},
+	Pages = {569-631},
+	Title = {A Survey Of Cross-lingual Word Embedding Models},
+	Url = {https://arxiv.org/pdf/1706.04902.pdf},
+	Volume = {65},
+	Year = {2019},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNzA2LjA0OTAyLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNzA2LjA0OTAyLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTcwNi4wNDkwMi5wZGYADgAeAA4AMQA3ADAANgAuADAANAA5ADAAMgAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE3MDYuMDQ5MDIucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1706.04902},
+	Bdsk-Url-2 = {https://doi.org/10.1613/jair.1.11640}}
+
+@article{Qi:2018aa,
+	Abstract = {The performance of Neural Machine Translation (NMT) systems often suffers in low-resource scenarios where sufficiently large-scale parallel corpora cannot be obtained. Pre-trained word embeddings have proven to be invaluable for improving performance in natural language analysis tasks, which often suffer from paucity of data. However, their utility for NMT has not been extensively explored. In this work, we perform five sets of experiments that analyze when we can expect pre-trained word embeddings to help in NMT tasks. We show that such embeddings can be surprisingly effective in some cases -- providing gains of up to 20 BLEU points in the most favorable setting.},
+	Author = {Ye Qi and Devendra Singh Sachan and Matthieu Felix and Sarguna Janani Padmanabhan and Graham Neubig},
+	Date-Added = {2020-05-23 23:38:33 +0200},
+	Date-Modified = {2020-05-23 23:38:33 +0200},
+	Eprint = {1804.06323},
+	Month = {04},
+	Title = {When and Why are Pre-trained Word Embeddings Useful for Neural Machine Translation?},
+	Url = {https://arxiv.org/pdf/1804.06323.pdf},
+	Year = {2018},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xODA0LjA2MzIzLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xODA0LjA2MzIzLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTgwNC4wNjMyMy5wZGYADgAeAA4AMQA4ADAANAAuADAANgAzADIAMwAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE4MDQuMDYzMjMucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1804.06323}}
+
+@inproceedings{artetxe-etal-2017-learning,
+	Abstract = {Most methods to learn bilingual word embeddings rely on large parallel corpora, which is difficult to obtain for most language pairs. This has motivated an active research line to relax this requirement, with methods that use document-aligned corpora or bilingual dictionaries of a few thousand words instead. In this work, we further reduce the need of bilingual resources using a very simple self-learning approach that can be combined with any dictionary-based mapping technique. Our method exploits the structural similarity of embedding spaces, and works with as little bilingual evidence as a 25 word dictionary or even an automatically generated list of numerals, obtaining results comparable to those of systems that use richer resources.},
+	Address = {Vancouver, Canada},
+	Author = {Artetxe, Mikel and Labaka, Gorka and Agirre, Eneko},
+	Booktitle = {Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+	Date-Added = {2020-05-23 23:04:49 +0200},
+	Date-Modified = {2020-05-23 23:04:49 +0200},
+	Doi = {10.18653/v1/P17-1042},
+	Month = jul,
+	Pages = {451--462},
+	Publisher = {Association for Computational Linguistics},
+	Title = {Learning bilingual word embeddings with (almost) no bilingual data},
+	Url = {https://www.aclweb.org/anthology/P17-1042.pdf},
+	Year = {2017},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9wMTctMTA0Mi5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8McDE3LTEwNDIucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOnAxNy0xMDQyLnBkZgAOABoADABwADEANwAtADEAMAA0ADIALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy9wMTctMTA0Mi5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/P17-1042}}
+
+@inproceedings{zou-etal-2013-bilingual,
+	Abstract = {We introduce bilingual word embeddings: se- mantic embeddings associated across two lan- guages in the context of neural language mod- els. We propose a method to learn bilingual embeddings from a large unlabeled corpus, while utilizing MT word alignments to con- strain translational equivalence. The new em- beddings significantly out-perform baselines in word semantic similarity. A single semantic similarity feature induced with bilingual em- beddings adds near half a BLEU point to the results of NIST08 Chinese-English machine translation task.},
+	Address = {Seattle, Washington, USA},
+	Author = {Zou, Will Y. and Socher, Richard and Cer, Daniel and Manning, Christopher D.},
+	Booktitle = {Proceedings of the 2013 Conference on Empirical Methods in Natural Language Processing},
+	Date-Added = {2020-05-23 22:40:38 +0200},
+	Date-Modified = {2020-06-13 00:04:12 +0200},
+	Month = oct,
+	Pages = {1393--1398},
+	Publisher = {Association for Computational Linguistics},
+	Title = {Bilingual Word Embeddings for Phrase-Based Machine Translation},
+	Url = {https://www.aclweb.org/anthology/D13-1141.pdf},
+	Year = {2013},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9kMTMtMTE0MS5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8MZDEzLTExNDEucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOmQxMy0xMTQxLnBkZgAOABoADABkADEAMwAtADEAMQA0ADEALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy9kMTMtMTE0MS5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/D13-1141}}
 
 @article{Conneau:2017aa,
 	Abstract = {State-of-the-art methods for learning cross-lingual word embeddings have relied on bilingual dictionaries or parallel corpora. Recent studies showed that the need for parallel data supervision can be alleviated with character-level information. While these methods showed encouraging results, they are not on par with their supervised counterparts and are limited to pairs of languages sharing a common alphabet. In this work, we show that we can build a bilingual dictionary between two languages without using any parallel corpora, by aligning monolingual word embedding spaces in an unsupervised way. Without using any character information, our model even outperforms existing supervised methods on cross-lingual tasks for some language pairs. Our experiments demonstrate that our method works very well also for distant language pairs, like English-Russian or English-Chinese. We finally describe experiments on the English-Esperanto low-resource language pair, on which there only exists a limited amount of parallel data, to show the potential impact of our method in fully unsupervised machine translation. Our code, embeddings and dictionaries are publicly available.},
@@ -37,7 +182,7 @@
 @article{bengio2003neural,
 	Author = {Bengio, Yoshua and Ducharme, R\'{e}jean and Vincent, Pascal and Janvin, Christian},
 	Date-Added = {2020-05-18 11:43:11 +0200},
-	Date-Modified = {2020-05-18 11:47:27 +0200},
+	Date-Modified = {2020-06-13 00:04:10 +0200},
 	Issn = {1532-4435},
 	Issue_Date = {3/1/2003},
 	Journal = {J. Mach. Learn. Res.},
@@ -49,8 +194,8 @@
 	Title = {A Neural Probabilistic Language Model},
 	Volume = {3},
 	Year = {2003},
-	Bdsk-Url-1 = {https://dl.acm.org/doi/10.5555/944919.944966},
-	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxArLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy85NDQ5MTkuOTQ0OTY2LnBkZk8RAWAAAAAAAWAAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////xE5NDQ5MTkuOTQ0OTY2LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIAMS86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6OTQ0OTE5Ljk0NDk2Ni5wZGYAAA4AJAARADkANAA0ADkAMQA5AC4AOQA0ADQAOQA2ADYALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASAC9Vc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy85NDQ5MTkuOTQ0OTY2LnBkZgAAEwABLwAAFQACAA3//wAAAAgADQAaACQAUgAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAG2}}
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxArLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy85NDQ5MTkuOTQ0OTY2LnBkZk8RAWAAAAAAAWAAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////xE5NDQ5MTkuOTQ0OTY2LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIAMS86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6OTQ0OTE5Ljk0NDk2Ni5wZGYAAA4AJAARADkANAA0ADkAMQA5AC4AOQA0ADQAOQA2ADYALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASAC9Vc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy85NDQ5MTkuOTQ0OTY2LnBkZgAAEwABLwAAFQACAA3//wAAAAgADQAaACQAUgAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAG2},
+	Bdsk-Url-1 = {https://dl.acm.org/doi/10.5555/944919.944966}}
 
 @inproceedings{klementiev-etal-2012-inducing,
 	Abstract = {Distributed representations of words have proven extremely useful in numerous natural lan- guage processing tasks. Their appeal is that they can help alleviate data sparsity problems common to supervised learning. Methods for inducing these representations require only unlabeled language data, which are plentiful for many natural languages. In this work, we induce distributed representations for a pair of languages jointly. We treat it as a multitask learning problem where each task corresponds to a single word, and task relatedness is derived from co-occurrence statistics in bilingual parallel data. These representations can be used for a number of crosslingual learning tasks, where a learner can be trained on annotations present in one language and applied to test data in another. We show that our representations are informative by using them for crosslingual document classification, where classifiers trained on these representations substantially outperform strong baselines (e.g. machine translation) when applied to a new language.},
@@ -158,7 +303,7 @@
 	Abstract = {The recently introduced continuous Skip-gram model is an efficient method for learning high-quality distributed vector representations that capture a large number of precise syntactic and semantic word relationships. In this paper we present several extensions that improve both the quality of the vectors and the training speed. By subsampling of the frequent words we obtain significant speedup and also learn more regular word representations. We also describe a simple alternative to the hierarchical softmax called negative sampling. An inherent limitation of word representations is their indifference to word order and their inability to represent idiomatic phrases. For example, the meanings of "Canada" and "Air" cannot be easily combined to obtain "Air Canada". Motivated by this example, we present a simple method for finding phrases in text, and show that learning good vector representations for millions of phrases is possible.},
 	Author = {Tomas Mikolov and Ilya Sutskever and Kai Chen and Greg Corrado and Jeffrey Dean},
 	Date-Added = {2020-05-16 10:21:50 +0200},
-	Date-Modified = {2020-05-16 10:21:50 +0200},
+	Date-Modified = {2020-06-13 00:04:14 +0200},
 	Eprint = {1310.4546},
 	Month = {10},
 	Title = {Distributed Representations of Words and Phrases and their Compositionality},
@@ -171,7 +316,7 @@
 	Abstract = {We propose two novel model architectures for computing continuous vector representations of words from very large data sets. The quality of these representations is measured in a word similarity task, and the results are compared to the previously best performing techniques based on different types of neural networks. We observe large improvements in accuracy at much lower computational cost, i.e. it takes less than a day to learn high quality word vectors from a 1.6 billion words data set. Furthermore, we show that these vectors provide state-of-the-art performance on our test set for measuring syntactic and semantic word similarities.},
 	Author = {Tomas Mikolov and Kai Chen and Greg Corrado and Jeffrey Dean},
 	Date-Added = {2020-05-16 10:21:12 +0200},
-	Date-Modified = {2020-05-16 10:21:12 +0200},
+	Date-Modified = {2020-06-13 00:04:08 +0200},
 	Eprint = {1301.3781},
 	Month = {01},
 	Title = {Efficient Estimation of Word Representations in Vector Space},
