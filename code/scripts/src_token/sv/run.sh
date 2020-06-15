@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Job name:
-#SBATCH --job-name=en+de+fr+hu_src_token
+#SBATCH --job-name=en+de+fr+sv_src_token
 #
 # Project:
 #SBATCH --account=nn9447k

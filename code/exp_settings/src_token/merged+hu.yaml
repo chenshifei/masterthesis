@@ -10,40 +10,17 @@ hu_src_token: !Experiment
       DATA_IN: corpus/data/src_token/en+de+fr+hu_en+de+fr+hu
       DATA_OUT: corpus/preproc/src_token/en+de+fr+hu_en+de+fr+hu
   preproc: !PreprocRunner
-    overwrite: False
+    overwrite: True
     tasks:
-    - !PreprocTokenize
+    - !PreprocNormalize
       in_files:
       - '{DATA_IN}/train.src'
       - '{DATA_IN}/train.tgt'
-      - '{DATA_IN}/dev.src'
-      - '{DATA_IN}/dev.tgt'
       - '{DATA_IN}/test.src'
       - '{DATA_IN}/test.tgt'
       out_files:
-      - '{DATA_OUT}/train.tok.src'
-      - '{DATA_OUT}/train.tok.tgt'
-      - '{DATA_OUT}/dev.tok.src'
-      - '{DATA_OUT}/dev.tok.tgt'
-      - '{DATA_OUT}/test.tok.src'
-      - '{DATA_OUT}/test.tok.tgt'
-      specs:
-      - filenum: all
-        tokenizers:
-        - !UnicodeTokenizer {}
-    - !PreprocNormalize
-      in_files:
-      - '{DATA_OUT}/train.tok.src'
-      - '{DATA_OUT}/train.tok.tgt'
-      - '{DATA_OUT}/dev.tok.src'
-      - '{DATA_OUT}/dev.tok.tgt'
-      - '{DATA_OUT}/test.tok.src'
-      - '{DATA_OUT}/test.tok.tgt'
-      out_files:
       - '{DATA_OUT}/train.tok.norm.src'
       - '{DATA_OUT}/train.tok.norm.tgt'
-      - '{DATA_OUT}/dev.tok.norm.src'
-      - '{DATA_OUT}/dev.tok.norm.tgt'
       - '{DATA_OUT}/test.tok.norm.src'
       - '{DATA_OUT}/test.tok.norm.tgt'
       specs:
@@ -115,4 +92,4 @@ hu_src_token: !Experiment
         - !ReferenceDiffReporter {} # difference highlighting
         - !CompareMtReporter {} # analyze MT outputs
         - !OOVStatisticsReporter # report on recovered OOVs, fantasized new words, etc.
-          train_trg_file: '{DATA_OUT}/train.tok.norm.filter.tgt'
+          train_trg_file: '{DATA_OUT_BASE}/train.tok.norm.filter.tgt'
