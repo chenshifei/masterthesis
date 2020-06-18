@@ -2,8 +2,13 @@
 
 \usepackage[style=cluu]{biblatex}
 \usepackage{amsmath}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
 \usepackage{tikz}
 \usepackage{graphicx}
+\usepackage{url}
 
 \graphicspath{ {figures/} }
 \addbibresource{thesis.bib}
@@ -122,15 +127,13 @@ The other model, CBOW, works just as the other side the coin. It predicts the ta
   P(w|w_{-C}, w_{-C+1} ..., w_{C-1}, w_C)=\frac{\exp({v^\prime_w}^\intercal \bar{v}_{w_k})}{\sum^{|V|}_{i=1}\exp({v^\prime_{w_i}}^\intercal \bar{v}_{w_k})}
 \end{equation}
 
-Here $\bar{v}_{w_k}$ means the sum of the context word $w_k$'s vectorized representation, while $v^\prime_w$ means the input vector representationq of word $w$ as in the Skip-gram model. 
+Here $\bar{v}_{w_k}$ means the sum of the context word $w_k$'s vectorized representation, while $v^\prime_w$ means the input vector representations of word $w$ as in the Skip-gram model. 
 
 The difference between these two models is that the CBOW model predicts the target word from multiple given context words, while the Skip-gram model predicts the context words from one given center word. Hence the skip-gram model is better at predicting rare words because all of the words are treated equally in the \textit{word AND context} relationship. But in the CBOW model, common words have advantages over rare words as they will have higher probability in a given context. The Skip-gram model is arguably the most popular method to learn word embeddings as it is both fast and robust \parencite{levy-etal-2015-improving}.
 
 \subsection{Cross-Lingual Word Embeddings}
 
 Vectorized word representations tends to cluster words that are semantically similar to each other. It then become very attractive to see whether we could fit two or more langauges into the same vector space. This is so called multilingual word embeddings.
-
-In such case, it is then vital to align words in two different vector spaces. As show in Fig. \ref{fig:vec_space_align}, which illustrated the alignment method from \cite{Mikolov:2013ac}. The two vector spaces were aligned by learing a rotation matrix $W$ as in process \textbf{(B)}. $W$ is then further refined in process \textbf{(C)}, where frequent words were selected as anchor points and the distance between each corrospondent anchor points were the target funciton to minimize. The final result is shown in process \textbf{(D)}.
 
 \begin{figure}
   \label{fig:vec_space_align}
@@ -139,11 +142,37 @@ In such case, it is then vital to align words in two different vector spaces. As
   \caption{Aligning bilingual vector spaces. \parencite{Conneau:2017aa}}
 \end{figure}
 
+In such case, it is then vital to align words in two different vector spaces. As show in Fig. \ref{fig:vec_space_align}, which illustrated the alignment method from \cite{Conneau:2017aa}. Suppose there is a set of word pairs in their associated vertorized representation $\{x_i, y_i\}_{i\in \{1, ..., n\}}$, the two vector spaces were aligned by learing a rotation matrix $W \in \mathbb{R}^{d \times d}$ as in process \textbf{(B)}, where we try to optimize the the formula 
+
+\begin{equation}
+  \min_{W \in \mathbb{R}^{d \times d}} \frac{1}{n}\sum_{i=1}^n \ell(Wx_i, y_i)
+\end{equation}
+
+. Here $\ell$ is the loss function and it is usually the square loss funciton $\ell_2(x, y)=||x-y||^2$. $W$ is then further refined in process \textbf{(C)}, where frequent words were selected as anchor points and the distance between each corrospondent anchor points were minimized by using an energy function. After this, the refined $W$ is then used to map all words in the dictionary during the inference process. The translation $t(i)$ of a given source word $i$ is obtained in the formula
+
+\begin{equation}
+  t(i) \in \argmin_{j\in \{1, ..., N\}} \ell(Wx_i, y_j)
+\end{equation}
+
+. Again, the loss function $\ell$ is typically the square loss function. However using square loss could make the model suffer from the ``hubness problem''. \cite{Conneau:2017aa} counter reacted to the ``hubness'' problem by introducing the cross-domain similarity localscaling (CSLS).
+
 The initial alignment data to for adversarial learning the rotation matrix $W$ could come from a bilingual dictionary \parencite{Mikolov:2013ac}. There are other kinds of alignment by using aligned data from sentence level, or even document level. By using word-level information, we can start with a pivot lanugage (usually English) and map each other monolingual word embeddings by looking up translation dictionaries. This could also be done starting with bilingual vector spaces, where we choose a bilingual word embedding that shares a language (typically English) with other bilingual embeddings, and choose other bilingual word embeddings by aligning their shared language subspace. Sentence-level parallel data are similar data as the corpus in Machine Translation (MT), which contains sentence-aligned texts \parencite{Hermann:2013aa}. Document-level information are more common in the form of topic-aligned or class-aligned, such as Wikipedia data \parencite{vulic-moens-2013-study}.
 
-The alignment process of multilingual word embeddings are roughly the same as bilingual word embeddings, using parallel data from either word-level, sentence-level or document-level. \parencite{Ruder:2019aa}.
+The alignment process of multilingual word embeddings are roughly the same as bilingual word embeddings, using parallel data from either word-level, sentence-level or document-level \parencite{Ruder:2019aa}.
 
 \subsection{fastText}
+
+In this work, we have chosen fastText aligned word vectors \footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}} \parencite{Joulin:2018aa} as our vectorized word representation. They are based on the pre-trained vectors computed on Wikipedia using fastText \parencite{Bojanowski:2016aa}.
+
+fastText is an extension to the original Word2Vec methods which uses sub-words to augment low-frequency and unseen words. For example, \texttt{low-key} as a whole word its possibility in a given document would be much lower than each of the component, \texttt{low} and \texttt{key}. fastText learns its vectorized representation from a smaller n-gram sub-word level. It divides the whole word into sub-words units as below if we assume $n=3$
+
+\begin{equation*}
+  \mathtt{\text{<}lo, low, ow\text{-}, w\text{-}k, \text{-}ke, key, ey\text{>}}
+\end{equation*}
+
+Each of the sub-word has its own vectorized representation learned through a CBOW or Skip-gram model as in Word2Vec. The word vector for the whole word unit \texttt{<low-key>} is then the sum of all of its sub-word units' vectors, hence its rareness would be compensated by two rather frequent subwords \texttt{low} and \texttt{key}, even if it might not appear in the training document at all.
+
+In terms of multilingual alignement, fastText improves the common solution to the hubness problem by directly including the Relaxed CSLS (RCSLS) criterion into the model during both the learning and the inference phrase. Before the work of \cite{Joulin:2018aa}, inverted softmax (ISF) \cite{Smith:2017aa} or CSLS \parencite{Conneau:2017aa} was only used in the inference time to address the hubness problem while square loss is still the loss function used in the training time. But since both the ISF and the CSLS are not consistent with the square loss function in the training time, they will create a discrepancy between the learning of the translation model and the inference.
 
 \subsection{Multilingual Neural Machine Translation Systems (Using Aligned Word Embeddings)}
 
