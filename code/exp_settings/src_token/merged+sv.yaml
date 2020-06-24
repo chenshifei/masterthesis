@@ -10,7 +10,7 @@ sv_src_token: !Experiment
       DATA_IN: corpus/data/src_token/en+de+fr+sv_en+de+fr+sv
       DATA_OUT: corpus/preproc/src_token/en+de+fr+sv_en+de+fr+sv
   preproc: !PreprocRunner
-    overwrite: False
+    overwrite: True
     tasks:
     - !PreprocNormalize
       in_files:
