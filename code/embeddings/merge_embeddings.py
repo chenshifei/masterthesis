@@ -27,7 +27,7 @@ def write_embedding(emb, path):
         for word, vectors in emb.items():
             f.write(word)
             for d in vectors:
-                f.write(f' {d:4f}')
+                f.write(f' {d:.4f}')
             f.write('\n')
 
 def _average_vectors(a, b):

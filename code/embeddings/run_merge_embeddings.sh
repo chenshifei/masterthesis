@@ -30,4 +30,4 @@ source thesis_env/bin/activate
 
 cd embeddings
 
-python3 merge_embeddings.py wiki.en.align.vec wiki.fr.align.vec wiki.de.align.vec wiki.he.align.vec --output wiki.merged+he.align.vec
+python3 merge_embeddings.py wiki.en.align.vec wiki.de.align.vec wiki.da.align.vec --output wiki.en+de+da.align.vec
