@@ -26,5 +26,6 @@ module list
 
 cd $USERWORK/corpus
 
-python3 ted_reader.py -i original/ -s en de da he he he -t he he he en de da -ncp -ttok --save_data_dir data/tgt_token
-
+python3 ted_reader.py -i original/ -s en de da nl nb -t en de da nl nb -ttok --save_data_dir data/tgt_token
+python3 ted_reader.py -i original/ -s en de da nl nb sv sv sv sv sv -t sv sv sv sv sv en de da nl nb -ncp -ttok --save_data_dir data/tgt_token
+python3 ted_reader.py -i original/ -s en de da nl sv sv sv sv -t sv sv sv sv en de da nl -ncp -ttok --save_data_dir data/tgt_token

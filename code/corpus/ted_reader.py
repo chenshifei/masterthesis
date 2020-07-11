@@ -11,8 +11,9 @@ class MultiLingualAlignedCorpusReader(object):
     """
     def __init__(self, corpus_path,
                  delimiter='\t',
+                 word_token=False,
                  source_token=False,
-                 target_token=True,
+                 target_token=False,
                  lang_dict={'source': ['fr'], 'target': ['en']},
                  cartesian_product=True):
         self.empty_line_flag = 'NULL'
@@ -20,6 +21,7 @@ class MultiLingualAlignedCorpusReader(object):
         self.delimiter = delimiter
         self.lang_dict = lang_dict
         self.lang_set = set()
+        self.word_token = word_token
         self.source_token = source_token
         self.target_token = target_token
         self.cartesian_product = cartesian_product
@@ -76,7 +78,13 @@ class MultiLingualAlignedCorpusReader(object):
             for line in self.data[split_type][data_type]:
                 fp.write(line + '\n')
 
-    def add_lang_token(self, sent, lang_id):
+    def add_word_lang_token(self, sent, lang_id):
+        token = '<<' + lang_id + '>>'
+        if add_to_word:
+            result = [token + w for w in sent.split()]    
+        return result
+    
+    def add_sent_lang_token(self, sent, lang_id):
         token = '__' + lang_id + '__'
         return token + ' ' + sent
 
@@ -86,10 +94,12 @@ class MultiLingualAlignedCorpusReader(object):
             reader = csv.DictReader(fp, delimiter='\t', quoting=csv.QUOTE_NONE)
             for row in reader:
                 source_text = row[s_lang]
+                if self.word_token:
+                    source_text = self.add_word_lang_token(source_text, s_lang)
                 if self.target_token:
-                    source_text = self.add_lang_token(source_text, t_lang)
+                    source_text = self.add_sent_lang_token(source_text, t_lang)
                 if self.source_token:
-                    source_text = self.add_lang_token(source_text, s_lang)
+                    source_text = self.add_sent_lang_token(source_text, s_lang)
                 data_dict['source'].append(source_text)
                 data_dict['target'].append(row[t_lang])
         return data_dict['source'], data_dict['target']
@@ -123,12 +133,13 @@ if __name__ == "__main__":
                         help='Source languages list (e.g. "en", "vi")')
     parser.add_argument('--tgt_langs', '-t', nargs='+', type=str, default=['vi'],
                         help='Target languages list (e.g. "en", "vi")')
+    parser.add_argument('--word_token', '-wtok', action='store_true', help='Add source language token to each word in the source text, default=False')
     parser.add_argument('--src_token', '-stok', action='store_true', help='Add source language token, default=False')
     parser.add_argument('--tgt_token', '-ttok', action='store_true', help='Add target language token, default=False')
     parser.add_argument('--no_cartesian_product', '-ncp',
     dest='cartesian_product',
                         action='store_false',
-                        help='Generate multilingual training data from the cartesian product of source and target language sets')
+                        help='Generate multilingual training data from the cartesian product of source and target language sets, default=True')
     parser.set_defaults(cartesian_product=True)
     args = parser.parse_args()
 
