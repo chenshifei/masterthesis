@@ -18,8 +18,7 @@
 \begin{document}
 \author{Shifei Chen}
 \supervisors{Ali Basirat, Uppsala University}
-\title{Palindromes}
-\subtitle{Never odd or even}
+\title{When and Why Universal Word Embeddings Are Not Useful in a Zero-Shot Machine Translation System}
 
 \maketitle
 
@@ -174,16 +173,38 @@ Each of the sub-word has its own vectorized representation learned through a CBO
 
 In terms of multilingual alignement, fastText improves the common solution to the hubness problem by directly including the Relaxed CSLS (RCSLS) criterion into the model during both the learning and the inference phrase. Before the work of \cite{Joulin:2018aa}, inverted softmax (ISF) \cite{Smith:2017aa} or CSLS \parencite{Conneau:2017aa} was only used in the inference time to address the hubness problem while square loss is still the loss function used in the training time. But since both the ISF and the CSLS are not consistent with the square loss function in the training time, they will create a discrepancy between the learning of the translation model and the inference.
 
-\subsection{Multilingual Neural Machine Translation Systems (Using Aligned Word Embeddings)}
+\section{Multilingual Neural Machine Translation (MNMT) Systems}
 
-One of the potential application of multilingual word embeddings is machine translation. In cases where people need to translate from or into a low-resource langauge, they usually find it difficult to locate enough parallel data that consists of such kind of less common language. If we could build up a vector space with word embeddings from different languages that are aligned, we could leverage the similarity of word embeddings to compensate the lack of parallel data \parencite{zou-etal-2013-bilingual}. We could find words that are never seen in the training data buy looking for their neighbours in the vector space. There are case where successfully trained a machine translation system using very little or none parallel data \parencite{Conneau:2017aa}.
+\subsection{Multilingual Machine Translation}
 
-\section{Language Embeddings}
+\subsection{Zero-shot Machine Translation Systems}
 
-\section{Machine Translation}
+Zero-shot translation stands for transltion between language pairs that are invisible for the MNMT system during the training time. E.g., we build a MNMT system with training language pairs of German-English and French-English while test its performance on a German-French scenario. In 2016, \cite{Johnson:2016aa} first published their result on a zero-shot MT system. Their multilingual MT system, which includes a encoder, decoder and attention module requires no change to a standard NMT system. The only modification is in the training corpus, where they had introduced an artifitial token in the beginning of each source sentence to denote the target language to be tranlsated into. \cite{Ha:2016aa} also showed that their universal encoder and decoder model is capable to zero-shot MT. The concept of translation between unseen language pairs are attractive, especailly for low-resource language pairs, though these two models both underperformed than a pivot based system.
+
+There are two reasons that could explain the gap between a zero-shot system and a pivot based system, language bias \parencite{Ha:2016aa,Ha:2017aa,Arivazhagan:2019aa} and poor generalization \parencite{Arivazhagan:2019aa}. Language bias means that during inference, the MT system has a tendency to decode the target sentence into the wrong language, usually copying the soruce language or the bridging language \cite{Ha:2016aa}. It could be the consequnce of always translating all source languages into the bridging language, hence make the model difficult to learn to translate the desired target language \parencite{Arivazhagan:2019aa}.
+
+The other potential reason for the worse performance of a zero-shot system is poor generalization \parencite{Arivazhagan:2019aa}. When a zero-shot system is trained purely on the end-toend translation objective, the model prefers to overfit the supervised translation direction features than learn more transferable language features.
+
+To fix these two problems, there has been work on improving the preprocessing process \parencite{Lakew:2018aa}, parameter sharing \parencite{Firat:2016aa, Blackwood:2018aa}, additional loss penalty functions \parencite{Arivazhagan:2019aa} and pre-training modules using external information \parencite{Baziotis:2020aa}. In some cases, zero-shot system could achieve better performance than pivot based systems.
+
+\subsection{MNMT Systems Based on Word Embeddings}
+
+One of the potential application of word embeddings is machine translation. In cases where people need to translate from or into a low-resource langauge, they usually find it difficult to locate enough parallel data that consists of such kind of less common language. If we could build up a vector space with word embeddings from different languages that are aligned, we could leverage the similarity of word embeddings to compensate the lack of parallel data \parencite{zou-etal-2013-bilingual}. We could find words that are never seen in the training data buy looking for their neighbours in the vector space. There are case where successfully trained a machine translation system using very little or none parallel data \parencite{Conneau:2017aa}.
+
+There are successful applications of pre-trained word embeddings in a MT system, such as the embedding layer in an MT system \parencite{neishi-etal-2017-bag, Artetxe:2017aa}, the subsitution of a supervised dictionary \parencite{Conneau:2017aa}, or an external supplementary extension \cite{inproceedings}. But in most MT systems, using pre-trained word embeddings purely as the embedding layer will not outperform other models such as Transformers \parencite{Vaswani:2017aa} and its other evolutions, largely because the training data for a MT system is usually several orders of magnitude larger than the monolingual pre-trained word embeddings. Typically pre-trained word embeddings are mainly introduced in MT systems dealing with low-resource languages.
+
+For NMT system focused in low resource language, \cite{Qi:2018aa} looked into the question of when and why are pre-trained word embeddings useful. They found that pre-trained word embeddings are consistantly useful for all languages, the gains would be more visible if the source and target language are similar, such as langauges within the same family. Also, pre-trained word embeddings need to be applied on a MT system with at least a moderate performance. In other words, pre-trained word embeddings can not work when there is not enough data to train a basic MT system. Finally, aligned word embeddings is useful in a multilingual MT system. For bilingual MT systems, pre-trained word embeddings don't necessarily need to be aligned.
 
 \chapter{Methodalogy}
 \label{chap:method}
+
+\section{Corpus}
+
+The data I used to train the MT system was from (ref). It is a collection of TED talk subtitles in (?) languages. The training corpus consist of English (EN), German (DE) and French (FR) languages, in total of (?) sentence. I also used the corpus of same languages for development, which has (?) sentences. The test set consist of pairs of an unseen language with each of the aforementioned	languages. For example in the test setting of Swedish (SV), I have three language pairs of EN \& SV, DE \& SV and FR \& SV. Each of them is bidirectional so all together 6 parallel documents as the test data.
+
+\section{Neural Network}
+
+For the neural network I used XNMT from (ref). 
 
 \chapter{Results}
 \label{chap:results}

@@ -1,12 +1,224 @@
 %% This BibTeX bibliography file was created using BibDesk.
 %% https://bibdesk.sourceforge.io/
 
-%% Created for Shifei Chen at 2020-06-23 00:07:15 +0200 
+%% Created for Shifei Chen at 2020-07-19 00:07:00 +0200 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@article{Vaswani:2017aa,
+	Abstract = {The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.},
+	Author = {Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and Lukasz Kaiser and Illia Polosukhin},
+	Date-Added = {2020-07-19 00:06:29 +0200},
+	Date-Modified = {2020-07-19 00:06:29 +0200},
+	Eprint = {1706.03762},
+	Month = {06},
+	Title = {Attention Is All You Need},
+	Url = {https://arxiv.org/pdf/1706.03762.pdf},
+	Year = {2017},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNzA2LjAzNzYyLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNzA2LjAzNzYyLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTcwNi4wMzc2Mi5wZGYADgAeAA4AMQA3ADAANgAuADAAMwA3ADYAMgAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE3MDYuMDM3NjIucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1706.03762}}
+
+@inproceedings{inproceedings,
+	Author = {Di Gangi, Mattia and Federico, Marcello},
+	Date-Added = {2020-07-17 01:28:20 +0200},
+	Date-Modified = {2020-07-17 01:28:20 +0200},
+	Month = {12},
+	Title = {Monolingual Embeddings for Low Resourced Neural Machine Translation},
+	Year = {2017},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxA4Li4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9tb25vbGluZ3VhbC1lbWJlZGRpbmdzLWxvdy5wZGZPEQGSAAAAAAGSAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8ebW9ub2xpbmd1YWwtZW1iZWRkaW5ncy1sb3cucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACAD4vOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOm1vbm9saW5ndWFsLWVtYmVkZGluZ3MtbG93LnBkZgAOAD4AHgBtAG8AbgBvAGwAaQBuAGcAdQBhAGwALQBlAG0AYgBlAGQAZABpAG4AZwBzAC0AbABvAHcALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASADxVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy9tb25vbGluZ3VhbC1lbWJlZGRpbmdzLWxvdy5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQAXwAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAH1},
+	Bdsk-Url-1 = {https://www.researchgate.net/publication/321706277_Monolingual_Embeddings_for_Low_Resourced_Neural_Machine_Translation}}
+
+@article{Artetxe:2017aa,
+	Abstract = {In spite of the recent success of neural machine translation (NMT) in standard benchmarks, the lack of large parallel corpora poses a major practical problem for many language pairs. There have been several proposals to alleviate this issue with, for instance, triangulation and semi-supervised learning techniques, but they still require a strong cross-lingual signal. In this work, we completely remove the need of parallel data and propose a novel method to train an NMT system in a completely unsupervised manner, relying on nothing but monolingual corpora. Our model builds upon the recent work on unsupervised embedding mappings, and consists of a slightly modified attentional encoder-decoder model that can be trained on monolingual corpora alone using a combination of denoising and backtranslation. Despite the simplicity of the approach, our system obtains 15.56 and 10.21 BLEU points in WMT 2014 French-to-English and German-to-English translation. The model can also profit from small parallel corpora, and attains 21.81 and 15.24 points when combined with 100,000 parallel sentences, respectively. Our implementation is released as an open source project.},
+	Author = {Mikel Artetxe and Gorka Labaka and Eneko Agirre and Kyunghyun Cho},
+	Date-Added = {2020-07-17 01:24:59 +0200},
+	Date-Modified = {2020-07-17 01:24:59 +0200},
+	Eprint = {1710.11041},
+	Month = {10},
+	Title = {Unsupervised Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1710.11041.pdf},
+	Year = {2017},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNzEwLjExMDQxLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNzEwLjExMDQxLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTcxMC4xMTA0MS5wZGYADgAeAA4AMQA3ADEAMAAuADEAMQAwADQAMQAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE3MTAuMTEwNDEucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1710.11041}}
+
+@inproceedings{neishi-etal-2017-bag,
+	Abstract = {In this paper, we describe the team UT-IIS{'}s system and results for the WAT 2017 translation tasks. We further investigated several tricks including a novel technique for initializing embedding layers using only the parallel corpus, which increased the BLEU score by 1.28, found a practical large batch size of 256, and gained insights regarding hyperparameter settings. Ultimately, our system obtained a better result than the state-of-the-art system of WAT 2016. Our code is available on \url{https://github.com/nem6ishi/wat17}.},
+	Address = {Taipei, Taiwan},
+	Author = {Neishi, Masato and Sakuma, Jin and Tohda, Satoshi and Ishiwatari, Shonosuke and Yoshinaga, Naoki and Toyoda, Masashi},
+	Booktitle = {Proceedings of the 4th Workshop on {A}sian Translation ({WAT}2017)},
+	Date-Added = {2020-07-17 01:23:26 +0200},
+	Date-Modified = {2020-07-17 01:23:26 +0200},
+	Month = nov,
+	Pages = {99--109},
+	Publisher = {Asian Federation of Natural Language Processing},
+	Title = {A Bag of Useful Tricks for Practical Neural Machine Translation: Embedding Layer Initialization and Large Batch Size},
+	Url = {https://www.aclweb.org/anthology/W17-5708.pdf},
+	Year = {2017},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy93MTctNTcwOC5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8MdzE3LTU3MDgucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOncxNy01NzA4LnBkZgAOABoADAB3ADEANwAtADUANwAwADgALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy93MTctNTcwOC5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/W17-5708}}
+
+@article{Blackwood:2018aa,
+	Abstract = {Multilingual machine translation addresses the task of translating between multiple source and target languages. We propose task-specific attention models, a simple but effective technique for improving the quality of sequence-to-sequence neural multilingual translation. Our approach seeks to retain as much of the parameter sharing generalization of NMT models as possible, while still allowing for language-specific specialization of the attention model to a particular language-pair or task. Our experiments on four languages of the Europarl corpus show that using a target-specific model of attention provides consistent gains in translation quality for all possible translation directions, compared to a model in which all parameters are shared. We observe improved translation quality even in the (extreme) low-resource zero-shot translation directions for which the model never saw explicitly paired parallel data.},
+	Author = {Graeme Blackwood and Miguel Ballesteros and Todd Ward},
+	Date-Added = {2020-07-17 00:33:21 +0200},
+	Date-Modified = {2020-07-17 00:33:21 +0200},
+	Eprint = {1806.03280},
+	Month = {06},
+	Title = {Multilingual Neural Machine Translation with Task-Specific Attention},
+	Url = {https://arxiv.org/pdf/1806.03280.pdf},
+	Year = {2018},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xODA2LjAzMjgwLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xODA2LjAzMjgwLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTgwNi4wMzI4MC5wZGYADgAeAA4AMQA4ADAANgAuADAAMwAyADgAMAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE4MDYuMDMyODAucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1806.03280}}
+
+@article{Firat:2016aa,
+	Abstract = {In this paper, we propose a novel finetuning algorithm for the recently introduced multi-way, mulitlingual neural machine translate that enables zero-resource machine translation. When used together with novel many-to-one translation strategies, we empirically show that this finetuning algorithm allows the multi-way, multilingual model to translate a zero-resource language pair (1) as well as a single-pair neural translation model trained with up to 1M direct parallel sentences of the same language pair and (2) better than pivot-based translation strategy, while keeping only one additional copy of attention-related parameters.},
+	Author = {Orhan Firat and Baskaran Sankaran and Yaser Al-Onaizan and Fatos T. Yarman Vural and Kyunghyun Cho},
+	Date-Added = {2020-07-17 00:32:21 +0200},
+	Date-Modified = {2020-07-17 00:32:21 +0200},
+	Eprint = {1606.04164},
+	Month = {06},
+	Title = {Zero-Resource Translation with Multi-Lingual Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1606.04164.pdf},
+	Year = {2016},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNjA2LjA0MTY0LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNjA2LjA0MTY0LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTYwNi4wNDE2NC5wZGYADgAeAA4AMQA2ADAANgAuADAANAAxADYANAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE2MDYuMDQxNjQucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1606.04164}}
+
+@article{Lakew:2018ab,
+	Abstract = {Recently, neural machine translation (NMT) has been extended to multilinguality, that is to handle more than one translation direction with a single system. Multilingual NMT showed competitive performance against pure bilingual systems. Notably, in low-resource settings, it proved to work effectively and efficiently, thanks to shared representation space that is forced across languages and induces a sort of transfer-learning. Furthermore, multilingual NMT enables so-called zero-shot inference across language pairs never seen at training time. Despite the increasing interest in this framework, an in-depth analysis of what a multilingual NMT model is capable of and what it is not is still missing. Motivated by this, our work (i) provides a quantitative and comparative analysis of the translations produced by bilingual, multilingual and zero-shot systems; (ii) investigates the translation quality of two of the currently dominant neural architectures in MT, which are the Recurrent and the Transformer ones; and (iii) quantitatively explores how the closeness between languages influences the zero-shot translation. Our analysis leverages multiple professional post-edits of automatic translations by several different systems and focuses both on automatic standard metrics (BLEU and TER) and on widely used error categories, which are lexical, morphology, and word order errors.},
+	Author = {Surafel M. Lakew and Mauro Cettolo and Marcello Federico},
+	Date-Added = {2020-07-17 00:05:54 +0200},
+	Date-Modified = {2020-07-17 00:05:54 +0200},
+	Eprint = {1806.06957},
+	Month = {06},
+	Title = {A Comparison of Transformer and Recurrent Neural Networks on Multilingual Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1806.06957.pdf},
+	Year = {2018},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xODA2LjA2OTU3LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xODA2LjA2OTU3LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTgwNi4wNjk1Ny5wZGYADgAeAA4AMQA4ADAANgAuADAANgA5ADUANwAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE4MDYuMDY5NTcucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1806.06957}}
+
+@article{Ha:2016aa,
+	Abstract = {In this paper, we present our first attempts in building a multilingual Neural Machine Translation framework under a unified approach. We are then able to employ attention-based NMT for many-to-many multilingual translation tasks. Our approach does not require any special treatment on the network architecture and it allows us to learn minimal number of free parameters in a standard way of training. Our approach has shown its effectiveness in an under-resourced translation scenario with considerable improvements up to 2.6 BLEU points. In addition, the approach has achieved interesting and promising results when applied in the translation task that there is no direct parallel corpus between source and target languages.},
+	Author = {Thanh-Le Ha and Jan Niehues and Alexander Waibel},
+	Date-Added = {2020-07-16 00:09:28 +0200},
+	Date-Modified = {2020-07-16 00:09:28 +0200},
+	Eprint = {1611.04798},
+	Month = {11},
+	Title = {Toward Multilingual Neural Machine Translation with Universal Encoder and Decoder},
+	Url = {https://arxiv.org/pdf/1611.04798.pdf},
+	Year = {2016},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNjExLjA0Nzk4LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNjExLjA0Nzk4LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTYxMS4wNDc5OC5wZGYADgAeAA4AMQA2ADEAMQAuADAANAA3ADkAOAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE2MTEuMDQ3OTgucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1611.04798}}
+
+@article{Lakew:2019aa,
+	Abstract = {Multilingual Neural Machine Translation (MNMT) for low-resource languages (LRL) can be enhanced by the presence of related high-resource languages (HRL), but the relatedness of HRL usually relies on predefined linguistic assumptions about language similarity. Recently, adapting MNMT to a LRL has shown to greatly improve performance. In this work, we explore the problem of adapting an MNMT model to an unseen LRL using data selection and model adaptation. In order to improve NMT for LRL, we employ perplexity to select HRL data that are most similar to the LRL on the basis of language distance. We extensively explore data selection in popular multilingual NMT settings, namely in (zero-shot) translation, and in adaptation from a multilingual pre-trained model, for both directions (LRL-en). We further show that dynamic adaptation of the model's vocabulary results in a more favourable segmentation for the LRL in comparison with direct adaptation. Experiments show reductions in training time and significant performance gains over LRL baselines, even with zero LRL data (+13.0 BLEU), up to +17.0 BLEU for pre-trained multilingual model dynamic adaptation with related data selection. Our method outperforms current approaches, such as massively multilingual models and data augmentation, on four LRL.},
+	Author = {Surafel M. Lakew and Alina Karakanta and Marcello Federico and Matteo Negri and Marco Turchi},
+	Date-Added = {2020-07-11 23:34:12 +0200},
+	Date-Modified = {2020-07-11 23:34:12 +0200},
+	Eprint = {1910.13998},
+	Month = {10},
+	Title = {Adapting Multilingual Neural Machine Translation to Unseen Languages},
+	Url = {https://arxiv.org/pdf/1910.13998.pdf},
+	Year = {2019},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xOTEwLjEzOTk4LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xOTEwLjEzOTk4LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTkxMC4xMzk5OC5wZGYADgAeAA4AMQA5ADEAMAAuADEAMwA5ADkAOAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE5MTAuMTM5OTgucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1910.13998}}
+
+@article{Tan:2019aa,
+	Abstract = {Multilingual neural machine translation (NMT), which translates multiple languages using a single model, is of great practical importance due to its advantages in simplifying the training process, reducing online maintenance costs, and enhancing low-resource and zero-shot translation. Given there are thousands of languages in the world and some of them are very different, it is extremely burdensome to handle them all in a single model or use a separate model for each language pair. Therefore, given a fixed resource budget, e.g., the number of models, how to determine which languages should be supported by one model is critical to multilingual NMT, which, unfortunately, has been ignored by previous work. In this work, we develop a framework that clusters languages into different groups and trains one multilingual model for each cluster. We study two methods for language clustering: (1) using prior knowledge, where we cluster languages according to language family, and (2) using language embedding, in which we represent each language by an embedding vector and cluster them in the embedding space. In particular, we obtain the embedding vectors of all the languages by training a universal neural machine translation model. Our experiments on 23 languages show that the first clustering method is simple and easy to understand but leading to suboptimal translation accuracy, while the second method sufficiently captures the relationship among languages well and improves the translation accuracy for almost all the languages over baseline methods},
+	Author = {Xu Tan and Jiale Chen and Di He and Yingce Xia and Tao Qin and Tie-Yan Liu},
+	Date-Added = {2020-07-11 23:30:15 +0200},
+	Date-Modified = {2020-07-11 23:30:15 +0200},
+	Eprint = {1908.09324},
+	Month = {08},
+	Title = {Multilingual Neural Machine Translation with Language Clustering},
+	Url = {https://arxiv.org/pdf/1908.09324.pdf},
+	Year = {2019},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xOTA4LjA5MzI0LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xOTA4LjA5MzI0LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTkwOC4wOTMyNC5wZGYADgAeAA4AMQA5ADAAOAAuADAAOQAzADIANAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE5MDguMDkzMjQucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1908.09324}}
+
+@article{Bjerva_2019,
+	Author = {Bjerva, Johannes and {\"O}stling, Robert and Veiga, Maria Han and Tiedemann, J{\"o}rg and Augenstein, Isabelle},
+	Date-Added = {2020-07-11 23:29:37 +0200},
+	Date-Modified = {2020-07-11 23:29:37 +0200},
+	Doi = {10.1162/coli_a_00351},
+	Issn = {1530-9312},
+	Journal = {Computational Linguistics},
+	Month = {Jun},
+	Number = {2},
+	Pages = {381--389},
+	Publisher = {MIT Press - Journals},
+	Title = {What Do Language Representations Really Represent?},
+	Url = {http://dx.doi.org/10.1162/coli_a_00351},
+	Volume = {45},
+	Year = {2019},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1162/coli_a_00351}}
+
+@mastersthesis{Moss1437826,
+	Abstract = {In this work, we test two novel methods of using word embeddings to detect lexical semantic change, attempting to overcome limitations associated with conventional approaches to this problem. Using a diachronic corpus spanning over a hundred years, we generate word embeddings for each decade with the intention of evaluating how meaning changes are represented in embeddings for the same word across time. Our approach differs from previous works in this field in that we encode words as probabilistic Gaussian distributions and bimodal probabilistic Gaussian mixtures, rather than conventional word vectors. We provide a discussion and analysis of our results, comparing the approaches we implemented with those used in previous works. We also conducted further analysis on whether additional information regarding the nature of semantic change could be discerned from particular qualities of the embeddings we generated for our experiments. In our results, we find that encoding words as probabilistic Gaussian embeddings can provide an enhanced degree of reliability with regard to detecting lexical semantic change. Furthermore, we are able to represent additional information regarding the nature of such changes through the variance of these embeddings. Encoding words as bimodal Gaussian mixtures however is generally unsuccessful for this task, proving to be not reliable enough at distinguishing between discrete senses to effectively detect and measure such changes. We provide potential explanations for the results we observe, and propose improvements that can be made to our approach to potentially improve performance. },
+	Author = {Moss, Adam},
+	Date-Added = {2020-07-11 23:05:56 +0200},
+	Date-Modified = {2020-07-11 23:05:56 +0200},
+	Institution = {Uppsala University, Department of Linguistics and Philology},
+	Keywords = {historical linguistics, historical semantics, lexical semantic change, diachronic semantic change, word embeddings, probabilistic word embeddings, gaussian word embeddings},
+	Pages = {45},
+	School = {Uppsala University, Department of Linguistics and Philology},
+	Title = {Detecting Lexical Semantic Change Using Probabilistic Gaussian Word Embeddings},
+	Year = {2020},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxApLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9mdWxsdGV4dDAxMS5wZGZPEQFYAAAAAAFYAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8PZnVsbHRleHQwMTEucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACAC8vOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOmZ1bGx0ZXh0MDExLnBkZgAADgAgAA8AZgB1AGwAbAB0AGUAeAB0ADAAMQAxAC4AcABkAGYADwAaAAwATQBhAGMAaQBuAHQAbwBzAGgAIABIAEQAEgAtVXNlcnMvc2hpZmVpL0RvY3VtZW50cy9QYXBlcnMvZnVsbHRleHQwMTEucGRmAAATAAEvAAAVAAIADf//AAAACAANABoAJABQAAAAAAAAAgEAAAAAAAAABQAAAAAAAAAAAAAAAAAAAaw=}}
+
+@article{Lakew:2018aa,
+	Abstract = {Recent work on multilingual neural machine translation reported competitive performance with respect to bilingual models and surprisingly good performance even on (zeroshot) translation directions not observed at training time. We investigate here a zero-shot translation in a particularly lowresource multilingual setting. We propose a simple iterative training procedure that leverages a duality of translations directly generated by the system for the zero-shot directions. The translations produced by the system (sub-optimal since they contain mixed language from the shared vocabulary), are then used together with the original parallel data to feed and iteratively re-train the multilingual network. Over time, this allows the system to learn from its own generated and increasingly better output. Our approach shows to be effective in improving the two zero-shot directions of our multilingual model. In particular, we observed gains of about 9 BLEU points over a baseline multilingual model and up to 2.08 BLEU over a pivoting mechanism using two bilingual models. Further analysis shows that there is also a slight improvement in the non-zero-shot language directions.},
+	Author = {Surafel M. Lakew and Quintino F. Lotito and Matteo Negri and Marco Turchi and Marcello Federico},
+	Date-Added = {2020-07-11 22:58:06 +0200},
+	Date-Modified = {2020-07-11 22:58:06 +0200},
+	Eprint = {1811.01389},
+	Month = {11},
+	Title = {Improving Zero-Shot Translation of Low-Resource Languages},
+	Url = {https://arxiv.org/pdf/1811.01389.pdf},
+	Year = {2018},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xODExLjAxMzg5LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xODExLjAxMzg5LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTgxMS4wMTM4OS5wZGYADgAeAA4AMQA4ADEAMQAuADAAMQAzADgAOQAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE4MTEuMDEzODkucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1811.01389}}
+
+@article{Ha:2017aa,
+	Abstract = {In this paper, we proposed two strategies which can be applied to a multilingual neural machine translation system in order to better tackle zero-shot scenarios despite not having any parallel corpus. The experiments show that they are effective in terms of both performance and computing resources, especially in multilingual translation of unbalanced data in real zero-resourced condition when they alleviate the language bias problem.},
+	Author = {Thanh-Le Ha and Jan Niehues and Alexander Waibel},
+	Date-Added = {2020-07-11 22:57:52 +0200},
+	Date-Modified = {2020-07-11 22:57:52 +0200},
+	Eprint = {1711.07893},
+	Month = {11},
+	Title = {Effective Strategies in Zero-Shot Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1711.07893.pdf},
+	Year = {2017},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNzExLjA3ODkzLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNzExLjA3ODkzLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTcxMS4wNzg5My5wZGYADgAeAA4AMQA3ADEAMQAuADAANwA4ADkAMwAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE3MTEuMDc4OTMucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1711.07893}}
+
+@article{Arivazhagan:2019aa,
+	Abstract = {Multilingual Neural Machine Translation (NMT) models are capable of translating between multiple source and target languages. Despite various approaches to train such models, they have difficulty with zero-shot translation: translating between language pairs that were not together seen during training. In this paper we first diagnose why state-of-the-art multilingual NMT models that rely purely on parameter sharing, fail to generalize to unseen language pairs. We then propose auxiliary losses on the NMT encoder that impose representational invariance across languages. Our simple approach vastly improves zero-shot translation quality without regressing on supervised directions. For the first time, on WMT14 English-FrenchGerman, we achieve zero-shot performance that is on par with pivoting. We also demonstrate the easy scalability of our approach to multiple languages on the IWSLT 2017 shared task.},
+	Author = {Naveen Arivazhagan and Ankur Bapna and Orhan Firat and Roee Aharoni and Melvin Johnson and Wolfgang Macherey},
+	Date-Added = {2020-07-11 22:57:41 +0200},
+	Date-Modified = {2020-07-11 22:57:41 +0200},
+	Eprint = {1903.07091},
+	Month = {03},
+	Title = {The Missing Ingredient in Zero-Shot Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1903.07091.pdf},
+	Year = {2019},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xOTAzLjA3MDkxLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xOTAzLjA3MDkxLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTkwMy4wNzA5MS5wZGYADgAeAA4AMQA5ADAAMwAuADAANwAwADkAMQAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE5MDMuMDcwOTEucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1903.07091}}
+
+@article{Tsvetkov:2016aa,
+	Abstract = {We introduce polyglot language models, recurrent neural network models trained to predict symbol sequences in many different languages using shared representations of symbols and conditioning on typological information about the language to be predicted. We apply these to the problem of modeling phone sequences---a domain in which universal symbol inventories and cross-linguistically shared feature representations are a natural fit. Intrinsic evaluation on held-out perplexity, qualitative analysis of the learned representations, and extrinsic evaluation in two downstream applications that make use of phonetic features show (i) that polyglot models better generalize to held-out data than comparable monolingual models and (ii) that polyglot phonetic feature representations are of higher quality than those learned monolingually.},
+	Author = {Yulia Tsvetkov and Sunayana Sitaram and Manaal Faruqui and Guillaume Lample and Patrick Littell and David Mortensen and Alan W Black and Lori Levin and Chris Dyer},
+	Date-Added = {2020-07-06 23:26:36 +0200},
+	Date-Modified = {2020-07-06 23:29:52 +0200},
+	Eprint = {1605.03832},
+	Month = {05},
+	Title = {Polyglot Neural Language Models: A Case Study in Cross-Lingual Phonetic Representation Learning},
+	Url = {https://arxiv.org/pdf/1605.03832.pdf},
+	Year = {2016},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNjA1LjAzODMyLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNjA1LjAzODMyLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTYwNS4wMzgzMi5wZGYADgAeAA4AMQA2ADAANQAuADAAMwA4ADMAMgAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE2MDUuMDM4MzIucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1605.03832}}
 
 @inproceedings{malaviya-etal-2017-learning,
 	Abstract = {One central mystery of neural NLP is what neural models {``}know{''} about their subject matter. When a neural machine translation system learns to translate from one language to another, does it learn the syntax or semantics of the languages? Can this knowledge be extracted from the system to fill holes in human scientific knowledge? Existing typological databases contain relatively full feature specifications for only a few hundred languages. Exploiting the existence of parallel texts in more than a thousand languages, we build a massive many-to-one NMT system from 1017 languages into English, and use this to predict information missing from typological databases. Experiments show that the proposed method is able to infer not only syntactic, but also phonological and phonetic inventory features, and improves over a baseline that has access to information about the languages geographic and phylogenetic neighbors.},
@@ -39,8 +251,8 @@
 	Title = {{URIEL} and lang2vec: Representing languages as typological, geographical, and phylogenetic vectors},
 	Url = {https://www.aclweb.org/anthology/E17-2002.pdf},
 	Year = {2017},
-	Bdsk-Url-1 = {https://www.aclweb.org/anthology/E17-2002},
-	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9lMTctMjAwMi5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8MZTE3LTIwMDIucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOmUxNy0yMDAyLnBkZgAOABoADABlADEANwAtADIAMAAwADIALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy9lMTctMjAwMi5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb}}
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9lMTctMjAwMi5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8MZTE3LTIwMDIucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOmUxNy0yMDAyLnBkZgAOABoADABlADEANwAtADIAMAAwADIALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy9lMTctMjAwMi5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/E17-2002}}
 
 @article{Smith:2017aa,
 	Abstract = {Usually bilingual word vectors are trained "online". Mikolov et al. showed they can also be found "offline", whereby two pre-trained embeddings are aligned with a linear transformation, using dictionaries compiled from expert knowledge. In this work, we prove that the linear transformation between two spaces should be orthogonal. This transformation can be obtained using the singular value decomposition. We introduce a novel "inverted softmax" for identifying translation pairs, with which we improve the precision @1 of Mikolov's original mapping from 34\% to 43\%, when translating a test set composed of both common and rare English words into Italian. Orthogonal transformations are more robust to noise, enabling us to learn the transformation without expert bilingual signal by constructing a "pseudo-dictionary" from the identical character strings which appear in both languages, achieving 40\% precision on the same test set. Finally, we extend our method to retrieve the true translations of English sentences from a corpus of 200k Italian sentences with a precision @1 of 68\%.},
@@ -242,7 +454,7 @@
 @article{bengio2003neural,
 	Author = {Bengio, Yoshua and Ducharme, R\'{e}jean and Vincent, Pascal and Janvin, Christian},
 	Date-Added = {2020-05-18 11:43:11 +0200},
-	Date-Modified = {2020-06-13 00:04:10 +0200},
+	Date-Modified = {2020-07-09 23:57:27 +0200},
 	Issn = {1532-4435},
 	Issue_Date = {3/1/2003},
 	Journal = {J. Mach. Learn. Res.},
@@ -384,3 +596,30 @@
 	Year = {2013},
 	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAnLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xMzAxLjM3ODEucGRmTxEBUAAAAAABUAACAAAMTWFjaW50b3NoIEhEAAAAAAAAAAAAAAAAAAAAAAAAAEJEAAH/////DTEzMDEuMzc4MS5wZGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////8AAAAAAAAAAAAAAAAAAwADAAAKIGN1AAAAAAAAAAAAAAAAAAZQYXBlcnMAAgAtLzpVc2VyczpzaGlmZWk6RG9jdW1lbnRzOlBhcGVyczoxMzAxLjM3ODEucGRmAAAOABwADQAxADMAMAAxAC4AMwA3ADgAMQAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIAK1VzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzEzMDEuMzc4MS5wZGYAABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE4AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABog==},
 	Bdsk-Url-1 = {https://arxiv.org/abs/1301.3781}}
+
+@comment{BibDesk Static Groups{
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>group name</key>
+		<string>Language Embeddings</string>
+		<key>keys</key>
+		<string>littell-etal-2017-uriel,malaviya-etal-2017-learning,Bjerva_2019</string>
+	</dict>
+	<dict>
+		<key>group name</key>
+		<string>Machine Translation</string>
+		<key>keys</key>
+		<string>Johnson:2016aa,Conneau:2017aa,Kim:2019aa,Baziotis:2020aa,Ha:2017aa,Lakew:2018aa,Arivazhagan:2019aa,Lakew:2019aa,Ha:2016aa,Lakew:2018ab,Firat:2016aa,Blackwood:2018aa,Vaswani:2017aa</string>
+	</dict>
+	<dict>
+		<key>group name</key>
+		<string>Word Embeddings</string>
+		<key>keys</key>
+		<string>bengio2003neural,klementiev-etal-2012-inducing,Mikolov:2013aa,Al-Rfou:2013aa,vulic-moens-2013-study,zou-etal-2013-bilingual,Mikolov:2013ab,Hermann:2013aa,levy-etal-2015-improving,Ammar:2016aa,Upadhyay:2016aa,Bojanowski:2016aa,Smith:2017aa,artetxe-etal-2017-learning,Joulin:2018aa,Qi:2018aa,Ruder:2019aa,Dyer1365879,Artetxe:2017aa,neishi-etal-2017-bag,inproceedings</string>
+	</dict>
+</array>
+</plist>
+}}
