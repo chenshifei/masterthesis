@@ -195,6 +195,27 @@ There are successful applications of pre-trained word embeddings in a MT system,
 
 For NMT system focused in low resource language, \cite{Qi:2018aa} looked into the question of when and why are pre-trained word embeddings useful. They found that pre-trained word embeddings are consistantly useful for all languages, the gains would be more visible if the source and target language are similar, such as langauges within the same family. Also, pre-trained word embeddings need to be applied on a MT system with at least a moderate performance. In other words, pre-trained word embeddings can not work when there is not enough data to train a basic MT system. Finally, aligned word embeddings is useful in a multilingual MT system. For bilingual MT systems, pre-trained word embeddings don't necessarily need to be aligned.
 
+Moreover, aligned word embeddings doesn't work well for moporlogically rich languages such as Russian and Belarusian. \cite{Qi:2018aa} argue that this may mainly due to the sparsity in the word embeddings files. In addition, most of the previous works are target on zero-shot language pairs, not on compeletely unseen languages. For language pairs $A \rightarrow \text{EN}$ and $\text{EN} \rightarrow B$, they are all interested in the unseen language pair $A \rightarrow B$. For language pairs that includes an unseen language $C$, whether it is in the source side or the target side, it remains to be seen how universal word embeddings could help translate in this scenario.
+
+\chapter{Error Analysis in a MNMT system Based on Universal Word Embeddings}
+\label{chap:error}
+
+In this chapter I will perform experiments in a universal word embedding based MNMT system. Then I will analysis its results to show why such kind of system failed to translation compeletly unseen languages depite its theoratical feasibility.
+
+\section{Theoratical Feasibility}
+
+As mentioned in Chapter \ref{chap:prev}, \cite{Mikolov:2013ac} showed that there is a linear relationship between similar word embeddings in different languages. For each word pairs, assume their vector representations are $\{x_i, y_i\}_{i=1}^n$, we could calcualte a transformation matrix $W$ such that $Wx_i$ approximates to $y_i$. \cite{Mikolov:2013ac} also showed their result in the word/phrase translation task for suck kind of approximated word embedding mappings. For some subsets of words, around 70\% of word embeddings are exactly matched with each other by calcluating the Precision@5 score. If the threshold for the cosine similarity $\max\cos(Wx, y_i)$ being loosed to 0.6, the Precision@5 score would be as high as 90\%.
+
+In order to convert words into vectors to be calculated in the neural network, NMT systems should treat each word as word embeddings. The value of these word embedding could be learned directly during translation, but then the initialization is a crucial step as poor initialization could lead to slow converge or worse local mimima \parencite{glorot2010understanding}. The situation could be even more challenging when transltion with very few parallel corpora, since there is no data to help the embedding layer to converge to its ideal state. Hence the aforementioned word embedding mapping technique becomes appealing.
+
+\cite{Qi:2018aa} explored how effective it is by using aligned pre-trained word embeddings in a NMT system. They found that regardless of languages, alignment is useful as long as it's applied in a multilingual setting. They believe that since both the source and the target side vector spaces are already aligned, the NMT system learns how to transform the simialr fashion from the source langauge to the target language.
+
+Therefore, translating a compeletely unseen language can be viewed as the question below --- Given a vector space $Z$ that consists of aligned word embeddings $\{a_i, b_i, c_i, ...\}$, how much does the NMT system knows about an unseen language $A$ if it was only trained on the remaining languages? In theory, since the word embeddings are clustered by their semantic meanings in the vector space $Z$, we should be able to build loose mappings between each of the semantic centers from both the source side and the target side. The generalization ability of the system is the key to answer this question. Hence I conducted some prelimentary experiments below.
+
+\section{Experiment Settings}
+
+\section{Result Analysis}
+
 \chapter{Methodalogy}
 \label{chap:method}
 
@@ -206,10 +227,10 @@ The data I used to train the MT system was from (ref). It is a collection of TED
 
 For the neural network I used XNMT from (ref). 
 
-\chapter{Results}
+\chapter{Results and Analysis}
 \label{chap:results}
 
-\chapter{Analysis}
+\chapter{Conclusion and Future Work}
 \label{chap:analysis}
 
 \printbibliography
