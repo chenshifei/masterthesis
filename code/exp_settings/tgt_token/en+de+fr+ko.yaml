@@ -1,6 +1,6 @@
-ko_tgt_token: !Experiment
+en+de+fr+ko_tgt_token: !Experiment
   exp_global: !ExpGlobal
-    model_file: output/{EXP}/en+de+fr+kp.mod
+    model_file: output/{EXP}/en+de+fr+ko.mod
     log_file: output/{EXP}/en+de+fr+ko.log
     default_layer_dim: 512
     dropout: 0.1
@@ -14,19 +14,38 @@ ko_tgt_token: !Experiment
     tasks:
     - !PreprocNormalize
       in_files:
+      - '{DATA_IN_BASE}/train.src'
+      - '{DATA_IN_BASE}/train.tgt'
       - '{DATA_IN}/train.src'
       - '{DATA_IN}/train.tgt'
+      - '{DATA_IN}/dev.src'
+      - '{DATA_IN}/dev.tgt'
       - '{DATA_IN}/test.src'
       - '{DATA_IN}/test.tgt'
       out_files:
+      - '{DATA_OUT_BASE}/train.tok.norm.src'
+      - '{DATA_OUT_BASE}/train.tok.norm.tgt'
       - '{DATA_OUT}/train.tok.norm.src'
       - '{DATA_OUT}/train.tok.norm.tgt'
+      - '{DATA_OUT}/dev.tok.norm.src'
+      - '{DATA_OUT}/dev.tok.norm.tgt'
       - '{DATA_OUT}/test.tok.norm.src'
       - '{DATA_OUT}/test.tok.norm.tgt'
       specs:
       - filenum: all
         normalizers:
         - !NormalizerLower {}
+    - !PreprocFilter
+      in_files:
+      - '{DATA_OUT_BASE}/train.tok.norm.src'
+      - '{DATA_OUT_BASE}/train.tok.norm.tgt'
+      out_files:
+      - '{DATA_OUT_BASE}/train.tok.norm.filter.src'
+      - '{DATA_OUT_BASE}/train.tok.norm.filter.tgt'
+      specs:
+      - !SentenceFiltererLength
+        min_all: 1
+        max_all: 60
     - !PreprocVocab
       in_files:
       - '{DATA_OUT}/train.tok.norm.src'
@@ -51,8 +70,8 @@ ko_tgt_token: !Experiment
       filename: embeddings/wiki.en+de+fr+ko.align.vec
       vocab: !Vocab
         vocab_file: '{DATA_OUT}/train.src.vocab'
-    encoder: !UniLSTMSeqTransducer
-      layers: 1
+    encoder: !BiLSTMSeqTransducer
+      layers: 2
     attender: !MlpAttender
       hidden_dim: 512
       state_dim: 512
@@ -64,9 +83,13 @@ ko_tgt_token: !Experiment
         vocab: !Vocab
           vocab_file: '{DATA_OUT}/train.tgt.vocab'
       bridge: !CopyBridge {}
+    inference: !AutoRegressiveInference
+      search_strategy: !BeamSearch
+        _xnmt_id: trg_beam
+        beam_size: 5
   train: !SimpleTrainingRegimen
     batcher: !SrcBatcher
-        batch_size: 16
+        batch_size: 32
     run_for_epochs: 20
     src_file: '{DATA_OUT_BASE}/train.tok.norm.filter.src'
     trg_file: '{DATA_OUT_BASE}/train.tok.norm.filter.tgt'
@@ -77,18 +100,18 @@ ko_tgt_token: !Experiment
     dev_tasks:
       - !AccuracyEvalTask
         eval_metrics: bleu
-        src_file: '{DATA_OUT_BASE}/dev.tok.norm.src'
-        ref_file: '{DATA_OUT_BASE}/dev.tok.norm.tgt'
+        src_file: '{DATA_OUT}/dev.tok.norm.src'
+        ref_file: '{DATA_OUT}/dev.tok.norm.tgt'
         hyp_file: output/{EXP}.dev_hyp
   evaluate:
     - !AccuracyEvalTask
-      eval_metrics: bleu
+      eval_metrics: bleu,accuracy
       src_file: '{DATA_OUT}/test.tok.norm.src'
       ref_file: '{DATA_OUT}/test.tok.norm.tgt'
       hyp_file: output/{EXP}.test_hyp
       inference: !AutoRegressiveInference
+        search_strategy: !Ref { name: trg_beam }
         reporter:
-        - !AttentionReporter {} # plot attentions
         - !ReferenceDiffReporter {} # difference highlighting
         - !CompareMtReporter {} # analyze MT outputs
         - !OOVStatisticsReporter # report on recovered OOVs, fantasized new words, etc.

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Job name:
-#SBATCH --job-name=en+de+sv_tgt_token
+#SBATCH --job-name=en+de+fr+sv_tgt_token
 #
 # Project:
 #SBATCH --account=nn9447k
@@ -30,5 +30,5 @@ source thesis_env/bin/activate
 
 export DEFAULT_REPORT_PATH="output/reports/{EXP}"
 
-xnmt --dynet-gpu exp_settings/tgt_token/en+de+sv.yaml
+xnmt --dynet-gpu exp_settings/tgt_token/en+de+fr+sv_0.3.yaml
 
