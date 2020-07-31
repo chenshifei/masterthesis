@@ -21,7 +21,7 @@ set -o errexit  # Exit the script on any error
 set -o nounset  # Treat any unset variables as an error
 
 module --quiet purge  # Reset the modules to the system default
-module load Python/3.7.4-GCCcore-8.3.0
+module load SciPy-bundle/2019.10-intel-2019b-Python-3.7.4
 module list
 
 cd $USERWORK
@@ -30,4 +30,4 @@ source thesis_env/bin/activate
 
 cd embeddings
 
-python3 merge_embeddings.py wiki.en.align.vec wiki.de.align.vec wiki.da.align.vec --output wiki.en+de+da.align.vec
+python3 merge_embeddings.py wiki.en.align.vec wiki.de.align.vec wiki.da.align.vec --langid --output wiki.en+de+da.langid.align.vec
