@@ -1,10 +1,10 @@
 import itertools
 import os
 import csv
+import string
 from collections import defaultdict
 from six.moves import zip
 from argparse import ArgumentParser
-
 
 class MultiLingualAlignedCorpusReader(object):
     """Handles the case of reading TED talk files
@@ -80,9 +80,13 @@ class MultiLingualAlignedCorpusReader(object):
 
     def add_word_lang_token(self, sent, lang_id):
         token = '<<' + lang_id + '>>'
-        if add_to_word:
-            result = [token + w for w in sent.split()]    
-        return result
+        result = []
+        for w in sent.split():
+            if len(w) <= 1 and w in string.punctuation:
+                result.append(w)
+            else:
+                result.append(token + w)
+        return ' '.join(result)
     
     def add_sent_lang_token(self, sent, lang_id):
         token = '__' + lang_id + '__'
@@ -150,6 +154,7 @@ if __name__ == "__main__":
                                           lang_dict=lang_dict,
                                           source_token=args.src_token,
                                           target_token=args.tgt_token,
+                                          word_token=args.word_token,
                                           cartesian_product=args.cartesian_product)
 
     os.makedirs(SAVE_DATA_DIR, exist_ok=True)
