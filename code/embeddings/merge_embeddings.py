@@ -16,10 +16,10 @@ def load_embedding(emb_path, insert_lang_id=False):
     return result
 
 def extract_lang_id(emb_path):
-    components = emb_path.rsplit('.')
+    components = emb_path.split('.')
     if len(components) < 3:
         return ""
-    result = components[2]
+    result = components[1]
     if len(result) > 3 or '+' in result:
         return ""
     return result
@@ -34,7 +34,7 @@ def merge_embedding(emb_paths, insert_lang_id=False):
     for emb_path in emb_paths[1:]:
         emb = load_embedding(emb_path, insert_lang_id)
         for w in emb.keys():
-            if first_emb.get(w):
+            if first_emb.get(w) is not None:
                 first_emb[w] = _average_vectors(first_emb[w], emb[w])
             else:
                 first_emb[w] = emb[w]

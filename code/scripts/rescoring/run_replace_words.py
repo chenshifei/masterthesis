@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Job name:
-#SBATCH --job-name=build_corpus
-#
+#SBATCH --job-name=replace_words
 # Project:
 #SBATCH --account=nn9447k
 #
@@ -10,8 +9,8 @@
 #SBATCH --time=1-00:00:00
 #
 # Other parameters:
-#SBATCH --mem-per-cpu=4G
-#SBATCH --partition=normal
+#SBATCH --mem-per-cpu=128G
+#SBATCH --partition=bigmem
 #SBATCH --ntasks=1
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=shifei.chen.2701@student.uu.se
@@ -21,10 +20,13 @@ set -o errexit  # Exit the script on any error
 set -o nounset  # Treat any unset variables as an error
 
 module --quiet purge  # Reset the modules to the system default
-module load Python/3.7.4-GCCcore-8.3.0
+module load SciPy-bundle/2019.10-intel-2019b-Python-3.7.4
 module list
 
-cd $USERWORK/corpus
+cd $USERWORK
 
-python3 ted_reader.py -i original/ -s en de da -t en de da -ttok -wtok --save_data_dir data/word_token
-python3 ted_reader.py -i original/ -s en de da sv sv sv -t sv sv sv en de da -ncp -ttok -wtok --save_data_dir data/word_token
+source thesis_env/bin/activate
+
+cd scripts/rescoring
+
+python3 replace_words.py ../../output/test.hyp ../../embeddings/wiki.en+de+da+sv.align.vec ../../embeddings/wiki.sv.align.vec --output ../../output/test.filtered.hyp
