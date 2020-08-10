@@ -214,18 +214,52 @@ Therefore, translating a compeletely unseen language can be viewed as the questi
 
 \section{Experiment Settings}
 
+To get a basic multilingual MT system running, I chose English (EN), Germen (De) and French (FR) to be my training languages. Let $C$ donate the final corpus, $l$ donates the langauge specific corpus fragment and $Z$ is the set of correspoding candidate langauges, $Z_{TRAIN} = {l_{EN}, l_{DE}, l_{FR}}$. I picked up Swedish (SV), Hungarian (HU) and Hebrew (HE) being my test languages, therefore $Z_{TEST} = {l_{SV}, l_{HU}, l_{HE}}$.
+
+For each experiment, a basic MNMT system is trained using a training corpus  $C_{TEST}$ with all three training languages , including all six directions from the cartesian product without duplicates
+
+\begin{equation}
+  C_{\text{TRAIN}} = \{x \times y \mid x, y \in Z_{\text{TRAIN}} \text{ and } x \neq y\}
+\end{equation}
+
+It is tested on the test corpus with all three training languages and one of the test language, consist of bidirections of three different training language to the only test language.
+
+\begin{equation}
+  C_{\text{TEST}} = \{(x, y)\cup(y,x) \mid x \in Z_{\text{TRAIN}} \text{ and } y \in Z_{\text{TEST}}\}
+\end{equation}
+
+I designed the experiments and picked up the training and target languages based on the following aspects.
+
+\subsubsection{Language Similarity}
+
+In the work \cite{Qi:2018aa} the authors mentioned their observation that pre-trained word embeddings are useful for languages from the same language family, the closer their relationship is the higher the performance improve is. For aligned word embeddings, if it is applied in a MNMT system consist of langauges from the same language family, it will also be benificial.
+
+\subsubsection{Shared Alphabets}
+
+In a typical word embedding based NMT system without subword encoding, it uses a word to index mapping to look up a correspoding word embedding for each word in the text, and a reverse index to word mappding to reconstruct the human readible text from its inferrencens. During the whole process, every word is treated as a whole, no subword segment is available. This is different than a Transformer system which subword encodings like BPE or sentencepiece are commonly used. Although fastText word embeddings were learned by using subword information \parencite{Bojanowski:2016aa}, in the final representation form all of the subword informatino is no longer available. Hence the NMT system could learn a rough mapping from semantics in the source language to the target language in a common vector space, it might see a big drop for distant languages that don't share a common alphabets.
+
+\subsubsection{Word Order}
+
+For a word embedding based NMT system, syntactic information lies compleetely in its hidden layer. This again differs from a Transformer system. Transformer systems learn both the lexicon, syntactic and semantic information all together in their hidden layers. Hence it remains to see how word embedding based MNMT performs on languages with different word orders, e.g. SVO versus SOV languages.
+
+\subsection{Corpus and Preprocessing}
+
+I used the TED talk subtitile corpus from \cite{Qi:2018aa} \footnote{\url{https://github.com/neulab/word-embeddings-for-nmt}} to train my NMT. The whole corpus has roughly 270000 sentences was splited into three parts, train, dev, test at the ratio of $0.95:0.025:0.025$.
+
+To build up the corpus for each experiment, I have modified the original script from \cite{Qi:2018aa} and added a few customized features. In short, the script will extract the common sentence from each part of the splited corpus to form up a common intersection used in training, developing and testing. Since our experiments consists of languages that are relatively common in the TED project, this fine tuned corpus isn't too much different from the original corpus, hence the size for the train, dev and test split are still kept afterwards.
+
+For preprocessing, since the orginal TED corpus is already tokenized by Moses, I then turned all of the text into lowercases and applied a sentence lengh filter to remove any long sentence that have more than 60 word to prevent bad perfromance in training. After that, when building the i2w and w2i index for the pre-trained embeddings, I have also remove any words that are less frequent than 2 times to stop the system from overfitting with too much low-frequency words. All of the preprocess function are built upon the built-in XNMT preprocess features \parencite{Neubig:2018aa}.
+
+\subsection{Neural Network}
+
+For the neural network I used a modified version of the neural network from \cite{Qi:2018aa}, which is built with XNMT \cite{Neubig:2018aa}. I have doubled the encoding layer to a 2-layer-bidirectional LSTM network and added the accuracy score as a evaluation metric alongside the BLEU score \parencite{papineni-etal-2002-bleu}. Everything else are kept from the orignal experiment settings, including a encoder-decoder model with attention \parencite{Bahdanau:2014aa} and a beam size of $5$, trained using batch of 32 and the Adam optimizer \parencite{Kingma:2014aa}. The initial learing starts at $0.0002$ and decays by $0.5$ when development BLEU score decreases \parencite{Denkowski:2017aa}.
+
+The prelimentary experiments are showed and discussed below.
+
 \section{Result Analysis}
 
 \chapter{Methodalogy}
 \label{chap:method}
-
-\section{Corpus}
-
-The data I used to train the MT system was from (ref). It is a collection of TED talk subtitles in (?) languages. The training corpus consist of English (EN), German (DE) and French (FR) languages, in total of (?) sentence. I also used the corpus of same languages for development, which has (?) sentences. The test set consist of pairs of an unseen language with each of the aforementioned	languages. For example in the test setting of Swedish (SV), I have three language pairs of EN \& SV, DE \& SV and FR \& SV. Each of them is bidirectional so all together 6 parallel documents as the test data.
-
-\section{Neural Network}
-
-For the neural network I used XNMT from (ref). 
 
 \chapter{Results and Analysis}
 \label{chap:results}

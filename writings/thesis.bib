@@ -1,12 +1,80 @@
 %% This BibTeX bibliography file was created using BibDesk.
 %% https://bibdesk.sourceforge.io/
 
-%% Created for Shifei Chen at 2020-07-29 22:59:04 +0200 
+%% Created for Shifei Chen at 2020-08-10 16:28:33 +0200 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@inproceedings{papineni-etal-2002-bleu,
+	Address = {Philadelphia, Pennsylvania, USA},
+	Author = {Papineni, Kishore and Roukos, Salim and Ward, Todd and Zhu, Wei-Jing},
+	Booktitle = {Proceedings of the 40th Annual Meeting of the Association for Computational Linguistics},
+	Date-Added = {2020-08-10 16:17:37 +0200},
+	Date-Modified = {2020-08-10 16:17:37 +0200},
+	Doi = {10.3115/1073083.1073135},
+	Month = jul,
+	Pages = {311--318},
+	Publisher = {Association for Computational Linguistics},
+	Title = {{B}leu: a Method for Automatic Evaluation of Machine Translation},
+	Url = {https://www.aclweb.org/anthology/P02-1040.pdf},
+	Year = {2002},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9wMDItMTA0MC5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8McDAyLTEwNDAucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOnAwMi0xMDQwLnBkZgAOABoADABwADAAMgAtADEAMAA0ADAALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy9wMDItMTA0MC5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/P02-1040}}
+
+@article{Denkowski:2017aa,
+	Abstract = {Interest in neural machine translation has grown rapidly as its effectiveness has been demonstrated across language and data scenarios. New research regularly introduces architectural and algorithmic improvements that lead to significant gains over "vanilla" NMT implementations. However, these new techniques are rarely evaluated in the context of previously published techniques, specifically those that are widely used in state-of-theart production and shared-task systems. As a result, it is often difficult to determine whether improvements from research will carry over to systems deployed for real-world use. In this work, we recommend three specific methods that are relatively easy to implement and result in much stronger experimental systems. Beyond reporting significantly higher BLEU scores, we conduct an in-depth analysis of where improvements originate and what inherent weaknesses of basic NMT models are being addressed. We then compare the relative gains afforded by several other techniques proposed in the literature when starting with vanilla systems versus our stronger baselines, showing that experimental conclusions may change depending on the baseline chosen. This indicates that choosing a strong baseline is crucial for reporting reliable experimental results.},
+	Author = {Michael Denkowski and Graham Neubig},
+	Date-Added = {2020-08-10 16:16:12 +0200},
+	Date-Modified = {2020-08-10 16:16:12 +0200},
+	Eprint = {1706.09733},
+	Month = {06},
+	Title = {Stronger Baselines for Trustable Results in Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1706.09733.pdf},
+	Year = {2017},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNzA2LjA5NzMzLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNzA2LjA5NzMzLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTcwNi4wOTczMy5wZGYADgAeAA4AMQA3ADAANgAuADAAOQA3ADMAMwAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE3MDYuMDk3MzMucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1706.09733}}
+
+@article{Kingma:2014aa,
+	Abstract = {We introduce Adam, an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. The method is straightforward to implement, is computationally efficient, has little memory requirements, is invariant to diagonal rescaling of the gradients, and is well suited for problems that are large in terms of data and/or parameters. The method is also appropriate for non-stationary objectives and problems with very noisy and/or sparse gradients. The hyper-parameters have intuitive interpretations and typically require little tuning. Some connections to related algorithms, on which Adam was inspired, are discussed. We also analyze the theoretical convergence properties of the algorithm and provide a regret bound on the convergence rate that is comparable to the best known results under the online convex optimization framework. Empirical results demonstrate that Adam works well in practice and compares favorably to other stochastic optimization methods. Finally, we discuss AdaMax, a variant of Adam based on the infinity norm.},
+	Author = {Diederik P. Kingma and Jimmy Ba},
+	Date-Added = {2020-08-10 16:15:37 +0200},
+	Date-Modified = {2020-08-10 16:15:37 +0200},
+	Eprint = {1412.6980},
+	Month = {12},
+	Title = {Adam: A Method for Stochastic Optimization},
+	Url = {https://arxiv.org/pdf/1412.6980.pdf},
+	Year = {2014},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAnLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNDEyLjY5ODAucGRmTxEBUAAAAAABUAACAAAMTWFjaW50b3NoIEhEAAAAAAAAAAAAAAAAAAAAAAAAAEJEAAH/////DTE0MTIuNjk4MC5wZGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////8AAAAAAAAAAAAAAAAAAwADAAAKIGN1AAAAAAAAAAAAAAAAAAZQYXBlcnMAAgAtLzpVc2VyczpzaGlmZWk6RG9jdW1lbnRzOlBhcGVyczoxNDEyLjY5ODAucGRmAAAOABwADQAxADQAMQAyAC4ANgA5ADgAMAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIAK1VzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE0MTIuNjk4MC5wZGYAABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE4AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABog==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1412.6980}}
+
+@article{Bahdanau:2014aa,
+	Abstract = {Neural machine translation is a recently proposed approach to machine translation. Unlike the traditional statistical machine translation, the neural machine translation aims at building a single neural network that can be jointly tuned to maximize the translation performance. The models proposed recently for neural machine translation often belong to a family of encoder-decoders and consists of an encoder that encodes a source sentence into a fixed-length vector from which a decoder generates a translation. In this paper, we conjecture that the use of a fixed-length vector is a bottleneck in improving the performance of this basic encoder-decoder architecture, and propose to extend this by allowing a model to automatically (soft-)search for parts of a source sentence that are relevant to predicting a target word, without having to form these parts as a hard segment explicitly. With this new approach, we achieve a translation performance comparable to the existing state-of-the-art phrase-based system on the task of English-to-French translation. Furthermore, qualitative analysis reveals that the (soft-)alignments found by the model agree well with our intuition.},
+	Author = {Dzmitry Bahdanau and Kyunghyun Cho and Yoshua Bengio},
+	Date-Added = {2020-08-10 16:12:41 +0200},
+	Date-Modified = {2020-08-10 16:12:41 +0200},
+	Eprint = {1409.0473},
+	Month = {09},
+	Title = {Neural Machine Translation by Jointly Learning to Align and Translate},
+	Url = {https://arxiv.org/pdf/1409.0473.pdf},
+	Year = {2014},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAnLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNDA5LjA0NzMucGRmTxEBUAAAAAABUAACAAAMTWFjaW50b3NoIEhEAAAAAAAAAAAAAAAAAAAAAAAAAEJEAAH/////DTE0MDkuMDQ3My5wZGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////8AAAAAAAAAAAAAAAAAAwADAAAKIGN1AAAAAAAAAAAAAAAAAAZQYXBlcnMAAgAtLzpVc2VyczpzaGlmZWk6RG9jdW1lbnRzOlBhcGVyczoxNDA5LjA0NzMucGRmAAAOABwADQAxADQAMAA5AC4AMAA0ADcAMwAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIAK1VzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE0MDkuMDQ3My5wZGYAABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE4AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABog==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1409.0473}}
+
+@article{Neubig:2018aa,
+	Abstract = {This paper describes XNMT, the eXtensible Neural Machine Translation toolkit. XNMT distin- guishes itself from other open-source NMT toolkits by its focus on modular code design, with the purpose of enabling fast iteration in research and replicable, reliable results. In this paper we describe the design of XNMT and its experiment configuration system, and demonstrate its utility on the tasks of machine translation, speech recognition, and multi-tasked machine translation/parsing. XNMT is available open-source at https://github.com/neulab/xnmt},
+	Author = {Graham Neubig and Matthias Sperber and Xinyi Wang and Matthieu Felix and Austin Matthews and Sarguna Padmanabhan and Ye Qi and Devendra Singh Sachan and Philip Arthur and Pierre Godard and John Hewitt and Rachid Riad and Liming Wang},
+	Date-Added = {2020-08-10 15:45:45 +0200},
+	Date-Modified = {2020-08-10 15:45:45 +0200},
+	Eprint = {1803.00188},
+	Month = {03},
+	Title = {XNMT: The eXtensible Neural Machine Translation Toolkit},
+	Url = {https://arxiv.org/pdf/1803.00188.pdf},
+	Year = {2018},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xODAzLjAwMTg4LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xODAzLjAwMTg4LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTgwMy4wMDE4OC5wZGYADgAeAA4AMQA4ADAAMwAuADAAMAAxADgAOAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE4MDMuMDAxODgucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1803.00188}}
 
 @inproceedings{glorot2010understanding,
 	Author = {Glorot, Xavier and Bengio, Yoshua},
