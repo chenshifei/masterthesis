@@ -9,6 +9,7 @@
 \usepackage{tikz}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{listings}
 
 \graphicspath{ {figures/} }
 \addbibresource{thesis.bib}
@@ -254,9 +255,105 @@ For preprocessing, since the orginal TED corpus is already tokenized by Moses, I
 
 For the neural network I used a modified version of the neural network from \cite{Qi:2018aa}, which is built with XNMT \cite{Neubig:2018aa}. I have doubled the encoding layer to a 2-layer-bidirectional LSTM network and added the accuracy score as a evaluation metric alongside the BLEU score \parencite{papineni-etal-2002-bleu}. Everything else are kept from the orignal experiment settings, including a encoder-decoder model with attention \parencite{Bahdanau:2014aa} and a beam size of $5$, trained using batch of 32 and the Adam optimizer \parencite{Kingma:2014aa}. The initial learing starts at $0.0002$ and decays by $0.5$ when development BLEU score decreases \parencite{Denkowski:2017aa}.
 
-The prelimentary experiments are showed and discussed below.
+\subsection{Embeddings}
 
-\section{Result Analysis}
+The embeddings I used are fastText aligned word embeddings\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}}. They are based on the pre-trained vectors on Wikipedia\footnote{\url{https://www.wikipedia.org/}} using fastText \parencite{Bojanowski:2016aa}. The alignment is performed using RCSLS as in \cite{Joulin:2018aa}.
+
+Each of the fastText word embedding file is language specific and contains word embeddings in 300 dimensions. I concatnated different language files To build up multilingual word embedding files for the MNMT system. If there is a shared word $w$ with two different vector values $\vec{v_a}$ and $\vec{v_b}$ in different embedding files, I will add those two vectors up and pick the average value $\vec{v_{mean}}$ as the new vector.
+
+\begin{equation}
+  \vec{v_{mean}} = \vec{v_a} + \vec{v_b} / 2
+\end{equation}
+
+In this way, there are possibilities that both of the unique semantic values in the two words $w_a$ and $w_b$ could lost, as there are cases that word with distant meaning share the same spelling in different languages. But it could also be argued that many word with the same spelling do have similar meaning. For example the word \verb|café| means the same thing in both English and French, as English borrowed that word from French. Later in the experiment I also tried a different approach where I treat each word as a unique word despite they might share the same spelling, both of the results are shown below.
+
+\section{Results and Analysis}
+
+Before I got the results, I anticipated that among all three test languages, Swedish will get the best result and it could be on the same level as the baseline MNMT consists of EN, DE and FR only. The other two languages will not get any close to the performance of Swedish, and they could go down to less than 10 BLEU scores.
+
+\begin{table}
+  \centering
+  \begin{tabular}{c c c}
+    cell1 & cell2 & cell3 \\ 
+    cell4 & cell5 & cell6 \\  
+    cell7 & cell8 & cell9 
+  \end{tabular}
+  \caption{Initial results for SV, HU and HE on the baseline system (Target language annotation only, dropout=0.3, trained on mixed language branch corpus.)}
+  \label{table:initial_results}
+\end{table}
+
+However, in the results shown in Table \ref{table:initial_results}, all of the three languages got very low BLEU scores. Swedish, though it indeed was the best of three, only achieved about 3.5 BLEU score. The other two language, Hungarian and Hebrew, didnt even go abobe 1 BLEU score. The surprisingly low results made me curious and would like to check what could be improved.
+
+\subsection{Altering the Source/Target Language Annotation}
+
+The first improvement I tried is to alter the way the target langauge annotation in the source sentences. In the corpus building script I add a custom \verb|__{lang_id}__| token at the front of each source sentence as suggested in \cite{Johnson:2016aa}. A sentence in the processed source text that needs to be translated into German would look like 
+
+\begin{verbatim}
+  __de__ And we struggle with how to deal with them .
+\end{verbatim}
+
+I added two other annotation --- the source token and source token together with the target token, into the experiments. Hence a sentence in English would look like this 
+
+\begin{verbatim}
+  __en__ And we struggle with how to deal with them .
+\end{verbatim}
+
+When it needs to be translated into German, the annotation would then become 
+
+\begin{verbatim}
+  __en__ __de__ And we struggle with how to deal with them .
+\end{verbatim}
+
+\begin{table}
+  \centering
+  \begin{tabular}{c c c}
+    cell1 & cell2 & cell3 \\ 
+    cell4 & cell5 & cell6 \\  
+    cell7 & cell8 & cell9 
+  \end{tabular}
+  \caption{Results for different language annotations (Target only, source only and full annotation))}
+  \label{table:altering_lang_id}
+\end{table}
+
+The results are shown in Table \ref{table:altering_lang_id}. As it shows, source token didn't change the overall result a lot but removing the target token would drastically lower the final BLEU score. This indicated that in a MNMT system, the suggestion that the source language will be learned automatically by the system during training is correct. People should only annotate the target language into the final result only.
+
+\subsection{Analysising on the Effect of Language Similarity}
+
+It is anticipated that Swedish will perform better the Hungarian and Hebrew in this experiment settings. To deeper undetstand the question, I have further designed three more experiments to analysis the effect of language similarity.
+
+The additional experiments will still use Swedish as the test langauge while remove French as the training language, since it is the only training language that doesn't below to the same language branch as Swedish. (English German and Swedish are all Germanic languages. French is Romance.) I have also included three more Germanic languages as the training language, Danish (DA), Dutch (NL) and Norwegian (NO). Everything else is the same. The results are shown in Table \ref{table:language_similarity}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{c c c}
+    cell1 & cell2 & cell3 \\ 
+    cell4 & cell5 & cell6 \\  
+    cell7 & cell8 & cell9 
+  \end{tabular}
+  \caption{Results for langauge similarity. Three other Germanic languages DA, NL and NO were added one by one into the training corpus)}
+  \label{table:language_similarity}
+\end{table}
+
+As the results shows, the system gained most improvements when Danish and Norwegian were added. Desipte Dutch and Swedish are both Germanic languages, it doesn't help a lot for the MNMT system to learn how to translate from Swedish or into Swedish. This confirms that closer languages would benefit each other even more by using pre-trained word embeddings \parencite{Qi:2018aa}.
+
+To study how much of such kind of benefit were brought by shared vocabluaries, I modified the Danish expriment and tagged each word with its source language id in additional to every sentence. Punctuations are not distinguished among languages, which means they don't receive a language-specific tag. The word embeddings also tagged to point it to the correct source word. An English sentence that needs to be translated into German is then 
+
+\begin{verbatim}
+  __de__ <<en>>And <<en>>we <<en>>struggle <<en>>with <<en>>them .
+\end{verbatim}
+
+\begin{table}
+  \centering
+  \begin{tabular}{c c c}
+    cell1 & cell2 & cell3 \\ 
+    cell4 & cell5 & cell6 \\  
+    cell7 & cell8 & cell9 
+  \end{tabular}
+  \caption{Results for source word token.)}
+  \label{table:word_token}
+\end{table}
+
+The result in Table \ref{table:word_token} showed that the BLEU score would dramatically decrease if each word is no longer allowed to be shared between languages. Hence most of the improvements were brought by the fact that Swedish, Danish and Norwegian have a large amount of common vocabluaries. On the other side, it also indicates that the system didn't learn too much syntactic information during training. Even though these languages have similar grammar structures, the system didn't catch it very well, otherwise we would see smaller BLEU score gap between the results as the close grammar relationship will be preserved in the embedding layer.
 
 \chapter{Methodalogy}
 \label{chap:method}
