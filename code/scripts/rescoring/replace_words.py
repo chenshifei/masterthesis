@@ -23,24 +23,24 @@ def replace_words(hyp_path, output_path, src_emb_path, tgt_emb_path):
         with open(hyp_path, encoding='utf8') as hyp_file:
             for line in hyp_file:
                 result = _replace_words_in_line(line, src_emb, tree)
-                output_file.write(result)
+                output_file.write(result + '\n')
 
 def _replace_words_in_line(line, src_emb, tree):
-    result = ''
+    result = []
     for word in line.split():
         if _should_skip_replacement(word, src_emb):
-            result += word
+            result.append(word)
         elif DIST_CACHE.get(word) is not None:
-            result += DIST_CACHE[word]
+            result.append(DIST_CACHE[word])
         else:
             src_vec = src_emb[word]
             distance, index = tree.query(src_vec)
             target_word = word
             if distance < ARGS.threshold:
                 target_word = list(tgt_emb.keys())[index] # From Python 3.7 dict is ordered.
-            result += target_word
+            result.append(target_word)
             DIST_CACHE[word] = target_word
-    return result
+    return ' '.join(result)
 
 def _should_skip_replacement(word, src_emb):
     if len(word) <= 1 and word in string.punctuation:
