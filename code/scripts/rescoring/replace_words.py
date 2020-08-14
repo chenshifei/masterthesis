@@ -22,10 +22,10 @@ def replace_words(hyp_path, output_path, src_emb_path, tgt_emb_path):
     with open(output_path, 'w') as output_file:
         with open(hyp_path, encoding='utf8') as hyp_file:
             for line in hyp_file:
-                result = _replace_words_in_line(line, src_emb, tree)
+                result = _replace_words_in_line(line, src_emb, tgt_emb, tree)
                 output_file.write(result + '\n')
 
-def _replace_words_in_line(line, src_emb, tree):
+def _replace_words_in_line(line, src_emb, tgt_emb, tree):
     result = []
     for word in line.split():
         if _should_skip_replacement(word, src_emb):

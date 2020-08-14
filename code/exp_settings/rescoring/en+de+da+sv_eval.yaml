@@ -13,7 +13,7 @@ en+de+da+sv_word_token_eval: !Experiment
       src_file: '{DATA_OUT}/test.tok.norm.src'
       ref_file: '{DATA_OUT}/test.tok.norm.tgt'
       hyp_file: output/en+de+da+sv_word_token.test_hyp
-      model: !LoadSeriallized
+      model: !LoadSerialized
         filename: output/en+de+da+sv_word_token/en+de+da+sv.mod
         path: model
       perform_inference: False
