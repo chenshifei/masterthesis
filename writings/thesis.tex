@@ -10,6 +10,8 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{listings}
+\usepackage{siunitx}
+\usepackage[boxed, noline]{algorithm2e}
 
 \graphicspath{ {figures/} }
 \addbibresource{thesis.bib}
@@ -198,8 +200,8 @@ For NMT system focused in low resource language, \cite{Qi:2018aa} looked into th
 
 Moreover, aligned word embeddings doesn't work well for moporlogically rich languages such as Russian and Belarusian. \cite{Qi:2018aa} argue that this may mainly due to the sparsity in the word embeddings files. In addition, most of the previous works are target on zero-shot language pairs, not on compeletely unseen languages. For language pairs $A \rightarrow \text{EN}$ and $\text{EN} \rightarrow B$, they are all interested in the unseen language pair $A \rightarrow B$. For language pairs that includes an unseen language $C$, whether it is in the source side or the target side, it remains to be seen how universal word embeddings could help translate in this scenario.
 
-\chapter{Error Analysis in a MNMT system Based on Universal Word Embeddings}
-\label{chap:error}
+\chapter{Error Analysis in a Word Embedding Based MNMT System}
+\label{chap:error_analysis}
 
 In this chapter I will perform experiments in a universal word embedding based MNMT system. Then I will analysis its results to show why such kind of system failed to translation compeletly unseen languages depite its theoratical feasibility.
 
@@ -355,14 +357,61 @@ To study how much of such kind of benefit were brought by shared vocabluaries, I
 
 The result in Table \ref{table:word_token} showed that the BLEU score would dramatically decrease if each word is no longer allowed to be shared between languages. Hence most of the improvements were brought by the fact that Swedish, Danish and Norwegian have a large amount of common vocabluaries. On the other side, it also indicates that the system didn't learn too much syntactic information during training. Even though these languages have similar grammar structures, the system didn't catch it very well, otherwise we would see smaller BLEU score gap between the results as the close grammar relationship will be preserved in the embedding layer.
 
-\chapter{Methodalogy}
-\label{chap:method}
+\chapter{Target Filtering}
+\label{chap:target_filtering}
 
-\chapter{Results and Analysis}
-\label{chap:results}
+\section{Methodalogy}
+
+From the observation in last section, we found that the majority error in the translated text is that they are translated into the wrong language. Hence in this section we would like to see if it is possible to counter-attack this negative effect by replacing the words in the correct language manually.
+
+The whole experiment is based on the hypothesis that our NMT system have already learned the genrally mapping between words in the source vector space and the ones in the target vector space, even though the correct word in the target word space hasn't been seen by the system during training. However since every aligned word embeddings are grouped by their semantics, the correct target word should also be around the wrong output word. In other words, our system is roughly on the right track, it just need to be fine-tuned to find the correct answer.
+
+More specifically, in a vector space $S$ that contains both the source and target aligned word embeddings $W_s$ and $W_t$, for each $w_s\in W_s$ the system would have already learn at least one mapping to a target word $w_t \in W_t$. We are looking for other $w_t^\prime \in W_t$ that are with in a specific radius of the original $w_t$. The distance should still be relatively small that that $w_t$ and $w_t^\prime$ are both considered to be a effective translation of the source word $w_s$.
+
+In theory to determine the nearyby neighbour $w_t^\prime$ we can use different kinds of metrics. Here I have chosen to use the Euclidean distance where determines the distance between $w_t$ and $w_t^\prime$ as
+
+\begin{equation}
+  d(w_t, w_t^\prime)=\sqrt{\sum_{i=1}^n{(w_{t_i}-w^\prime_{t_i})}^2}
+\end{equation}
+
+\section{Experiment Settings}
+
+To find the output word in the correct language, we would apply cosine similarity to compare the distance between two vector words. The distance $d$ is a variable here and its value needs to be determined as well. Hence I have chosen to test the distance argument $d$ by different experiments, ranging from $d=0.25$ to $d=5$.
+
+The algorithm is described in Algorithm \ref{algo:subsitution}
+
+\begin{algorithm}[H]
+  \label{algo:subsitution}
+  \SetAlgoLined
+  \KwIn{hypothesis $H$, source language embeddings $E_s$, target language embeddings $E_t$, distance threshold $D$}
+  \KwResult{Write here the result }
+
+  Build kd-tree $T$ from $E_s$
+  \For(each line $l$ in the source hypothesis $H$){$l \in H$}{
+    \For(each word $w$ in line $l$){$w \in l$}{
+      \uIf{$w$ is a punctuation}{
+        skip $w$\;
+      }
+      \uElseIf{$w$ is an unknown word}{
+        skip $w$\;
+      }
+      \Else{
+        query distance $d$ for $w$ in $T$\;
+        \If{$d<D$}{
+          replace $w$ with the correspoding $w\prime$
+        }
+      }
+    }
+  }
+  \caption{Pesudo code for output hypothesis word subsitution. Each word in the NMT output hypothesis that are not in the desired language will be replaced by its cloeset neighbour in that language.}
+\end{algorithm}
+
+Performing a distance query on a vector space that has more than $\num{3e6}$ vectors is slow, especially when all these vectors are considered to be high dimensional vectors.  I have implemented my code by using SciPy \parencite{Virtanen:2019aa}. There are algothrims like KD-tree \parencite{Maneewongvatana:aa} that could reduce the calcualtion time for low-dimensional vectors, but for vectors that are higher than 20 dimentions it is not necessarily faster than brutal force.\footnote{As descibed on the API document, "High-dimensional nearest-neighbor queries are a substantial open problem in computer science.", \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.KDTree.html}} On the other hand, based on the Johnson–Lindenstrauss theorem \parencite{johnson1984extensions}, a vector space should have at least more than 300 dimensions to distinguish $\num{1e6}$ vectors in it. As the aligned vector space in fastText contains more than $\num{3e6}$ words, the dimensions could not be compressed any more or you are at risk of not be able to distinguish each word. All in all, the script is slow at subsitute every word in the output hypothesis into the correspoding one in the desired language.
+
+\section{Results and Analysis}
 
 \chapter{Conclusion and Future Work}
-\label{chap:analysis}
+\label{chap:conclusion}
 
 \printbibliography
 \end{document}
