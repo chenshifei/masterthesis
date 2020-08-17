@@ -57,7 +57,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('hyp', help='Path to the hypothesis translation output')
 parser.add_argument('src_emb', help='Path to the embedding file where the translation hypothesis was inferred')
 parser.add_argument('tgt_emb', help='Path to the embedding file whose word vectors the inferred translation word should be compared with')
-parser.add_argument('--threshold', help='Minimum distance threshold between two word embddings so that they are considered to be equivalent. Default = 2', default=2, type=int)
+parser.add_argument('--threshold', help='Minimum distance threshold between two word embddings so that they are considered to be equivalent. Default = 2', default=2, type=float)
 parser.add_argument('--output',
                     help='Path to the output file, default = filtered.test_hyp',
                     default='filtered.test_hyp')

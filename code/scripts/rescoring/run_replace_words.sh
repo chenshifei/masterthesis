@@ -29,4 +29,8 @@ source thesis_env/bin/activate
 
 cd scripts/rescoring
 
-python3 replace_words.py ../../output/en+de+da+sv_rescoring.test_hyp ../../embeddings/wiki.en+de+da+sv.align.vec ../../embeddings/wiki.sv.align.vec --output ../../output/en+de+da+sv_rescoring.filtered.test_hyp
+python3 replace_words.py ../../output/en+de+da+sv_rescoring.test_hyp ../../embeddings/wiki.en+de+da+sv.align.vec ../../embeddings/wiki.sv.align.vec --output ../../output/en+de+da+sv_rescoring.filtered.3.test_hyp --threshold 1
+
+python3 replace_words.py ../../output/en+de+da+sv_rescoring.test_hyp ../../embeddings/wiki.en+de+da+sv.align.vec ../../embeddings/wiki.sv.align.vec --output ../../output/en+de+da+sv_rescoring.filtered.4.test_hyp --threshold 0.5
+
+python3 replace_words.py ../../output/en+de+da+sv_rescoring.test_hyp ../../embeddings/wiki.en+de+da+sv.align.vec ../../embeddings/wiki.sv.align.vec --output ../../output/en+de+da+sv_rescoring.filtered.5.test_hyp --threshold 0.25

@@ -1,26 +1,17 @@
-en+de+da+sv_word_token_eval: !Experiment
-  exp_global: !ExpGlobal
-    model_file: output/{EXP}/en+de+da+sv.mod
-    log_file: output/{EXP}/en+de+da+sv.log
-    default_layer_dim: 512
-    dropout: 0.3
-    placeholders:
-      DATA_OUT_BASE: corpus/preproc/word_token/en+de+da_en+de+da
-      DATA_OUT: corpus/preproc/word_token/en+de+da+sv_en+de+da+sv
-  evaluate:
-    - !AccuracyEvalTask
-      eval_metrics: bleu,accuracy
-      src_file: '{DATA_OUT}/test.tok.norm.src'
-      ref_file: '{DATA_OUT}/test.tok.norm.tgt'
-      hyp_file: output/en+de+da+sv_word_token.test_hyp
-      model: !LoadSerialized
-        filename: output/en+de+da+sv_word_token/en+de+da+sv.mod
-        path: model
-      perform_inference: False
-      inference: !AutoRegressiveInference
-        search_strategy: !Ref { name: trg_beam }
-        reporter:
-        - !ReferenceDiffReporter {} # difference highlighting
-        - !CompareMtReporter {} # analyze MT outputs
-        - !OOVStatisticsReporter # report on recovered OOVs, fantasized new words, etc.
-          train_trg_file: '{DATA_OUT_BASE}/train.tok.norm.filter.tgt'
+en+de+da+sv_rescoring_eval: !LoadSerialized
+  filename: output/en+de+da+sv_word_token/en+de+da+sv.mod
+  overwrite:
+    - path: train
+      val: null
+    - path: status
+      val: null
+    - path: model.src_embedder.vocab
+      val: !Vocab
+        vocab_file: '{DATA_OUT}/train.src.vocab'
+    - path: model.decoder.embedder.vocab
+      val: !Vocab
+        vocab_file: '{DATA_OUT}/train.tgt.vocab'
+    - path: evaluate.0.hyp_file
+      val: output/en+de+da+sv_rescoring.filtered.test_hyp
+    - path: evaluate.0.perform_inference
+      val: False
