@@ -16,15 +16,15 @@ en+de+da+sv_single_eval_1: !Experiment
       in_files:
       - '{DATA_IN_BASE}/train.src'
       - '{DATA_IN_BASE}/train.tgt'
-      - '{DATA_IN}/train.src'
-      - '{DATA_IN}/train.tgt'
+      - '{DATA_IN}/dev.src'
+      - '{DATA_IN}/dev.tgt'
       - '{DATA_IN}/test.src'
       - '{DATA_IN}/test.tgt'
       out_files:
       - '{DATA_OUT_BASE}/train.tok.norm.src'
       - '{DATA_OUT_BASE}/train.tok.norm.tgt'
-      - '{DATA_OUT}/train.tok.norm.src'
-      - '{DATA_OUT}/train.tok.norm.tgt'
+      - '{DATA_OUT}/dev.tok.norm.src'
+      - '{DATA_OUT}/dev.tok.norm.tgt'
       - '{DATA_OUT}/test.tok.norm.src'
       - '{DATA_OUT}/test.tok.norm.tgt'
       specs:

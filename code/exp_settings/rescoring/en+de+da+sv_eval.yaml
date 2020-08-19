@@ -1,5 +1,5 @@
 en+de+da+sv_rescoring_eval: !LoadSerialized
-  filename: output/en+de+da+sv_word_token/en+de+da+sv.mod
+  filename: output/en+de+da+sv_rescoring/en+de+da+sv.mod
   overwrite:
     - path: train
       val: null

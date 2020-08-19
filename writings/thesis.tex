@@ -384,7 +384,7 @@ The algorithm is described in Algorithm \ref{algo:subsitution}
   \label{algo:subsitution}
   \SetAlgoLined
   \KwIn{hypothesis $H$, source language embeddings $E_s$, target language embeddings $E_t$, distance threshold $D$}
-  \KwResult{Write here the result }
+  \KwResult{Updated hypothesis $H^\prime$ with words being replaced by their neighbors in the desired language}
 
   Build kd-tree $T$ from $E_s$
   \For(each line $l$ in the source hypothesis $H$){$l \in H$}{
@@ -396,9 +396,9 @@ The algorithm is described in Algorithm \ref{algo:subsitution}
         skip $w$\;
       }
       \Else{
-        query distance $d$ for $w$ in $T$\;
+        query distance $d(w, w^\prime)$ for $w$ in $T$\;
         \If{$d<D$}{
-          replace $w$ with the correspoding $w\prime$
+          replace $w$ with the correspoding $w^\prime$
         }
       }
     }
