@@ -27,6 +27,7 @@ def replace_words(hyp_path, output_path, src_emb_path, tgt_emb_path):
 
 def _replace_words_in_line(line, src_emb, tgt_emb, tree):
     result = []
+    tgt_emb_words = list(tgt_emb.keys())
     for word in line.split():
         if _should_skip_replacement(word, src_emb):
             result.append(word)
@@ -36,8 +37,8 @@ def _replace_words_in_line(line, src_emb, tgt_emb, tree):
             src_vec = src_emb[word]
             distance, index = tree.query(src_vec)
             target_word = word
-            if distance < ARGS.threshold:
-                target_word = list(tgt_emb.keys())[index] # From Python 3.7 dict is ordered.
+            if ARGS.threshold == 0 or distance < ARGS.threshold:
+                target_word = tgt_emb_words[index] # From Python 3.7 dict is ordered.
             result.append(target_word)
             DIST_CACHE[word] = target_word
     return ' '.join(result)
@@ -57,7 +58,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('hyp', help='Path to the hypothesis translation output')
 parser.add_argument('src_emb', help='Path to the embedding file where the translation hypothesis was inferred')
 parser.add_argument('tgt_emb', help='Path to the embedding file whose word vectors the inferred translation word should be compared with')
-parser.add_argument('--threshold', help='Minimum distance threshold between two word embddings so that they are considered to be equivalent. Default = 2', default=2, type=float)
+parser.add_argument('--threshold', help='Minimum distance threshold between two word embddings so that they are considered to be equivalent. Set it to 0 to disable threshold. Default = 2.', default=2, type=float)
 parser.add_argument('--output',
                     help='Path to the output file, default = filtered.test_hyp',
                     default='filtered.test_hyp')
