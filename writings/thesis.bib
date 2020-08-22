@@ -1,12 +1,51 @@
 %% This BibTeX bibliography file was created using BibDesk.
 %% https://bibdesk.sourceforge.io/
 
-%% Created for Shifei Chen at 2020-08-17 14:05:14 +0200 
+%% Created for Shifei Chen at 2020-08-22 14:43:34 +0200 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@article{Zoph:2016aa,
+	Abstract = {The encoder-decoder framework for neural machine translation (NMT) has been shown effective in large data scenarios, but is much less effective for low-resource languages. We present a transfer learning method that significantly improves Bleu scores across a range of low-resource languages. Our key idea is to first train a high-resource language pair (the parent model), then transfer some of the learned parameters to the low-resource pair (the child model) to initialize and constrain training. Using our transfer learning method we improve baseline NMT models by an average of 5.6 Bleu on four low-resource language pairs. Ensembling and unknown word replacement add another 2 Bleu which brings the NMT performance on low-resource machine translation close to a strong syntax based machine translation (SBMT) system, exceeding its performance on one language pair. Additionally, using the transfer learning model for re-scoring, we can improve the SBMT system by an average of 1.3 Bleu, improving the state-of-the-art on low-resource machine translation.},
+	Author = {Barret Zoph and Deniz Yuret and Jonathan May and Kevin Knight},
+	Date-Added = {2020-08-22 14:42:56 +0200},
+	Date-Modified = {2020-08-22 14:42:56 +0200},
+	Eprint = {1604.02201},
+	Month = {04},
+	Title = {Transfer Learning for Low-Resource Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1604.02201.pdf},
+	Year = {2016},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNjA0LjAyMjAxLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNjA0LjAyMjAxLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTYwNC4wMjIwMS5wZGYADgAeAA4AMQA2ADAANAAuADAAMgAyADAAMQAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE2MDQuMDIyMDEucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1604.02201}}
+
+@article{Nguyen:2017aa,
+	Abstract = {We present a simple method to improve neural translation of a low-resource language pair using parallel data from a related, also low-resource, language pair. The method is based on the transfer method of Zoph et al., but whereas their method ignores any source vocabulary overlap, ours exploits it. First, we split words using Byte Pair Encoding (BPE) to increase vocabulary overlap. Then, we train a model on the first language pair and transfer its parameters, including its source word embeddings, to another model and continue training on the second language pair. Our experiments show that transfer learning helps word-based translation only slightly, but when used on top of a much stronger BPE baseline, it yields larger improvements of up to 4.3 BLEU.},
+	Author = {Toan Q. Nguyen and David Chiang},
+	Date-Added = {2020-08-22 14:42:55 +0200},
+	Date-Modified = {2020-08-22 14:42:55 +0200},
+	Eprint = {1708.09803},
+	Month = {08},
+	Title = {Transfer Learning across Low-Resource, Related Languages for Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1708.09803.pdf},
+	Year = {2017},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNzA4LjA5ODAzLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNzA4LjA5ODAzLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTcwOC4wOTgwMy5wZGYADgAeAA4AMQA3ADAAOAAuADAAOQA4ADAAMwAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE3MDguMDk4MDMucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1708.09803}}
+
+@article{Koehn:2017aa,
+	Abstract = {We explore six challenges for neural machine translation: domain mismatch, amount of training data, rare words, long sentences, word alignment, and beam search. We show both deficiencies and improvements over the quality of phrase-based statistical machine translation.},
+	Author = {Philipp Koehn and Rebecca Knowles},
+	Date-Added = {2020-08-22 12:26:48 +0200},
+	Date-Modified = {2020-08-22 14:33:44 +0200},
+	Eprint = {1706.03872},
+	Month = {06},
+	Title = {Six Challenges for Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1706.03872.pdf},
+	Year = {2017},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNzA2LjAzODcyLnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNzA2LjAzODcyLnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTcwNi4wMzg3Mi5wZGYADgAeAA4AMQA3ADAANgAuADAAMwA4ADcAMgAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE3MDYuMDM4NzIucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1706.03872}}
 
 @article{johnson1984extensions,
 	Author = {Johnson, William B and Lindenstrauss, Joram},
@@ -739,7 +778,7 @@
 		<key>group name</key>
 		<string>Machine Translation</string>
 		<key>keys</key>
-		<string>Johnson:2016aa,Conneau:2017aa,Kim:2019aa,Baziotis:2020aa,Ha:2017aa,Lakew:2018aa,Arivazhagan:2019aa,Lakew:2019aa,Ha:2016aa,Lakew:2018ab,Firat:2016aa,Blackwood:2018aa,Vaswani:2017aa</string>
+		<string>Johnson:2016aa,Conneau:2017aa,Kim:2019aa,Baziotis:2020aa,Ha:2017aa,Lakew:2018aa,Arivazhagan:2019aa,Lakew:2019aa,Ha:2016aa,Lakew:2018ab,Firat:2016aa,Blackwood:2018aa,Vaswani:2017aa,Koehn:2017aa,Nguyen:2017aa,Zoph:2016aa</string>
 	</dict>
 	<dict>
 		<key>group name</key>
