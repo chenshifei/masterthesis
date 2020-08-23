@@ -30,5 +30,5 @@ source thesis_env/bin/activate
 
 export DEFAULT_REPORT_PATH="output/reports/{EXP}"
 
-xnmt --dynet-gpu exp_settings/src_tgt_token/merged+sv.yaml
+xnmt --dynet-gpu exp_settings/src_tgt_token/en+de+fr+sv.yaml
 
