@@ -1,12 +1,25 @@
 %% This BibTeX bibliography file was created using BibDesk.
 %% https://bibdesk.sourceforge.io/
 
-%% Created for Shifei Chen at 2020-08-22 14:43:34 +0200 
+%% Created for Shifei Chen at 2020-08-23 11:01:16 +0200 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@article{Arthur:2016aa,
+	Abstract = {Neural machine translation (NMT) often makes mistakes in translating low-frequency content words that are essential to understanding the meaning of the sentence. We propose a method to alleviate this problem by augmenting NMT systems with discrete translation lexicons that efficiently encode translations of these low-frequency words. We describe a method to calculate the lexicon probability of the next word in the translation candidate by using the attention vector of the NMT model to select which source word lexical probabilities the model should focus on. We test two methods to combine this probability with the standard NMT probability: (1) using it as a bias, and (2) linear interpolation. Experiments on two corpora show an improvement of 2.0-2.3 BLEU and 0.13-0.44 NIST score, and faster convergence time.},
+	Author = {Philip Arthur and Graham Neubig and Satoshi Nakamura},
+	Date-Added = {2020-08-23 11:01:02 +0200},
+	Date-Modified = {2020-08-23 11:01:02 +0200},
+	Eprint = {1606.02006},
+	Month = {06},
+	Title = {Incorporating Discrete Translation Lexicons into Neural Machine Translation},
+	Url = {https://arxiv.org/pdf/1606.02006.pdf},
+	Year = {2016},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNjA2LjAyMDA2LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNjA2LjAyMDA2LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTYwNi4wMjAwNi5wZGYADgAeAA4AMQA2ADAANgAuADAAMgAwADAANgAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE2MDYuMDIwMDYucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1606.02006}}
 
 @article{Zoph:2016aa,
 	Abstract = {The encoder-decoder framework for neural machine translation (NMT) has been shown effective in large data scenarios, but is much less effective for low-resource languages. We present a transfer learning method that significantly improves Bleu scores across a range of low-resource languages. Our key idea is to first train a high-resource language pair (the parent model), then transfer some of the learned parameters to the low-resource pair (the child model) to initialize and constrain training. Using our transfer learning method we improve baseline NMT models by an average of 5.6 Bleu on four low-resource language pairs. Ensembling and unknown word replacement add another 2 Bleu which brings the NMT performance on low-resource machine translation close to a strong syntax based machine translation (SBMT) system, exceeding its performance on one language pair. Additionally, using the transfer learning model for re-scoring, we can improve the SBMT system by an average of 1.3 Bleu, improving the state-of-the-art on low-resource machine translation.},
@@ -778,7 +791,7 @@
 		<key>group name</key>
 		<string>Machine Translation</string>
 		<key>keys</key>
-		<string>Johnson:2016aa,Conneau:2017aa,Kim:2019aa,Baziotis:2020aa,Ha:2017aa,Lakew:2018aa,Arivazhagan:2019aa,Lakew:2019aa,Ha:2016aa,Lakew:2018ab,Firat:2016aa,Blackwood:2018aa,Vaswani:2017aa,Koehn:2017aa,Nguyen:2017aa,Zoph:2016aa</string>
+		<string>Johnson:2016aa,Conneau:2017aa,Kim:2019aa,Baziotis:2020aa,Ha:2017aa,Lakew:2018aa,Arivazhagan:2019aa,Lakew:2019aa,Ha:2016aa,Lakew:2018ab,Firat:2016aa,Blackwood:2018aa,Vaswani:2017aa,Koehn:2017aa,Nguyen:2017aa,Zoph:2016aa,Arthur:2016aa</string>
 	</dict>
 	<dict>
 		<key>group name</key>

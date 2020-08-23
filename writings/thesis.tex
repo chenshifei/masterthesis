@@ -149,6 +149,7 @@ Here $\bar{v}_{w_k}$ means the sum of the context word $w_k$'s vectorized repres
 The difference between these two models is that the CBOW model predicts the target word from multiple given context words, while the Skip-gram model predicts the context words from one given center word. Hence the Skip-gram model is better at predicting rare words because all of the words are treated equally in the \textit{word AND context} relationship. While in the CBOW model, frequent words have advantages over rare words as they will have higher probabilities in a given context. The Skip-gram model is arguably the most popular method to learn word embeddings as it is both fast and robust, especially with less frequent words in the corpus. \parencite{levy-etal-2015-improving}
 
 \subsection{Multilingual Word Embeddings}
+\label{sec:multilingual_word_embeddings}
 
 Learned from approaches like the Skip-gram model or the CBOW model, vectorized word representations tend to cluster words with similar semantics \parencite{Mikolov:2013ac}. It then becomes attractive to see whether we could fit two or more languages into the same vector space. Word embeddings that consist of more than one language are called multilingual word embeddings.
 
@@ -176,8 +177,9 @@ Again, the loss function $\ell$ is typically the square loss function. However, 
 Despite the theoretical feasibility proven by mathematic formulas, we need data to drive the alignment process. Take bilingual word embeddings as the first step, their initial alignment data for adversarial learning of the rotation matrix $W$ could come from a bilingual dictionary \parencite{Mikolov:2013ac}. Also, there are other kinds of alignment using aligned data from sentence level, or even document level, even though word-level information is most common. By using word-level information, we can start with a pivot language (usually English) and map each other monolingual word embeddings by looking up translation dictionaries. This mapping process could also start with vectors only, where we choose a bilingual word embedding that shares a language (also typically English) with other bilingual embeddings and choose the other bilingual word embeddings by aligning their shared language subspace. Sentence-level parallel data is similar to the corpus in Machine Translation (MT), which contains sentence-aligned texts \parencite{Hermann:2013aa}. Document-level information is more common in the form of topic-aligned or class-aligned, such as Wikipedia data \parencite{vulic-moens-2013-study}. The alignment process of multilingual word embeddings is roughly the same as bilingual word embeddings, using parallel data from either word-level, sentence-level, or document-level \parencite{Ruder:2019aa}.
 
 \subsection{fastText}
+\label{sec:fasttext}
 
-In this work, I have chosen fastText aligned word vectors\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}} \parencite{Joulin:2018aa} as my vectorized word representation. They are based on the pre-trained vectors computed from the Wikipedia corpus using fastText \parencite{Bojanowski:2016aa}. Not only because of the soon to be talked good performance, but fastText aligned word embeddings also has a large selection of languages available to use out of the box. It is ideal for implementing the cross-lingual experiments on aligned word embeddings.
+In this work, the author have chosen fastText aligned word vectors\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}} \parencite{Joulin:2018aa} as my vectorized word representation. They are based on the pre-trained vectors computed from the Wikipedia corpus using fastText \parencite{Bojanowski:2016aa}. Not only because of the soon to be talked good performance, but fastText aligned word embeddings also has a large selection of languages available to use out of the box. It is ideal for implementing the cross-lingual experiments on aligned word embeddings.
 
 fastText is an extension of the original Word2Vec methods, which uses sub-words to augment low-frequency and unseen words. Take word \texttt{low-key} as an example. As a whole word, its possibility in a given document would be much lower than its components, \texttt{low} and \texttt{key}. fastText learns its vectorized representation from a smaller n-gram sub-word level. It divides the whole word into sub-words units as below if we assume $n=3$
 
@@ -226,98 +228,114 @@ Moreover, aligned word embeddings do not work well for morphologically rich lang
 \chapter{Error Analysis in a Word Embedding Based MNMT System}
 \label{chap:error_analysis}
 
-In this chapter I will perform experiments in a universal word embedding based MNMT system. Then I will analysis its results to show why such kind of system failed to translation compeletly unseen languages depite its theoratical feasibility.
+In this chapter, the author will perform experiments in a universal word embedding based MNMT system. Then he will analyze its results to show why such kind of system failed to translate completely unseen languages despite its theoretical feasibility.
 
 \section{Theoratical Feasibility}
 
-As mentioned in Chapter \ref{chap:prev}, \cite{Mikolov:2013ac} showed that there is a linear relationship between similar word embeddings in different languages. For each word pairs, assume their vector representations are $\{x_i, y_i\}_{i=1}^n$, we could calcualte a transformation matrix $W$ such that $Wx_i$ approximates to $y_i$. \cite{Mikolov:2013ac} also showed their result in the word/phrase translation task for suck kind of approximated word embedding mappings. For some subsets of words, around 70\% of word embeddings are exactly matched with each other by calcluating the Precision@5 score. If the threshold for the cosine similarity $\max\cos(Wx, y_i)$ being loosed to 0.6, the Precision@5 score would be as high as 90\%.
+As mentioned in Section \ref{sec:multilingual_word_embeddings}, \cite{Mikolov:2013ac} showed that there is a linear relationship between similar word embeddings in different languages. For each word pairs, assume their vector representations are $\{x_i, y_i\}_{i=1}^n$, we could calculate a transformation matrix $W$ such that $Wx_i$ approximates to $y_i$. In practice, people can learn $W$ by optimizing the following target function.
 
-In order to convert words into vectors to be calculated in the neural network, NMT systems should treat each word as word embeddings. The value of these word embedding could be learned directly during translation, but then the initialization is a crucial step as poor initialization could lead to slow converge or worse local mimima \parencite{glorot2010understanding}. The situation could be even more challenging when transltion with very few parallel corpora, since there is no data to help the embedding layer to converge to its ideal state. Hence the aforementioned word embedding mapping technique becomes appealing.
+\begin{equation*}
+  \min_W\sum_{i=1}^n||Wx_i-y_i||^2
+\end{equation*}
 
-\cite{Qi:2018aa} explored how effective it is by using aligned pre-trained word embeddings in a NMT system. They found that regardless of languages, alignment is useful as long as it's applied in a multilingual setting. They believe that since both the source and the target side vector spaces are already aligned, the NMT system learns how to transform the simialr fashion from the source langauge to the target language.
+\cite{Mikolov:2013ac} also showed their result in the word/phrase translation task for the approximated word embedding mappings. For some subsets of words, around 70\% of word embeddings match precisely with each other according to the P@5 score. If we relax the cosine similarity threshold to 0.6, the P@5 score would be as high as 90\%.
 
-Therefore, translating a compeletely unseen language can be viewed as the question below --- Given a vector space $Z$ that consists of aligned word embeddings $\{a_i, b_i, c_i, ...\}$, how much does the NMT system knows about an unseen language $A$ if it was only trained on the remaining languages? In theory, since the word embeddings are clustered by their semantic meanings in the vector space $Z$, we should be able to build loose mappings between each of the semantic centers from both the source side and the target side. The generalization ability of the system is the key to answer this question. Hence I conducted some prelimentary experiments below.
+To convert words into vectors to be calculated in the neural network, NMT systems should treat each word as a word embedding. The value of these word embeddings could be learned directly during translation, but then the initialization is a crucial step since poor initialization could lead to slow converge or worse local minima \parencite{glorot2010understanding}. The situation could be even more challenging when translating with very few parallel corpora since there is no data to help the embedding layer converge to its ideal state. Hence the word embedding mapping technique above becomes appealing.
+
+\cite{Qi:2018aa} explored how effective it is by using aligned pre-trained word embeddings in an NMT system. They found that regardless of languages, alignment is useful as long as it is applied in a multilingual setting. They believe that since both the source and the target side vector spaces are already aligned, the NMT system will learn how to transform a similar fashion from the source language to the target language.
+
+Therefore, translating a completely unseen language can be viewed as the question below --- Given a vector space $Z$ that consists of aligned word embeddings $\{a_i, b_i, c_i, ...\}$, how much does the NMT system knows about an unseen language $A$ if it was only trained on the remaining languages? In theory, since the word embeddings are clustered by their semantic meanings in the same vector space $Z$, we should be able to build loose mappings between the semantic centers from both the source and the target sides. The generalization ability of the system is the key to answer this question. Hence the author conducted some preliminary experiments below.
 
 \section{Experiment Settings}
 
-To get a basic multilingual MT system running, I chose English (EN), Germen (De) and French (FR) to be my training languages. Let $C$ donate the final corpus, $l$ donates the langauge specific corpus fragment and $Z$ is the set of correspoding candidate langauges, $Z_{TRAIN} = {l_{EN}, l_{DE}, l_{FR}}$. I picked up Swedish (SV), Hungarian (HU) and Hebrew (HE) being my test languages, therefore $Z_{TEST} = {l_{SV}, l_{HU}, l_{HE}}$.
+To get a basic multilingual MT system running, the author chose English (EN), German (De), and French (FR) to be my training languages. Let $C$ donate the final corpus, $l$ donates the language-specific corpus fragment and $Z$ is the set of corresponding candidate languages, the training language set is then $Z_{TRAIN} = {l_{EN}, l_{DE}, l_{FR}}$. For the test language set, the author picked up Swedish (SV), Hungarian (HU), and Hebrew (HE) being his test languages. Therefore $Z_{TEST} = {l_{SV}, l_{HU}, l_{HE}}$.
 
-For each experiment, a basic MNMT system is trained using a training corpus  $C_{TEST}$ with all three training languages , including all six directions from the cartesian product without duplicates
+For each experiment, the author trained a basic MNMT system using a training corpus $C_{TEST}$ with all three training languages, including all six directions from the cartesian product without duplicates as below.
 
 \begin{equation}
   C_{\text{TRAIN}} = \{x \times y \mid x, y \in Z_{\text{TRAIN}} \text{ and } x \neq y\}
 \end{equation}
 
-It is tested on the test corpus with all three training languages and one of the test language, consist of bidirections of three different training language to the only test language.
+The equation below means that the MNMT system is tested on the test corpus with all three training languages and one of the test language. The test corpus consists of both translation directions of three different training language and that only test language.
 
 \begin{equation}
   C_{\text{TEST}} = \{(x, y)\cup(y,x) \mid x \in Z_{\text{TRAIN}} \text{ and } y \in Z_{\text{TEST}}\}
 \end{equation}
 
-I designed the experiments and picked up the training and target languages based on the following aspects.
+The author designed the experiments and picked up the training and target languages based on the following aspects:
 
 \subsubsection{Language Similarity}
 
-In the work \cite{Qi:2018aa} the authors mentioned their observation that pre-trained word embeddings are useful for languages from the same language family, the closer their relationship is the higher the performance improve is. For aligned word embeddings, if it is applied in a MNMT system consist of langauges from the same language family, it will also be benificial.
+In the work \cite{Qi:2018aa}, the authors mentioned their observation that pre-trained word embeddings are useful for languages from the same language family. The closer their relationship is, the higher the performance improvement is. Aligned word embeddings will also be beneficial if applied in an MNMT system consisting of languages from the same language family.
 
 \subsubsection{Shared Alphabets}
 
-In a typical word embedding based NMT system without subword encoding, it uses a word to index mapping to look up a correspoding word embedding for each word in the text, and a reverse index to word mappding to reconstruct the human readible text from its inferrencens. During the whole process, every word is treated as a whole, no subword segment is available. This is different than a Transformer system which subword encodings like BPE or sentencepiece are commonly used. Although fastText word embeddings were learned by using subword information \parencite{Bojanowski:2016aa}, in the final representation form all of the subword informatino is no longer available. Hence the NMT system could learn a rough mapping from semantics in the source language to the target language in a common vector space, it might see a big drop for distant languages that don't share a common alphabets.
+A typical word embedding-based NMT system without subword encoding uses a word to index mapping to look up corresponding word embeddings for words in the text. It also has a reversal index to word mapping to reconstruct the human-readable text from its inferences. During the process, every word is treated as a whole unit. There is no subword segmentation, unlike a Transformer system, which often applies subword encodings like BPE or Sentencepiece. Although fastText word embeddings were learned from subword information \parencite{Bojanowski:2016aa}, all of the subword information is no longer available in the final representation. Hence though the NMT system could learn a rough mapping from semantics in the source language to the target language in a common vector space, it might see a significant drop for distant languages that do not share alphabets.
 
 \subsubsection{Word Order}
 
-For a word embedding based NMT system, syntactic information lies compleetely in its hidden layer. This again differs from a Transformer system. Transformer systems learn both the lexicon, syntactic and semantic information all together in their hidden layers. Hence it remains to see how word embedding based MNMT performs on languages with different word orders, e.g. SVO versus SOV languages.
+For a word embedding based NMT system, syntactic information lies entirely in the hidden layer of the attention unit. While in Transformer based systems, learn both the lexicon, syntactic and semantic information all together in their hidden layers. Hence it remains to see how a word embedding based MNMT system performs on languages with different word orders, e.g., SVO versus SOV languages.
 
 \subsection{Corpus and Preprocessing}
 
-I used the TED talk subtitile corpus from \cite{Qi:2018aa} \footnote{\url{https://github.com/neulab/word-embeddings-for-nmt}} to train my NMT. The whole corpus has roughly 270000 sentences was splited into three parts, train, dev, test at the ratio of $0.95:0.025:0.025$.
+The author have used the TED talk subtitle corpus from \cite{Qi:2018aa} \footnote{\url{https://github.com/neulab/word-embeddings-for-nmt}} to train the MNMT. The whole corpus has roughly $\num{2.7e6}$ sentences split into three parts, train, dev, test at the ratio of $0.95:0.025:0.025$.
 
-To build up the corpus for each experiment, I have modified the original script from \cite{Qi:2018aa} and added a few customized features. In short, the script will extract the common sentence from each part of the splited corpus to form up a common intersection used in training, developing and testing. Since our experiments consists of languages that are relatively common in the TED project, this fine tuned corpus isn't too much different from the original corpus, hence the size for the train, dev and test split are still kept afterwards.
+To build up the corpus for each experiment, the author has modified the original script from \cite{Qi:2018aa} and added a few customized features. In short, the script will extract shared sentences from each part of the split corpus to form up a common intersection used in training, developing, and testing. Since the experiments consist of languages that are relatively common in the TED project, this fine-tuned corpus is not too different from the original corpus, hence after all the sizes for the train, dev, and test split were kept.
 
-For preprocessing, since the orginal TED corpus is already tokenized by Moses, I then turned all of the text into lowercases and applied a sentence lengh filter to remove any long sentence that have more than 60 word to prevent bad perfromance in training. After that, when building the i2w and w2i index for the pre-trained embeddings, I have also remove any words that are less frequent than 2 times to stop the system from overfitting with too much low-frequency words. All of the preprocess function are built upon the built-in XNMT preprocess features \parencite{Neubig:2018aa}.
+For preprocessing, since the original TED corpus is already tokenized by Moses. Then the system \cite{Neubig:2018aa} turned all of the text into lower cases and applied a sentence length filter to remove any long sentences with more than 60 words. This sentence length filter prevents inferior performance in training. After that, when building the i2w and w2i index for the pre-trained embeddings, the author has also removed any words that are less frequent than two times to stop the system from overfitting by low-frequency words. All of the preprocess functions are built upon the built-in XNMT preprocess features \parencite{Neubig:2018aa}.
 
 \subsection{Neural Network}
 
-For the neural network I used a modified version of the neural network from \cite{Qi:2018aa}, which is built with XNMT \cite{Neubig:2018aa}. I have doubled the encoding layer to a 2-layer-bidirectional LSTM network and added the accuracy score as a evaluation metric alongside the BLEU score \parencite{papineni-etal-2002-bleu}. Everything else are kept from the orignal experiment settings, including a encoder-decoder model with attention \parencite{Bahdanau:2014aa} and a beam size of $5$, trained using batch of 32 and the Adam optimizer \parencite{Kingma:2014aa}. The initial learing starts at $0.0002$ and decays by $0.5$ when development BLEU score decreases \parencite{Denkowski:2017aa}.
+The neural network is a modified version of the one from \cite{Qi:2018aa}, which is built with XNMT \cite{Neubig:2018aa}. The only change is doubling the encoding layer to a 2-layer-bidirectional LSTM network, thus having more parameters to fit the need of a multilingual scenario. Everything else is the same as the original experiment settings, including the encoder-decoder model with attention \parencite{Bahdanau:2014aa} with a beam size of $5$, trained using batches of size $32$, dropout set to $0.1$, the Adam optimizer \parencite{Kingma:2014aa} and the evaluation metric BLEU score \parencite{papineni-etal-2002-bleu}. The initial learning starts at $0.0002$ and decays by $0.5$ when development BLEU score decreases \parencite{Denkowski:2017aa}.
 
 \subsection{Embeddings}
 
-The embeddings I used are fastText aligned word embeddings\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}}. They are based on the pre-trained vectors on Wikipedia\footnote{\url{https://www.wikipedia.org/}} using fastText \parencite{Bojanowski:2016aa}. The alignment is performed using RCSLS as in \cite{Joulin:2018aa}.
+As metioned in Section \ref{sec:fasttext}, the embeddings used in the experiments are fastText aligned word embeddings\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}}. They are based on the pre-trained vectors on Wikipedia\footnote{\url{https://www.wikipedia.org/}} using fastText \parencite{Bojanowski:2016aa}. The alignment is performed using RCSLS as in \cite{Joulin:2018aa}.
 
-Each of the fastText word embedding file is language specific and contains word embeddings in 300 dimensions. I concatnated different language files To build up multilingual word embedding files for the MNMT system. If there is a shared word $w$ with two different vector values $\vec{v_a}$ and $\vec{v_b}$ in different embedding files, I will add those two vectors up and pick the average value $\vec{v_{mean}}$ as the new vector.
+Each of the fastText word embedding file is language-specific and contains word embeddings in 300 dimensions. The author concatenated different language files to build up multilingual word embedding files for the MNMT system. If there is a shared word $w$ with two different vector values $\vec{v_a}$ and $\vec{v_b}$ in different embedding files, the average value of both vectors $\vec{v_{mean}}$ will be the new vector.
 
 \begin{equation}
-  \vec{v_{mean}} = \vec{v_a} + \vec{v_b} / 2
+ \vec{v_{mean}} = (\vec{v_a} + \vec{v_b}) / 2
 \end{equation}
 
-In this way, there are possibilities that both of the unique semantic values in the two words $w_a$ and $w_b$ could lost, as there are cases that word with distant meaning share the same spelling in different languages. But it could also be argued that many word with the same spelling do have similar meaning. For example the word \verb|café| means the same thing in both English and French, as English borrowed that word from French. Later in the experiment I also tried a different approach where I treat each word as a unique word despite they might share the same spelling, both of the results are shown below.
+In this way, there are possibilities that both of the unique semantic values in the two words $w_a$ and $w_b$ could be lost, as there are cases that word with distant meaning share the same spelling in different languages. However, people could also argue that many words with the same spelling do have a similar meaning. For example, the word \verb|café| means the same thing in English and French, as English borrowed that word from French. Later in the experiment, there will also be a different attempt where the system treats each word as a unique word even though they might share the same spelling. Both of the results will be available below.
 
 \section{Results and Analysis}
 
-Before I got the results, I anticipated that among all three test languages, Swedish will get the best result and it could be on the same level as the baseline MNMT consists of EN, DE and FR only. The other two languages will not get any close to the performance of Swedish, and they could go down to less than 10 BLEU scores.
+As anticipated, Swedish will get the best result among all three test languages. Its performance could even be on the same level as the baseline MNMT consists of only the training languages --- EN, DE, and FR. The other two test languages' performance will not be close to the Swedish one, and they could be less than 10 BLEU scores.
 
 \begin{table}
   \centering
-  \begin{tabular}{c c c}
-    cell1 & cell2 & cell3 \\ 
-    cell4 & cell5 & cell6 \\  
-    cell7 & cell8 & cell9 
+  \begin{tabular}{*{6}{|l}|}
+    \hline
+    Language & BLEU & P@1 & P@2 & P@3 & P@4 \\ [0.25ex]
+    \hline\hline
+    EN+DE+FR & 29.22 & 57.30 & 34.06 & 24.09 & 16.17 \\
+    \hline
+    SV & 18.68 & 44.10 & 22.54 & 13.84 & 8.85 \\ 
+    \hline
+    HU & 1.12 & 17.65 & 1.65 & 0.44 & 0.12 \\
+    \hline
+    HE & 1.02 & 15.83 & 1.70 & 0.37 & 0.11 \\
+    \hline
   \end{tabular}
   \caption{Initial results for SV, HU and HE on the baseline system (Target language annotation only, dropout=0.3, trained on mixed language branch corpus.)}
   \label{table:initial_results}
 \end{table}
 
-However, in the results shown in Table \ref{table:initial_results}, all of the three languages got very low BLEU scores. Swedish, though it indeed was the best of three, only achieved about 3.5 BLEU score. The other two language, Hungarian and Hebrew, didnt even go abobe 1 BLEU score. The surprisingly low results made me curious and would like to check what could be improved.
+In the results shown in Table \ref{table:initial_results}, Swedish got expected results, though both Hungarian and Hebrew got unpredicted low BLEU scores. Compared with the baseline experiment, Swedish dropped about 10 points in the overall BLEU score, which is not surprising since the MNMT system has never seen the test language at all during its training process. The other two languages only achieved around 1 BLEU score, which is much lower than the previous expected 10 points. Also, as the system hardly translates neither Hungarian nor Hebrew, it is hard to tell if the difference alphabets or word order caused their poor performance.
+
+In XNMT, one can also see the individual precision score form 1 to 4 grams in the translation text. By looking at that details, all three languages had a significantly better unigram precision score than their bigram, trigram, and quadgram precision score. The bigram precision score in Swedish was about half of its unigram score. For Hungarian and Hebrew, their higher gram precision score is only about 10\% of their unigram precision score, which again indicates that the MNMT system does not fit Hungarian and Hebrew. On the other hand, the relatively better performance in the Swedish experiment could confirm that aligned word embeddings work well with languages in close language families.
 
 \subsection{Altering the Source/Target Language Annotation}
 
-The first improvement I tried is to alter the way the target langauge annotation in the source sentences. In the corpus building script I add a custom \verb|__{lang_id}__| token at the front of each source sentence as suggested in \cite{Johnson:2016aa}. A sentence in the processed source text that needs to be translated into German would look like 
+Previous initial results opened up some follow up experiments to see what could be improved. The first improvement is to alter the way the target language annotation in the source sentences, inspired by \cite{Blackwood:2018aa}. In the original corpus building script, it will add a custom \verb|__{lang_id}__| token at the front of each source sentence, as suggested by \cite{Johnson:2016aa}. A sentence in the annotated source text whose target language is German would look like 
 
 \begin{verbatim}
   __de__ And we struggle with how to deal with them .
 \end{verbatim}
 
-I added two other annotation --- the source token and source token together with the target token, into the experiments. Hence a sentence in English would look like this 
+Later two other tokens --- a single source token and a source token together with a target token, were added into the experiments. Hence a sentence in English would look like this. 
 
 \begin{verbatim}
   __en__ And we struggle with how to deal with them .
@@ -331,18 +349,26 @@ When it needs to be translated into German, the annotation would then become
 
 \begin{table}
   \centering
-  \begin{tabular}{c c c}
-    cell1 & cell2 & cell3 \\ 
-    cell4 & cell5 & cell6 \\  
-    cell7 & cell8 & cell9 
+  \begin{tabular}{*{4}{|l}|}
+  \hline
+  Languages & TGT & SRC & Full \\
+  \hline\hline
+  EN+DE+FR & 29.22 & 17.59 & 28.73 \\
+  \hline
+  SV & 18.68 & 3.43 & 4.39 \\
+  \hline
+  HU & 1.12 & 1.12 &  \\
+  \hline
+  HE & 1.02 & 1.02 &  \\
+  \hline
   \end{tabular}
-  \caption{Results for different language annotations (Target only, source only and full annotation))}
+  \caption{BLEU scores for different language annotations (Target only, source only and full annotation))}
   \label{table:altering_lang_id}
 \end{table}
 
-The results are shown in Table \ref{table:altering_lang_id}. As it shows, source token didn't change the overall result a lot but removing the target token would drastically lower the final BLEU score. This indicated that in a MNMT system, the suggestion that the source language will be learned automatically by the system during training is correct. People should only annotate the target language into the final result only.
+The results are in Table \ref{table:altering_lang_id}. The source tag did not change the overall result much, which is in line with previous claims and results \parencite{Johnson:2016aa, Blackwood:2018aa}. The difference between different langauge annotations indicated that a word embedding based MNMT system would also automatically learn the source language during training. People should only annotate the target language into the source text.
 
-\subsection{Analysising on the Effect of Language Similarity}
+\subsection{Analysis on the Effect of Language Similarity}
 
 It is anticipated that Swedish will perform better the Hungarian and Hebrew in this experiment settings. To deeper undetstand the question, I have further designed three more experiments to analysis the effect of language similarity.
 
