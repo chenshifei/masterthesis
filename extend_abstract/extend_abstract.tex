@@ -60,6 +60,16 @@ Translating a completely unseen language can be viewed as the question below ---
 
 In theory, since the word embeddings are clustered by their semantic meanings in the same vector space $Z$, we should be able to build loose mappings between the semantic centers from both the source and the target sides. The generalization ability of the system is the key to answer this question. Hence we have conducted some preliminary experiments below.
 
+\section{Multilingual Neural Machine Translation}
+
+Multilingual Neural Machine Translation (MNMT) enables translation between multiple languages in the same encoder-decoder attentional model from NMT \cite{Johnson:2016aa, Ha:2016aa}. The only modification to NMT is introducing a target language indicator at the beginning of each training sentence. Despite its simplicity over maintaining several bilingual NMT systems, it also enables zero-shot translation -- translating between an unseen language pair during the training time, which benefits low-resource languages by transferring knowledge from their high-resource relatives.
+
+\section{Cross-lingual Word Embeddings}
+
+Learned from approaches like the Skip-gram model or the CBOW model, vectorized word representations tend to cluster words with similar semantics \cite{Mikolov:2013ac}. Its ability to represent lexicons from several different languages in a shared cross-lingual space empowers cross-lingual transfer by providing word-level links between languages \cite{Ruder:2019aa}. 
+
+In theory, since the word embeddings are clustered by their semantic meanings in the same vector space $Z$, we should be able to build loose mappings between the semantic centers from both the source and the target sides. The generalization ability of the system is the key to answer this question. Hence we have conducted some preliminary experiments below.
+
 \section{Methodalogy}
 
 We picked up the training and test languages based on the following aspects:
@@ -70,7 +80,26 @@ We picked up the training and test languages based on the following aspects:
  \item Word Order
 \end{itemize}
 
-We chose English (EN), German (De), and French (FR) to be the training languages. We trained a basic MNMT system using the training corpus of all three training languages for each experiment, including all six directions from the cartesian product without duplicates. The test languages are Swedish (SV), Hungarian (HU), and Hebrew (HE).
+We chose English (EN), German (De), and French (FR) to be the training languages. We trained a basic MNMT system using the training corpus of all three training languages for each experiment, including all six directions from the cartesian product without duplicates. The test languages are Swedish (SV), Hungarian (HU), and Hebrew (HE). All of the experiment languages combinations are shown in Table \ref{table:exp_settings}.
+
+\subsection{Experiment Settings}
+
+\begin{table}
+  \centering
+  \begin{tabular}{*{2}{|l}|}
+  \hline
+  Training Corpus & Test Corpus \\ [0.25ex]
+  \hline\hline
+  EN+DE+FR & EN/DE/FR $\leftrightarrow$ SV \\
+  \hline
+  EN+DE+FR & EN/DE/FR $\leftrightarrow$ HU \\ 
+  \hline
+  EN+DE+FR & EN/DE/FR $\leftrightarrow$ HE  \\
+  \hline
+  \end{tabular}
+  \caption{Experiment Settings}
+  \label{table:exp_settings}
+\end{table}
 
 \subsection{Corpus and Preprocessing}
 
@@ -78,33 +107,33 @@ The author have used the TED talk subtitle corpus from \citet{Qi:2018aa} \footno
 
 \subsection{Neural Network}
 
-The neural network is a modified version of the one from \citet{Qi:2018aa}. The only change is doubling the encoding layer to a 2-layer-bidirectional LSTM network in order to accommodate the additional information in a multilingual scenario. Everything else is the same as the original experiment settings.
+The neural network is a modified version of the one from \citet{Qi:2018aa} which was built upon XNMT \cite{Neubig:2018aa}. The only change is doubling the encoding layer to a 2-layer-bidirectional LSTM network in order to accommodate the additional information in a multilingual scenario. Everything else is the same as the original experiment settings, including the encoder-decoder model with attention \cite{Bahdanau:2014aa} with a beam size of $5$, trained using batches of size $32$, dropout set to $0.1$, the Adam optimizer \cite{Kingma:2014aa} and the evaluation metric BLEU score \cite{papineni-etal-2002-bleu}. The initial learning starts at $0.0002$ and decays by $0.5$ when development BLEU score decreases \cite{Denkowski:2017aa}.
 
 \subsection{Embeddings}
 
 The embeddings used in the experiments are fastText aligned word embeddings\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}}. We concatenated different language files to build up multilingual word embedding files for the MNMT system. If there is a shared word $w$ with two different vector values $\vec{v_a}$ and $\vec{v_b}$ in different embedding files, the average value of both vectors $\vec{v_{mean}}$ will be the new vector.
 
-In this way, there are possibilities that both of the unique semantic values in the two words $w_a$ and $w_b$ could be lost, as there are cases that word with distant meaning share the same spelling in different languages. Later in the experiment, there will also be a different attempt where the system treats each word as a unique word even though they might share the same spelling. Both of the results will be available below.
+In this way, there are possibilities that both of the unique semantic values in the two words $w_a$ and $w_b$ could be lost, as there are cases that word with distant meaning share the same spelling in different languages. We have also tried to distinguish every word by its origin, the result turned out to be much worse. Hence we will continue by using the averaged $\vec{v_{mean}}$.
 
 \section{Prelimentary Results}
 
 \begin{table}
- \centering
- \begin{tabular}{*{6}{|l}|}
- \hline
- Language & BLEU & P@1 & P@2 & P@3 \\ [0.25ex]
- \hline\hline
- EN+DE+FR & 29.22 & 57.30 & 34.06 & 24.09 \\
- \hline
- SV & 1.48 & 16.36 & 2.32 & 0.61 \\ 
- \hline
- HU & 1.12 & 17.65 & 1.65 & 0.44 \\
- \hline
- HE & 1.02 & 15.83 & 1.70 & 0.37 \\
- \hline
- \end{tabular}
- \caption{Initial results for SV, HU and HE}
- \label{table:initial_results}
+  \centering
+  \begin{tabular}{*{6}{|l}|}
+  \hline
+  Language & BLEU & P@1 & P@2 & P@3 \\ [0.25ex]
+  \hline\hline
+  EN+DE+FR & 29.22 & 57.30 & 34.06 & 24.09 \\
+  \hline
+  SV & 1.48 & 16.36 & 2.32 & 0.61 \\ 
+  \hline
+  HU & 1.12 & 17.65 & 1.65 & 0.44 \\
+  \hline
+  HE & 1.02 & 15.83 & 1.70 & 0.37 \\
+  \hline
+  \end{tabular}
+  \caption{Initial results for SV, HU and HE}
+  \label{table:initial_results}
 \end{table}
 
 In the results shown in Table \ref{table:initial_results}, all of the three languages got low BLEU scores in contrast with the baseline experiment. Thus we suspect that the slightly better result from Swedish was primarily due to the high similarity between Swedish and the three training languages. Besides, the low BLEU scores across all three experiments might be attributed to the fact that the output vector space has already been changed during the training process. It is no longer aligned with the input word embedding space.
