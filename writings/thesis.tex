@@ -12,6 +12,7 @@
 \usepackage{listings}
 \usepackage{siunitx}
 \usepackage[boxed, noline]{algorithm2e}
+\usepackage{pgfplots}
 
 \graphicspath{ {figures/} }
 \addbibresource{thesis.bib}
@@ -253,6 +254,7 @@ To convert words into vectors to be calculated in the neural network, NMT system
 Therefore, translating a completely unseen language is to test the transferability from known languages to an unknow language. It can be viewed as the question below --- Given a vector space $Z$ that consists of aligned word embeddings $\{a_i, b_i, c_i, ...\}$, how much does the NMT system knows about an unseen language $A$ if it was only trained on the remaining languages? In theory, since the word embeddings are clustered by their semantic meanings in the same vector space $Z$, we should be able to build loose mappings between the semantic centers from both the source and the target sides. The generalization ability of the system is the key to answer this question. Hence the author conducted some preliminary experiments below.
 
 \section{Experiment Settings}
+\label{sec:initial_exp_settings}
 
 To get a basic multilingual MT system running, the author chose English (EN), German (De), and French (FR) to be the training languages. Let $C$ donate the final corpus, $l$ donates the language-specific corpus fragment and $Z$ is the set of corresponding candidate languages, the training language set is then $Z_{TRAIN} = {l_{EN}, l_{DE}, l_{FR}}$. For the test language set, the author picked up Swedish (SV), Hungarian (HU), and Hebrew (HE) being his test languages. Therefore $Z_{TEST} = {l_{SV}, l_{HU}, l_{HE}}$.
 
@@ -320,7 +322,9 @@ As anticipated, Swedish will get the best result among all three test languages.
 
 In the results shown in Table \ref{table:initial_results}, Swedish, Hungarian and Hebrew all got unpredicted low BLEU scores. The expected high perfromance from Swedish did not appear in the experiment result. All of the three languages only achieved around 1 BLEU score. Also, since the system hardly translates any of the languages, it is hard to tell the relationship between language similarity and the model's performance. Nevertheless, the relatively low results on the test languages compared with the training languages indicate that cross-lingual embeddings are not rich enough for the model transfer in machine translation. However, when it comes to a random setting with no pre-trained embeddings, we see that the translation model trained with cross-lingual embeddings performs substantially better (Avg BLEU=1.2) than a model trained with random embeddings (BLEU=0.1).
 
-In XNMT, one can also see the individual precision scores form 1 to 4 grams in the translation text. By looking at that details, all three languages had a significantly better unigram precision score than their bigram, trigram, and quadgram precision score. The bigram precision score in Swedish was about half of its unigram scores. The precison score on trigrams and quadgrams are close to 0 on all languages, which again is a sign that shows the MNMT system has little transferability from known training languages to the unknown test language.
+In XNMT, one can also see the individual precision scores form 1 to 4 grams in the translation text. By looking at that details, all three languages had a significantly better unigram precision score than their bigram, trigram, and quadgram precision score. The bigram precision score in Swedish was about half of its unigram scores. The precison score on trigrams and quadgrams are close to 0 on all languages, which again is a sign showing the MNMT system has little transferability from known training languages to an unknown test language.
+
+To increase the transferability from known languages to unknown languages, the author has tried various techniques, such as increasing dropout rate. We have observed small improvements (average 0.5 BLEU score increase), but since this technique improves the zero-shot performance at the cost of supervised translation directions \cite{Arivazhagan:2019aa}, we decided to explore other approaches in below.
 
 \section{The Effect of Source/Target Language Annotation}
 
@@ -398,32 +402,50 @@ Swedish, Danish and Norwegian have deep historical relations to each other. As a
 
 The assumption behind the word origin token is that, if the result suffers when each word differs by its origin language, the MNMT system would primarily translate by shared vocabularies between language; if its results still holds after the modificaiton, it would primarily learn translation from shared syntax information instead.
 
-The system has obtained 1.7 BLEU score on the EN+DE+FR to SV experiment. It showed that if each word is no longer allowed to be shared between languages the models's performance would dramatically decrease, hence most of the improvements were brought by the fact that Swedish, Danish and Norwegian have a large amount of common vocabluaries. On the other side, it also indicates that the system didn't learn too much syntactic information during training. Even though these languages have similar grammar structures, the system didn't catch it very well, otherwise we would see smaller BLEU score gap between the results as the close grammar relationship will be preserved in the embedding layer. The NMNT system here primarily learns lexicon translation.
+The system has obtained 1.7 BLEU score on the EN+DE+FR to SV experiment. It showed that if each word is no longer allowed to be shared between languages the models's performance would dramatically decrease, hence most of the improvements were brought by the fact that Swedish, Danish and Norwegian have a large amount of common vocabluaries. On the other side, it also indicates that the system didn't learn too much syntactic information during training. Even though these languages have similar grammar structures, the system didn't catch it very well, otherwise we would see smaller BLEU score gap between the results as the close grammar relationship will be preserved in the embedding layer. The MNMT system here primarily learns lexicon translation.
 
 \section{The Effect of the Transformed Vector Space}
 
-From the observation in the last section,  a large amount of error in the output is because the output layer of the model's decoder does not provide any mechanism to transfer the translation knowledge between languages. The layer has one entry per each word in the entire vocabulary set. The entries are activated independently, one at each time. Since the model does not see any example from the unseen test languages during the training phase, the output connections corresponding to the unseen words are down-weighted during the training phase. Hence, it is improbable for the model to output words from the unseen languages, except for those shared with the training languages.
+In addition to the low language similarity between the training languages and the test languages (except in the case of Swedish), we also hypothesis that the poor transferability is due to transformed vector space in the translation model. We believe that after a series of linear opeartion from the neural network onto the word embeddings, the output vector space is no longer aligned with the input vector space.
 
-\subsection{Methodalogy}
+The whole experiment is based on the hypothesis that our NMT system have already learned the genrally mapping between words in the source vector space and the ones in the target vector space, even though the correct word in the target word space hasn't been seen by the system during training. However since every aligned word embeddings are grouped by their semantics, the correct target word should also be around the wrong output word.
 
-The whole experiment is based on the hypothesis that our NMT system have already learned the genrally mapping between words in the source vector space and the ones in the target vector space, even though the correct word in the target word space hasn't been seen by the system during training. However since every aligned word embeddings are grouped by their semantics, the correct target word should also be around the wrong output word. In other words, our system is roughly on the right track, it just need to be fine-tuned to find the correct answer.
+By looking closely from the predicted translation in Table \ref{table:initial_results}, we have observed the contrary --- Almost non of the words in the output text got translated to the correct word in the desired languages. They were either translated into one of the training languages, or were entirely copied directly from the source text, see Appendix \ref{chap:example_output}. The BLEU score gains were from punctuations and a small collection of words shared between languages (e.g. property nouns).
 
-More specifically, in a vector space $S$ that contains both the source and target aligned word embeddings $W_s$ and $W_t$, for each $w_s\in W_s$ the system would have already learn at least one mapping to a target word $w_t \in W_t$. We are looking for other $w_t^\prime \in W_t$ that are with in a specific radius of the original $w_t$. The distance should still be relatively small that that $w_t$ and $w_t^\prime$ are both considered to be a effective translation of the source word $w_s$.
+Taking a step further, when analyze both translation directions there are other traces to support our transformed vector space hypothesis. We have conducted comparisions on both directions on the Swedish language experiment, as shown in Table \ref{table:directional_results}. When tranlsating from SV to the combined EN+DE+DA text, we could achieve almost 6 BLEU scores, which is much better than the nearly zero score when translating from the other direction. Also compared to the combined precision scores on the same experiment from Table \ref{table:language_similarity}, the results of the translation direction EN+DE+DA to SV contributed almost nothing to the combined translation performance.
 
-In theory to determine the nearyby neighbour $w_t^\prime$ we can use different kinds of metrics. Here I have chosen to use the Euclidean distance where determines the distance between $w_t$ and $w_t^\prime$ as
+\begin{table}
+  \centering
+  \begin{tabular}{|r*{5}{|l}|}
+  \hline
+  Language & BLEU & 1gram & 2gram & 3gram & 4gram \\ [0.25ex]
+  \hline\hline
+  EN+DE+DA $\rightarrow$ SV & 0.65 & 0.14 & 0.01 & 0.00 & 0.00 \\
+  \hline
+  SV $\rightarrow$ EN+DE+DA & 6.00 & 0.33 & 0.08 & 0.03 & 0.01 \\
+  \hline
+  \end{tabular}
+  \caption{Results for individual translation direction between EN+DE+DA and SV.}
+  \label{table:directional_results}
+\end{table}
+
+Thus, it is highly possible to suspect the output vectors from the model's decoder have been altered and are no longer in the same vector space as the input word embeddings. In this case, the transformed vector space has also made less sense to search for the correct word vector neighbours close to the predicted ouput vector in the output vector space. However, there opens a new possible to translate from completely unknown languages to known languages. We could perform a lexicon replacement based on the Euclidean distance between words in the unknown language and one of the known languages, then feed the processed text into a translation model which has already been trained on known languages. During the whole process, the unknown langauge remains untouched by the translation model hence it still qualifies as zero-resource translation. We will discuss the lexicon replacement process below.
+
+\subsection{Lexicon Replacement By Euclidean Distance}
+
+Suppose we now have a vector space $S$ that contains aligned word embeddings in the unknown language and the known languages, respectively. We donate them as $W_x$ and $W_k$ For each $w_x\in W_x$ there exists at least one mapping to a target word in the known languages $w_k \in W_k$. We are looking for that specific $w_k$ that are with in a specific radius of the original $w_s$. The distance should still be relatively small so that $w_s$ and $w_k$ are both considered to be a effective translation of each other.
+
+In theory to determine the nearyby neighbour $w_k$ we can use different kinds of metrics. Here the author have chosen to use the Euclidean distance where determines the distance between $w_s$ and $w_k$ as
 
 \begin{equation}
-  d(w_t, w_t^\prime)=\sqrt{\sum_{i=1}^n{(w_{t_i}-w^\prime_{t_i})}^2}
+  d(w_s, w_k)=\sqrt{\sum_{i=1}^n{(w_{s_i}-w_{k_i})}^2}
 \end{equation}
 
-\subsection{Experiment Settings}
-
-To find the output word in the correct language, we would apply cosine similarity to compare the distance between two vector words. The distance $d$ is a variable here and its value needs to be determined as well. Hence I have chosen to test the distance argument $d$ by different experiments, ranging from $d=0.25$ to $d=5$.
+The distance $d$ is a variable here and its value needs to be determined as well. Hence there are experiments to test the distance argument $d$ by different experiments, ranging from $d=0.25$ to $d=5$.
 
 The algorithm is described in Algorithm \ref{algo:subsitution}
 
 \begin{algorithm}[H]
-  \label{algo:subsitution}
   \SetAlgoLined
   \KwIn{hypothesis $H$, source language embeddings $E_s$, target language embeddings $E_t$, distance threshold $D$}
   \KwResult{Updated hypothesis $H^\prime$ with words being replaced by their neighbors in the desired language}
@@ -446,14 +468,48 @@ The algorithm is described in Algorithm \ref{algo:subsitution}
     }
   }
   \caption{Pesudo code for output hypothesis word subsitution. Each word in the NMT output hypothesis that are not in the desired language will be replaced by its cloeset neighbour in that language.}
+  \label{algo:subsitution}
 \end{algorithm}
 
-Performing a distance query on a vector space that has more than $\num{3e6}$ vectors is slow, especially when all these vectors are considered to be high dimensional vectors.  I have implemented my code by using SciPy \parencite{Virtanen:2019aa}. There are algothrims like KD-tree \parencite{Maneewongvatana:aa} that could reduce the calcualtion time for low-dimensional vectors, but for vectors that are higher than 20 dimentions it is not necessarily faster than brutal force.\footnote{As descibed on the API document, "High-dimensional nearest-neighbor queries are a substantial open problem in computer science.", \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.KDTree.html}} On the other hand, based on the Johnson–Lindenstrauss theorem \parencite{johnson1984extensions}, a vector space should have at least more than 300 dimensions to distinguish $\num{1e6}$ vectors in it. As the aligned vector space in fastText contains more than $\num{3e6}$ words, the dimensions could not be compressed any more or you are at risk of not be able to distinguish each word. All in all, the script is slow at subsitute every word in the output hypothesis into the correspoding one in the desired language.
+Performing a distance query on a vector space that has more than $\num{3e6}$ vectors is slow, especially when all these vectors are considered to be high dimensional vectors. The code was implemented with SciPy \parencite{Virtanen:2019aa}. There are algothrims like KD-tree \parencite{Maneewongvatana:aa} that could reduce the calcualtion time for low-dimensional vectors, but for vectors that are higher than 20 dimentions it is not necessarily faster than brutal force.\footnote{As descibed on the API document, "High-dimensional nearest-neighbor queries are a substantial open problem in computer science.", \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.KDTree.html}} On the other hand, based on the Johnson–Lindenstrauss theorem \parencite{johnson1984extensions}, a vector space should have at least more than 300 dimensions to distinguish $\num{1e6}$ vectors in it. As the aligned vector space in fastText contains more than $\num{3e6}$ words, the dimensions could not be compressed any more or you are at risk of not be able to distinguish each word. All in all, the script is slow at subsitute every word in the output hypothesis into the correspoding one in the desired language.
 
-\subsection{Results and Analysis}
+We have performed the lexicon replacement experiment on a SV+NO text from the same TED text corpus \parencite{Qi:2018aa}, feeded into a trained tranlsation model on the NO $\leftrightarrow$ EN+DE+DA corpus using NO as the pivot language. The BLEU scores are shown in Figure \ref{fig:target_replacement}. For comparison, we have also performed Algorithm \ref{algo:subsitution} on the output vector space to demostate the difference of applying the same algorithm on the input and the output vector space.
+
+\begin{figure}
+  \centering
+  \resizebox{0.7\columnwidth}{!}{%
+      \begin{tikzpicture}
+        \begin{axis}[
+          xlabel=d,
+          ylabel=BLEU]
+        \addplot[color=red,mark=x] coordinates {
+          (0,4.05)
+          (0.25,4.0)
+          (0.5,4.0)
+          (1,4.1)
+          (2,4.1)
+          (3,4.1)
+          (4,4.1)
+        };
+        \end{axis}
+      \end{tikzpicture}
+  }
+  \caption{BLEU scores for the lexicon replacement algorithm applied on both the input and the output vector space.}
+  \label{fig:target_replacement}
+\end{figure}
 
 \chapter{Conclusion and Future Work}
 \label{chap:conclusion}
+
+From the observation in the last section, we hypothesis that a large amount of error in the output is because the output layer of the model's decoder does not provide any mechanism to transfer the translation knowledge between languages. The layer has one entry per each word in the entire vocabulary set. The entries are activated independently, one at each time. Since the model does not see any example from the unseen test languages during the training phase, the output connections corresponding to the unseen words are down-weighted during the training phase. Hence, it is improbable for the model to output words from the unseen languages, except for those shared with the training languages.
+
+\appendix
+\chapter{Example Output from the MNMT Model}
+\label{chap:example_output}
+
+This sample output is taken from the expriment described in Section \ref{sec:initial_exp_settings}. Its perfromance result is in Table \ref{table:initial_results}.
+
+
 
 \printbibliography
 \end{document}
