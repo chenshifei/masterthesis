@@ -23,6 +23,10 @@
 % and will typically save some space.
 \usepackage{microtype}
 
+\usepackage{amsfonts}
+\usepackage{pgfplots}
+\usepackage{graphicx}
+
 \aclfinalcopy % Uncomment this line for the final submission
 %\def\aclpaperid{***} % Enter the acl Paper ID here
 
@@ -34,143 +38,223 @@
 
 \newcommand\BibTeX{B\textsc{ib}\TeX}
 
-\title{Cross-lingual Word Embeddings beyond Zero-shot Machine Traslation}
+\title{Cross-lingual Word Embeddings beyond Zero-shot Machine Translation}
 
-\author{Shifei Chen \\
- Department of Linguistics and Philology \\
+\author{Shifei Chen\\
+ Dep. of Linguistics and Philology \\
  Uppsala University \\
- \texttt{Shifei.Chen.2701@student.uu.se} \\\And
- Second Author \\
- Affiliation / Address line 1 \\
- Affiliation / Address line 2 \\
- Affiliation / Address line 3 \\
- \texttt{email@domain} \\}
+ \texttt{\small{shifei.chen.2701@student.uu.se}} \\\And
+ Ali Basirat \\
+ Dep. of Linguistics and Philology \\
+ Uppsala University \\
+ \texttt{\small{ali.basirat@lingfil.uu.se}} \\}
 
 \date{}
 
 \begin{document}
 \maketitle
 
+\begin{abstract}
+We explore the transferability of a multilingual neural machine translation model to unseen languages when the transfer is grounded solely on the cross-lingual word embeddings. Our experimental results show that the translation knowledge can transfer weakly to other languages and that the degree of transferability depends on the languages' relatedness. We also discuss the limiting aspects of the multilingual architectures that cause the weak translation transfer and suggest how to mitigate the limitations. 
+\end{abstract}
+
 \section{Introduction}
-For translating low resource languages in Neural Machine Translation (NMT), cross-lingual word embeddings have shown their potential in this task. They could either be used as external auxiliary information \cite{Conneau:2017aa, Lakew:2019aa}, or as the embedding layer directly \cite{neishi-etal-2017-bag,artetxe-etal-2017-learning}. Furthermore, with Multilingual NMT, it is possible to leverage hidden information from high resource languages to low resource languages.
+The multilingual neural machine translation (NMT) aims at training a single translation model between multiple languages \citep{Johnson:2016aa,aharoni-etal-2019-massively}.
+Among the appealing points of multilingual NMT models are their ability for zero-shot learning, to generalize and transfer a translation model to unseen language pairs \citep{Johnson:2016aa}.
+In zero-shot learning, a multilingual model trained on a set of language pairs is tested on an unseen language pair whose elements are still in the set of individual training languages.
+The knowledge in this setting is transferred across the shared parameters of the model. 
 
-Learned from approaches like the Skip-gram model or the CBOW model, vectorized word representations tend to cluster words with similar semantics. \citet{Qi:2018aa} explored how effective it is by using aligned pre-trained word embeddings in an NMT system. They found that regardless of languages, alignment is useful as long as it is applied in a multilingual setting. They believe that since both the source and the target side vector spaces are already aligned, the NMT system will learn how to transform a similar fashion from the source language to the target language. It is then interesting to see how far can aligned word embeddings could go beyond known languages. Zero-shot translation analyzed this question by testing the Multilingual NMT system on unseen language pairs --- language in either side of the translation is known to the system, but their paired combination remains unknown. In this work, we would like to take a step further to see how aligned word embeddings would work for zero-resource languages -- Languages that are entirely unseen to the Multilingual NMT.
+\citet{Kim:2019aa} argues that one of the critical components responsible for the knowledge transfer in multilingual NMT is the embedding layers which train a cross-lingual vector space for all words of the languages.
+They show that multilingual translation models can be transferred to new languages if the model's cross-lingual vector space is aligned to the new language's vector space.
+However, the success of their approach is at the cost of aligning the word vectors and retraining the new language's translation model.
 
-Translating a completely unseen language can be viewed as the question below --- Given a vector space $Z$ that consists of aligned word embeddings $\{a_i, b_i, c_i, ...\}$, how much does the NMT system knows about an unseen language $A$ if it was only trained on the rest of languages.
+This research studies the importance of word representation in the multilingual NMT transfer model in a more controlled setting based on the pre-trained cross-lingual word embeddings \citep{Bojanowski:2016aa,Ammar:2016aa,Joulin:2018aa,Ruder:2019aa}.
+More specifically, we examine the transferability of a multilingual NMT when it is applied to a new test language. 
+We use cross-lingual word embeddings as the source of transfer knowledge to the test languages and leave the translation model's shared parameters to model the interrelationships between the training languages.
+Our setting is different from the zero-shot setting of \citet{Johnson:2016aa} in the way that one of the test languages does not belong to the set of individual training languages.
+It is also different from the \citet{Kim:2019aa}'s setting, in that it does not retrain the embeddings and model parameters. 
 
-In theory, since the word embeddings are clustered by their semantic meanings in the same vector space $Z$, we should be able to build loose mappings between the semantic centers from both the source and the target sides. The generalization ability of the system is the key to answer this question. Hence we have conducted some preliminary experiments below.
+We hypothesize that a multilingual NMT model trained with pre-trained cross-lingual word embeddings should transfer reasonably to a new test language if the word representation has any role in the model's transferability.
+Our preliminary results on a set of test languages show that the translation model transfers only weakly to the unseen languages, and the amount of the transferability depends on the similarity of the test language to the training languages.
 
-\section{Multilingual Neural Machine Translation}
+\section{Related Work}
+The transferability of multilingual neural machine translation models is vital from both the theoretical and practical perspectives.
+The theoretical importance of these models come to the way that they find the correspondence between language pairs \citep{Johnson:2016aa,lu-etal-2018-neural}.
+The practical importance is due to their effective use for the translation of low-resource languages \citep{Zoph:2016aa,Nguyen:2017aa}.
+\citet{Johnson:2016aa} shows that multilingual NMT trained on a massive training set can generalize reasonably well in the zero-shot learning setting.
+This capability is further examined by \citet{aharoni-etal-2019-massively}, demonstrating that multilingual NMT models transfer better when trained on a massive training set.
+\citet{Kim:2019aa} shows that multilingual NMT models can be transferred to a new language when their embedding spaces are realigned to the embeddings of the new language.
 
-Multilingual Neural Machine Translation (MNMT) enables translation between multiple languages in the same encoder-decoder attentional model from NMT \cite{Johnson:2016aa, Ha:2016aa}. The only modification to NMT is introducing a target language indicator at the beginning of each training sentence. Despite its simplicity over maintaining several bilingual NMT systems, it also enables zero-shot translation -- translating between an unseen language pair during the training time, which benefits low-resource languages by transferring knowledge from their high-resource relatives.
+Cross-lingual word embeddings are important for the translation of low-resource languages.
+They could either be used as external auxiliary information \cite{Conneau:2017aa, Lakew:2019aa}, or as the embedding layer directly \cite{neishi-etal-2017-bag,artetxe-etal-2017-learning}.
+%Furthermore, with Multilingual NMT, it is possible to leverage hidden information from high resource languages to low resource languages.
+\citet{Qi:2018aa} explored how effective are aligned pre-trained word embeddings in an NMT system.
+They found that regardless of languages, alignment is useful as long as it is applied in a multilingual setting.
+They believe that since both the source and the target side vector spaces are already aligned, the NMT system will learn how to transform a similar fashion from the source language to the target language.
+It is then interesting to see how far can aligned word embeddings could go beyond known languages.
+Zero-shot translation analyzed this question by testing the multilingual NMT system on unseen language pairs --- language in either source or target side of the translation is known to the system, but their paired combination remains unknown.
+In this work, we would like to take a step further to see how aligned word embeddings would work for zero-resource languages -- Languages that are entirely unseen to the multilingual NMT setting.
+
+\section{Multilingual NMT}
+Multilingual Neural Machine Translation (NMT) \cite{Johnson:2016aa} extends the attentive encoder-decoder framework of NMT \citep{Bahdanau:2014aa} to translate between multiple languages simultaneously. 
+Instead of training multiple bilingual NMT models, the multilingual NMT augments the input representations with a language indicator at the beginning of each training sentence, to be trained in an end-to-end fashion. 
+Despite its simplicity, the multilingual NMT has shown significant improvement to the machine translation \citep{aharoni-etal-2019-massively} and provides for zero-shot translation -- translating between an unseen language pair during the training time, which benefits low-resource languages by transferring knowledge from their high-resource relatives \citep{Zoph:2016aa,Nguyen:2017aa}.
+
 
 \section{Cross-lingual Word Embeddings}
+Cross-lingual word embeddings represent lexicons from several different languages in a shared embedding space, providing for the word-level language transfer models and the cross-lingual study of words. 
+\citet{Ruder:2019aa} collects a survey of different approaches used to train cross-lingual word embeddings.
+One of the main approaches is to find a mapping between monolingual embeddings spaces based on a seed dictionary. The fastText cross-lingual embeddings are among the extensively used resources trained in this way, using the monolingual word embeddings of \citet{Bojanowski:2016aa} and the mapping approach of \citet{Joulin:2018aa}. 
 
-Learned from approaches like the Skip-gram model or the CBOW model, vectorized word representations tend to cluster words with similar semantics \cite{Mikolov:2013ac}. Its ability to represent lexicons from several different languages in a shared cross-lingual space empowers cross-lingual transfer by providing word-level links between languages \cite{Ruder:2019aa}. 
+\section{Experiments}
+We study the transferability of multilingual NMT based on two disjoint sets of languages to train and test a translation model.
+We interpret the BLEU score \cite{papineni-etal-2002-bleu}, and individual accuracy scores on 1-3 grams from the test languages, as the transferability measure of the translation model to the unseen test languages. That is to say; we consider high values of BLEU score and individual 1-3 gram accuracy as the goodness of the model transfer from the training languages to the test languages. The test languages remain unseen to the translation model during the training phase. 
 
-In theory, since the word embeddings are clustered by their semantic meanings in the same vector space $Z$, we should be able to build loose mappings between the semantic centers from both the source and the target sides. The generalization ability of the system is the key to answer this question. Hence we have conducted some preliminary experiments below.
+We choose English (EN), German (DE), and French (FR) as the training languages together with Swedish (SV), Hungarian (HU), and Hebrew (HE) as the test languages. The languages are selected to analyze the effect of language similarity to the model transferability. Among the test languages, Swedish is the most similar one to the training languages. Hence, it is expected to obtain a higher BLEU score on Swedish than the two other test languages if language similarity plays any role in the models' transferability. On the other hand, Hebrew should get the lowest score since it is more different from the training languages. %its unique alphabets mark it as the farthest distance from the training languages.
 
-\section{Methodalogy}
+%We choose English (EN), German (DE), and French (FR) as the training languages 
+%together with Swedish (SV), Hungarian (HU), and Hebrew (HE) as the test languages. 
+%The languages are selected to analyze the effect of language similarity to the model transferability. 
+%As previous work reported that pre-trained word embeddings are effective for languages from the same language family \cite{Qi:2018aa}. 
+%Among the test languages, Swedish is the most similar to the training languages. Hence, it is expected to obtain a higher BLEU score on Swedish than the two other test languages if language similarity plays any role in the models' transferability. On the other hand, Hebrew may get the lowest score since its unique alphabets marks its farthest distance from the training languages.
+%Concerning the shared alphabet, both Swedish and Hungarian share many letters withe the training languages, but Hebrew uses a completely different alphabet. 
+%Since pre-trained word embeddings lack subword information, we would like to know how it affects the translation performance for distant languages. SV and HU both share many of the alphabets with the training languages while HE does not share at all.
 
-We picked up the training and test languages based on the following aspects:
+%\subsection{Corpus and Preprocessing}
 
-\begin{itemize}
- \item Language Similarity
- \item Shared Alphabets
- \item Word Order
-\end{itemize}
+We used the TED talk subtitle corpus \citep{Qi:2018aa} to train, validate, and test the multilingual NMT model.\footnote{\url{https://github.com/neulab/word-embeddings-for-nmt}} 
+%In the training dataset, there are sentences from all three training languages, while in the dev and test data set there will only be translations either from or to the test language. 
+We downcase all letters in the corpora and removed sentences longer than $60$ words as well as less frequent words that appeared only once.
+The neural network is a modified version of the one from \citet{Qi:2018aa}, which was built upon XNMT \cite{Neubig:2018aa}. The only change we have made is doubling the encoding layer to a 2-layer-bidirectional LSTM network in order to accommodate the additional information in the multilingual scenario. Everything else is the same as the original experiment settings, including the encoder-decoder model with attention \cite{Bahdanau:2014aa}, beam search size of $5$, batches of size $32$, dropout at $0.1$, the Adam optimizer \cite{Kingma:2014aa}. The initial learning starts at $0.0002$ and decays by $0.5$ when the BLEU score on the development set decreases \cite{Denkowski:2017aa}.
 
-We chose English (EN), German (De), and French (FR) to be the training languages. We trained a basic MNMT system using the training corpus of all three training languages for each experiment, including all six directions from the cartesian product without duplicates. The test languages are Swedish (SV), Hungarian (HU), and Hebrew (HE). All of the experiment languages combinations are shown in Table \ref{table:exp_settings}.
+%\subsection{Embeddings}
+The fastText word embeddings are used as the source of the knowledge transfer across languages.
+\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}} 
+We concatenated the embeddings of all languages in both the training and test sets into a single file, and we used it to initialize the embedding layers of the NMT model.
+The embedding layers of the networks are kept frozen during the training to preserve the training embeddings in their original embeddings space, the same space as the test embeddings.  
+%This freezing is important because the embeddings are considered as the source of the knowledge transfer, hence 
+We use all embeddings with no change except those related to the words with the same form in multiple languages.
+The vector of these words is set to the mean vector of the individual word vectors in each language.  
+%If there is a shared word $w$ with two different vectors, the average value of both vectors $\vec{v_{mean}}$ will be the new vector.
 
-\subsection{Experiment Settings}
+%In this way, there are possibilities that both of the unique semantic values in the two words $w_a$ and $w_b$ could be lost, as there are cases that word with distant meaning share the same spelling in different languages. We have also tried to distinguish every word by its origin, the result turned out to be much worse. Hence we will continue by using the averaged $\vec{v_{mean}}$.
 
-\begin{table}
-  \centering
-  \begin{tabular}{*{2}{|l}|}
-  \hline
-  Training Corpus & Test Corpus \\ [0.25ex]
-  \hline\hline
-  EN+DE+FR & EN/DE/FR $\leftrightarrow$ SV \\
-  \hline
-  EN+DE+FR & EN/DE/FR $\leftrightarrow$ HU \\ 
-  \hline
-  EN+DE+FR & EN/DE/FR $\leftrightarrow$ HE  \\
-  \hline
-  \end{tabular}
-  \caption{Experiment Settings}
-  \label{table:exp_settings}
-\end{table}
-
-\subsection{Corpus and Preprocessing}
-
-The author have used the TED talk subtitle corpus from \citet{Qi:2018aa} \footnote{\url{https://github.com/neulab/word-embeddings-for-nmt}} to train the MNMT. We removed sentences that are longer than $60$ words for preprocessing, and less frequent words that appeared only once.
-
-\subsection{Neural Network}
-
-The neural network is a modified version of the one from \citet{Qi:2018aa} which was built upon XNMT \cite{Neubig:2018aa}. The only change is doubling the encoding layer to a 2-layer-bidirectional LSTM network in order to accommodate the additional information in a multilingual scenario. Everything else is the same as the original experiment settings, including the encoder-decoder model with attention \cite{Bahdanau:2014aa} with a beam size of $5$, trained using batches of size $32$, dropout set to $0.1$, the Adam optimizer \cite{Kingma:2014aa} and the evaluation metric BLEU score \cite{papineni-etal-2002-bleu}. The initial learning starts at $0.0002$ and decays by $0.5$ when development BLEU score decreases \cite{Denkowski:2017aa}.
-
-\subsection{Embeddings}
-
-The embeddings used in the experiments are fastText aligned word embeddings\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}}. We concatenated different language files to build up multilingual word embedding files for the MNMT system. If there is a shared word $w$ with two different vector values $\vec{v_a}$ and $\vec{v_b}$ in different embedding files, the average value of both vectors $\vec{v_{mean}}$ will be the new vector.
-
-In this way, there are possibilities that both of the unique semantic values in the two words $w_a$ and $w_b$ could be lost, as there are cases that word with distant meaning share the same spelling in different languages. We have also tried to distinguish every word by its origin, the result turned out to be much worse. Hence we will continue by using the averaged $\vec{v_{mean}}$.
-
-\section{Prelimentary Results}
-
-\begin{table}
-  \centering
-  \begin{tabular}{*{6}{|l}|}
-  \hline
-  Language & BLEU & P@1 & P@2 & P@3 \\ [0.25ex]
-  \hline\hline
-  EN+DE+FR & 29.22 & 57.30 & 34.06 & 24.09 \\
-  \hline
-  SV & 1.48 & 16.36 & 2.32 & 0.61 \\ 
-  \hline
-  HU & 1.12 & 17.65 & 1.65 & 0.44 \\
-  \hline
-  HE & 1.02 & 15.83 & 1.70 & 0.37 \\
-  \hline
-  \end{tabular}
-  \caption{Initial results for SV, HU and HE}
-  \label{table:initial_results}
-\end{table}
-
-In the results shown in Table \ref{table:initial_results}, all of the three languages got low BLEU scores in contrast with the baseline experiment. Thus we suspect that the slightly better result from Swedish was primarily due to the high similarity between Swedish and the three training languages. Besides, the low BLEU scores across all three experiments might be attributed to the fact that the output vector space has already been changed during the training process. It is no longer aligned with the input word embedding space.
-
-\subsection{Language Similarity}
-
-To validate our first assumption, we continue our experiment with more languages within the same Germanic languages branch. We have removed French and added Danish (DA), Dutch (NL), and Norwegian (NO) as the training language one by one to see how language similarity would affect the Swedish result.
+\section{Preliminary Results}
 
 \begin{table}
  \centering
- \begin{tabular}{*{6}{|l}|}
+ \begin{tabular}{|r*{4}{|l}|}
  \hline
- Language & BLEU & P@1 & P@2 & P@3 \\ [0.25ex]
+ Language & BLEU & 1gram & 2gram & 3gram \\ [0.25ex]
  \hline\hline
- EN+DE+DA & 4.05 & 28.17 & 6.56 & 2.07 \\
+ EN+DE+FR & 29.2 & 0.57 & 0.34 & 0.24 \\ %I think this line should be "Baseline", otherwise it might confuse the readers with Table 2
  \hline
- above+NL & 3.26 & 23.20 & 4.84 & 1.65 \\ 
+ SV & 1.5 & 0.16 & 0.02 & 0.00 \\ 
  \hline
- above+NO & 4.69 & 31.04 & 7.41 & 2.50 \\
+ HU & 1.1 & 0.17 & 0.02 & 0.00 \\
+ \hline
+ HE & 1.0 & 0.16 & 0.02 & 0.00 \\
  \hline
  \end{tabular}
- \caption{Results for langauge similarity. Three other Germanic languages DA, NL and NO were added one by one into the training corpus)}
+ \caption{The translation performance on the training languages (EN+DE+FR), and and each of the test languages.}
+ \label{table:initial_results}
+\end{table}
+
+Table \ref{table:initial_results} summarizes the translation performance on the test division of the training languages altogether (EN+DE+FR) and each of the test languages (SV, HU, and HE). 
+The relatively low results on the test languages compared with the training languages indicate that cross-lingual embeddings are not rich enough for the model transfer in machine translation.
+However, when it comes to a random setting with no pre-trained embeddings, we see that the translation model trained with cross-lingual embeddings performs substantially better (Avg BLEU=1.2) than a model trained with random embeddings (BLEU=0.1).
+
+%This, however, should be further examined on a larger set of languages.  
+%Besides, the low BLEU scores across all three experiments might be attributed to the fact that the output vector space has already been changed during the training process. It is no longer aligned with the input word embedding space.
+
+%\subsection{Language Similarity}
+The slightly better result on Swedish suggests that the model transfers better to similar languages. 
+We continue our experiment with more languages to further study the effect of language similarity. 
+For this purpose, we homogenize the training languages more toward Swedish by excluding French and adding Danish (DA), Dutch (NL), and Norwegian (NO) one-by-one to the training set. 
+%In this setting, all the training languages and one of the test languages, SV, belong to the Germanic family. 
+
+\begin{table}
+ \centering
+ \begin{tabular}{|r|l|l|l|l|}
+ \hline
+ Language & BLEU & 1gram & 2gram & 3gram \\ [0.25ex]
+ \hline\hline
+ EN+DE+FR & 1.5 & 0.16 & 0.02 & 0.00 \\
+ \hline
+ EN+DE+DA & 4.1 & 0.28 & 0.07 & 0.02 \\
+ \hline
+ +NL & 3.3 & 0.23 & 0.05 & 0.02 \\ 
+ \hline
+ +NO & 4.7 & 0.31 & 0.07 & 0.03 \\
+ \hline
+ \end{tabular}
+ \caption{The transfer results to Swedish.} %for language similarity. Three other Germanic languages DA, NL and NO were added one by one into the training corpus)}
  \label{table:language_similarity}
 \end{table}
 
-As shown in Table \ref{table:language_similarity}, the results confirm our assumption as the BLEU score generally grows when we add more similar languages into the training set. More specifically, we believe it is the large shared vocabulary between Swedish, Danish, and Norwegian that drove the performance increase. When we distinguish each word with its language origin, the result dropped to 1.66 BLEU score again (for the EN+DE+DA experiment, tested on language SV).
+Table~\ref{table:language_similarity} summarizes the transfer results from each of the training settings to Swedish. 
+We see that the homogeneous setting performs better than the other setting that includes French in the training set. 
+More specifically, when adding DA nad NO to the training language, both the BLEU score and individual accuracy scores are improved, while adding NL to the training language worsened the results. We speculate that the large shared vocabulary between Swedish, Danish, and Norwegian drives the performance increase. 
+When we distinguish each word with its language origin, the result dropped to 1.7 BLEU score again (for the EN+DE+DA experiment, tested on language SV).
+This observation further strengthens the effect of the shared vocabulary on transfer learning. 
 
-\subsection{Transformed Vector Space}
+%\subsection{Transformed Vector Space}
+\subsection{Discussion}
+Our preliminary results on the transferability of multilingual NMT models to unseen languages show that these models can transfer weakly to completely unseen languages if the transfer learning is grounded on the cross-lingual word embeddings. 
+One reason for the weak translation transfer across languages is that the output space of the model's decoder is not aligned to the cross-lingual embeddings' space. This is because of the many transformations applied to the input vectors during the translation process. It can be seen if we compare the BLUE score for each side of the translations, say SV$\to$EN+DE+DA versus EN+DE+DA$\to$SV. We get a relatively higher BLEU score of 6.0, when translating from the unseen language (SV$\to$EN+DE+DA), but almost no translation (BLUE=1.0) is performed on the opposite direction when translating to the test language (EN+DE+DA$\to$SV). 
 
-Furthermore, we have observed a large amount of error in the output was due to the incorrect output language. We designed our translation system on the hypothesis that it would learn the general mapping between words in the source vector space and the ones in the target vector space, even though the system has not seen the correct word in the target word space during training. However, since their semantics groups every aligned word embeddings, the correct target word should also be around the wrong output word, as long as the input and output space is the same. We performed a target word replacement experiment where each target word in the wrong language $w_t$ will be replaced by its nearest neighbor $w_t^\prime$ in the correct language, based on their Euclidean distance $d$
+Furthermore, a large amount of error in the output is because the output layer of the model's decoder does not provide any mechanism to transfer the translation knowledge between languages. The layer has one entry per each word in the entire vocabulary set. The entries are activated independently, one at each time. Since the model does not see any example from the unseen test languages during the training phase, the output connections corresponding to the unseen words are down-weighted during the training phase. Hence, it is improbable for the model to output words from the unseen languages, except for those shared with the training languages. %This explains why the model transfer perform better when translating from an unseen language to a seen language than the other way around. 
 
-\begin{equation}
- d(w_t, w_t^\prime)=\sqrt{\sum_{i=1}^n{(w_{t_i}-w^\prime_{t_i})}^2}
-\end{equation}
+The above discussion suggests that the multilingual NMT architecture of \citet{Johnson:2016aa} might transfer better to unseen languages if the decoder and the encoder embeddings are in the same vector spaces. A simple way to reach such an alignment between the two embedding spaces is to add a regularization cost based on the divergence of the two spaces from each other to the loss function of the multilingual model. We consider this as a future step for this research. Another potential step to be explored in the future is to provide the translation model with information about the language relatedness e.g., to use language embeddings \citep{littell-etal-2017-uriel} together with the cross-lingual embeddings. Moreover, a more in-depth error analysis is required to address the other potential limitations of the multilingual model transfer based on the cross-lingual embeddings. 
 
-The distance $d$ is a variable here, and its value needs to be determined as well. Hence I have chosen to test the distance argument $d$ by different experiments, ranging from $d=0.25$ to $d=4$. Results in Table \ref{table:target_replacement} are based on the output from the previous EN+DE+DA experiment. Baseline stands for no substitution.
+Finally, we would like to emphasize that this is still an ongoing research and some caveats about the results. We examine the translation transfer on a relatively small set of languages with a more in-depth analysis of only one language. It will be interesting to consider a more extensive language set and study how the model transfer perform in different language families. We have tested only one set of cross-lingual embeddings. Although we believe it is unlikely to see marginally different results from other sets of embeddings (especially when it comes to conventional word vectors), it is still worth exploring how other sets of embeddings (e.g., the multilingual contextualized cross-lingual embeddings \cite{devlin-etal-2019-bert} and the multilingual sub-word embeddings \cite{heinzerling2018bpemb}) perform in this scenario. 
 
+%relied on cross-lingual word embeddings does not transfer well to unseen languages. One of the limiting point of this architecture is its output 
+
+\if0
+%due to the incorrect output language. We designed our translation system on the hypothesis that it would learn the general mapping between words in the source vector space and the ones in the target vector space, even though the system has not seen the correct word in the target word space during training. However, since their semantics group every aligned word embeddings, the distance between the correct and the wrong output word should also be small, as long as they are in the same vector space. 
+To mitigate the issue in the decoder's output, we performed a unseen word replacement experiment where each word on the output layer is replaced by its nearest neighbor in the unseen language, based on their Euclidean distance $d$ in the initial cross-lingual embedding space. 
+%Figure~\ref{table:target_replacement} shows the result of the target word replacement with different values of $d$.  
+We get a minor improvement of $0.1$ from $d>1$ over the original translation output ($d=0)$. 
+%The 0.07 BLEU score showed that our target word replacement is not effective. 
+This is again because the decoder's embeddings are not in the same space as the input ones, hence it does not make sense to calculate the distance as we did. 
+
+Looking more closely, we have observed a performance gap in different translation directions. The BLEU score for translation from EN+DE+FR to SV was nearly 0, while translating from SV to EN+DE+FR the BLEU score was about 6 points. The different BLEU scores confirmed that the output vector space has already been transformed into one another and is no longer aligned to the original input word embedding space. Hence, to build a Multilingual NMT system for completely unseen languages using aligned word embeddings, we need to explore more sophisticated linear transformation on the output vector space in the future.
+
+%wrong language $w_t$ will be replaced by its nearest neighbor $w_t^\prime$ in the correct language, based on their Euclidean distance $d$
+%\begin{equation}
+% d(w_t, w_t^\prime)=\sqrt{\sum_{i=1}^n{(w_{t_i}-w^\prime_{t_i})}^2}
+%\end{equation}
+
+%The distance $d$ is a variable here, and its value needs to be determined as well. 
+%Hence we have chosen to test the distance argument $d$ by different experiments, ranging from $d=0.25$ to $d=4$. Results in Table \ref{table:target_replacement} are based on the output from the previous EN+DE+DA experiment. Baseline stands for no substitution.
+
+\if0
+\begin{figure}
+    \centering
+    \resizebox{0.7\columnwidth}{!}{%
+        \begin{tikzpicture}
+        	\begin{axis}[
+        		xlabel=d,
+        		ylabel=BLEU]
+        	\addplot[color=red,mark=x] coordinates {
+        		(0,4.05)
+        		(0.25,4.0)
+        		(0.5,4.0)
+        		(1,4.1)
+        		(2,4.1)
+        		(3,4.1)
+        		(4,4.1)
+        	};
+        	\end{axis}
+        \end{tikzpicture}
+    }
+    \caption{Caption}
+    \label{fig:mtarget_replacement}
+\end{figure}
+\fi
+
+\if0
 \begin{table}
  \centering
  \begin{tabular}{*{2}{|l}|}
@@ -195,8 +279,12 @@ The distance $d$ is a variable here, and its value needs to be determined as wel
  \caption{Initial results for SV, HU and HE}
  \label{table:target_replacement}
 \end{table}
+\fi
 
-From Table \ref{table:target_replacement} we saw minor improvements over the original translation output. The 0.07 BLEU score showed that our target word replacement is not effective. It also confirmed that the output vector space has already been transformed into one another and is no longer aligned to the original input word embedding space. Hence, to build a Multilingual NMT system for completely unseen languages using aligned word embeddings, we need to explore more sophisticated linear transformation on the output vector space in the future.
+From Table \ref{table:target_replacement} we saw minor improvements over the original translation output. The 0.07 BLEU score showed that our target word replacement is not effective. Looking more closely, we have observed a performance gap in different translation directions. The BLEU score for translation from EN+DE+FR to SV was nearly 0, while translating from SV to EN+DE+FR the BLEU score was about 6 points. The different BLEU scores confirmed that the output vector space has already been transformed into one another and is no longer aligned to the original input word embedding space. Hence, to build a Multilingual NMT system for completely unseen languages using aligned word embeddings, we need to explore more sophisticated linear transformation on the output vector space in the future.
+\fi
+
+
 
 \bibliographystyle{acl_natbib}
 \bibliography{thesis}

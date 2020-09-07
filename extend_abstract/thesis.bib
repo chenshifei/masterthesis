@@ -7,6 +7,43 @@
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+@inproceedings{aharoni-etal-2019-massively,
+  title = "Massively Multilingual Neural Machine Translation",
+  author = "Aharoni, Roee  and Johnson, Melvin  and Firat, Orhan",
+  booktitle = "Proceedings of the 2019 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)",
+  month = jun,
+  year = "2019",
+  address = "Minneapolis, Minnesota",
+  publisher = "Association for Computational Linguistics",
+  url = "https://www.aclweb.org/anthology/N19-1388",
+  doi = "10.18653/v1/N19-1388",
+  pages = "3874--3884",
+  abstract = "Multilingual Neural Machine Translation enables training a single model that supports translation from multiple source languages into multiple target languages. We perform extensive experiments in training massively multilingual NMT models, involving up to 103 distinct languages and 204 translation directions simultaneously. We explore different setups for training such models and analyze the trade-offs between translation quality and various modeling decisions. We report results on the publicly available TED talks multilingual corpus where we show that massively multilingual many-to-many models are effective in low resource settings, outperforming the previous state-of-the-art while supporting up to 59 languages in 116 translation directions in a single model. Our experiments on a large-scale dataset with 103 languages, 204 trained directions and up to one million examples per direction also show promising results, surpassing strong bilingual baselines and encouraging future work on massively multilingual NMT.",
+}
+
+@article{fasttext,
+  title={Enriching Word Vectors with Subword Information},
+  author={Bojanowski, Piotr and Grave, Edouard and Joulin, Armand and Mikolov, Tomas},
+  journal={Transactions of the Association for Computational Linguistics},
+  volume={5},
+  year={2017},
+  issn={2307-387X},
+  pages={135--146}
+}
+
+@inproceedings{lu-etal-2018-neural,
+  title = "A neural interlingua for multilingual machine translation",
+  author = "Lu, Yichao  and Keung, Phillip  and Ladhak, Faisal  and Bhardwaj, Vikas  and Zhang, Shaonan  and Sun, Jason",
+  booktitle = "Proceedings of the Third Conference on Machine Translation: Research Papers",
+  month = oct,
+  year = "2018",
+  address = "Brussels, Belgium",
+  publisher = "Association for Computational Linguistics",
+  url = "https://www.aclweb.org/anthology/W18-6309",
+  doi = "10.18653/v1/W18-6309",
+  pages = "84--92",
+  abstract = "We incorporate an explicit neural interlingua into a multilingual encoder-decoder neural machine translation (NMT) architecture. We demonstrate that our model learns a language-independent representation by performing direct zero-shot translation (without using pivot translation), and by using the source sentence embeddings to create an English Yelp review classifier that, through the mediation of the neural interlingua, can also classify French and German reviews. Furthermore, we show that, despite using a smaller number of parameters than a pairwise collection of bilingual NMT models, our approach produces comparable BLEU scores for each language pair in WMT15.",
+}
 
 @article{Arthur:2016aa,
 	Abstract = {Neural machine translation (NMT) often makes mistakes in translating low-frequency content words that are essential to understanding the meaning of the sentence. We propose a method to alleviate this problem by augmenting NMT systems with discrete translation lexicons that efficiently encode translations of these low-frequency words. We describe a method to calculate the lexicon probability of the next word in the translation candidate by using the attention vector of the NMT model to select which source word lexical probabilities the model should focus on. We test two methods to combine this probability with the standard NMT probability: (1) using it as a bias, and (2) linear interpolation. Experiments on two corpora show an improvement of 2.0-2.3 BLEU and 0.13-0.44 NIST score, and faster convergence time.},
@@ -455,7 +492,7 @@
 	Month = {11},
 	Title = {Google's Multilingual Neural Machine Translation System: Enabling Zero-Shot Translation},
 	Url = {https://arxiv.org/pdf/1611.04558.pdf},
-	Year = {2016},
+	Year = {2017},
 	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNjExLjA0NTU4LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNjExLjA0NTU4LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTYxMS4wNDU1OC5wZGYADgAeAA4AMQA2ADEAMQAuADAANAA1ADUAOAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE2MTEuMDQ1NTgucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
 	Bdsk-Url-1 = {https://arxiv.org/abs/1611.04558}}
 
