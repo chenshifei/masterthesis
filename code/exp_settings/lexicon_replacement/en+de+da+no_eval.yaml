@@ -1,0 +1,19 @@
+en+de+da+no_eval: !LoadSerialized
+  filename: output/en+de+da+no_lexicon_replacement/en+de+da+no.mod
+  overwrite:
+    - path: preproc
+      val: null
+    - path: train
+      val: null
+    - path: status
+      val: null
+    - path: model.src_embedder.vocab
+      val: !Vocab
+        vocab_file: '{DATA_OUT}/train.src.vocab'
+    - path: model.decoder.embedder.vocab
+      val: !Vocab
+        vocab_file: '{DATA_OUT}/train.tgt.vocab'
+    - path: evaluate.0.src_file
+      val: '{DATA_OUT}/test.tok.norm.src.sv'
+    - path: evaluate.0.perform_inference
+      val: False

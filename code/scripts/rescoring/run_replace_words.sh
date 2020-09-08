@@ -29,8 +29,16 @@ source thesis_env/bin/activate
 
 cd scripts/rescoring
 
-python3 replace_words.py ../../output/en+de+da+sv_rescoring.test_hyp ../../embeddings/wiki.en+de+da+sv.align.vec ../../embeddings/wiki.sv.align.vec --output ../../output/en+de+da+sv_rescoring.filtered.0.test_hyp --threshold 0
+python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.0 --threshold 0
 
-# python3 replace_words.py ../../output/en+de+da+sv_rescoring.test_hyp ../../embeddings/wiki.en+de+da+sv.align.vec ../../embeddings/wiki.sv.align.vec --output ../../output/en+de+da+sv_rescoring.filtered.4.test_hyp --threshold 0.5
+# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.0.25 --threshold 0.25
 
-# python3 replace_words.py ../../output/en+de+da+sv_rescoring.test_hyp ../../embeddings/wiki.en+de+da+sv.align.vec ../../embeddings/wiki.sv.align.vec --output ../../output/en+de+da+sv_rescoring.filtered.5.test_hyp --threshold 0.25
+# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.0.5 --threshold 0.5
+
+# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.1 --threshold 1
+
+# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.2 --threshold 2
+
+# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.3 --threshold 3
+
+# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.3 --threshold 3

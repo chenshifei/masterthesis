@@ -1,5 +1,6 @@
 import argparse
 import string
+import re
 import numpy as np
 from itertools import islice
 from scipy import spatial
@@ -22,6 +23,8 @@ def replace_words(hyp_path, output_path, src_emb_path, tgt_emb_path):
     with open(output_path, 'w') as output_file:
         with open(hyp_path, encoding='utf8') as hyp_file:
             for line in hyp_file:
+                if ARGS.langid and line.startswith(ARGS.langid):
+                    continue
                 result = _replace_words_in_line(line, src_emb, tgt_emb, tree)
                 output_file.write(result + '\n')
 
@@ -46,6 +49,8 @@ def _replace_words_in_line(line, src_emb, tgt_emb, tree):
 def _should_skip_replacement(word, src_emb):
     if len(word) <= 1 and word in string.punctuation:
         return True
+    elif re.match(r'__[a-zA-Z]{2}__', word):
+        return True
     elif word == '<unk>':
         return True
     elif src_emb.get(word) is None:
@@ -59,6 +64,7 @@ parser.add_argument('hyp', help='Path to the hypothesis translation output')
 parser.add_argument('src_emb', help='Path to the embedding file where the translation hypothesis was inferred')
 parser.add_argument('tgt_emb', help='Path to the embedding file whose word vectors the inferred translation word should be compared with')
 parser.add_argument('--threshold', help='Minimum distance threshold between two word embddings so that they are considered to be equivalent. Set it to 0 to disable threshold. Default = 2.', default=2, type=float)
+parser.add_argument('--langid', help='Specify the language to be replaced. Useful for process translation input source.')
 parser.add_argument('--output',
                     help='Path to the output file, default = filtered.test_hyp',
                     default='filtered.test_hyp')
