@@ -1,12 +1,46 @@
 %% This BibTeX bibliography file was created using BibDesk.
 %% https://bibdesk.sourceforge.io/
 
-%% Created for Shifei Chen at 2020-08-25 10:47:08 +0200 
+%% Created for Shifei Chen at 2020-09-09 14:47:31 +0200 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@inproceedings{aharoni-etal-2019-massively,
+	Abstract = {Multilingual Neural Machine Translation enables training a single model that supports translation from multiple source languages into multiple target languages. We perform extensive experiments in training massively multilingual NMT models, involving up to 103 distinct languages and 204 translation directions simultaneously. We explore different setups for training such models and analyze the trade-offs between translation quality and various modeling decisions. We report results on the publicly available TED talks multilingual corpus where we show that massively multilingual many-to-many models are effective in low resource settings, outperforming the previous state-of-the-art while supporting up to 59 languages in 116 translation directions in a single model. Our experiments on a large-scale dataset with 103 languages, 204 trained directions and up to one million examples per direction also show promising results, surpassing strong bilingual baselines and encouraging future work on massively multilingual NMT.},
+	Address = {Minneapolis, Minnesota},
+	Author = {Aharoni, Roee and Johnson, Melvin and Firat, Orhan},
+	Booktitle = {Proceedings of the 2019 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)},
+	Date-Added = {2020-09-09 14:21:55 +0200},
+	Date-Modified = {2020-09-09 14:21:55 +0200},
+	Doi = {10.18653/v1/N19-1388},
+	Month = jun,
+	Pages = {3874--3884},
+	Publisher = {Association for Computational Linguistics},
+	Title = {Massively Multilingual Neural Machine Translation},
+	Url = {https://www.aclweb.org/anthology/N19-1388},
+	Year = {2019},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/N19-1388},
+	Bdsk-Url-2 = {https://doi.org/10.18653/v1/N19-1388}}
+
+@inproceedings{lu-etal-2018-neural,
+	Abstract = {We incorporate an explicit neural interlingua into a multilingual encoder-decoder neural machine translation (NMT) architecture. We demonstrate that our model learns a language-independent representation by performing direct zero-shot translation (without using pivot translation), and by using the source sentence embeddings to create an English Yelp review classifier that, through the mediation of the neural interlingua, can also classify French and German reviews. Furthermore, we show that, despite using a smaller number of parameters than a pairwise collection of bilingual NMT models, our approach produces comparable BLEU scores for each language pair in WMT15.},
+	Address = {Brussels, Belgium},
+	Author = {Lu, Yichao and Keung, Phillip and Ladhak, Faisal and Bhardwaj, Vikas and Zhang, Shaonan and Sun, Jason},
+	Booktitle = {Proceedings of the Third Conference on Machine Translation: Research Papers},
+	Date-Added = {2020-09-09 14:19:44 +0200},
+	Date-Modified = {2020-09-09 14:19:44 +0200},
+	Doi = {10.18653/v1/W18-6309},
+	Month = oct,
+	Pages = {84--92},
+	Publisher = {Association for Computational Linguistics},
+	Title = {A neural interlingua for multilingual machine translation},
+	Url = {https://www.aclweb.org/anthology/W18-6309.pdf},
+	Year = {2018},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy93MTgtNjMwOS5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8MdzE4LTYzMDkucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOncxOC02MzA5LnBkZgAOABoADAB3ADEAOAAtADYAMwAwADkALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy93MTgtNjMwOS5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/W18-6309}}
 
 @article{Arthur:2016aa,
 	Abstract = {Neural machine translation (NMT) often makes mistakes in translating low-frequency content words that are essential to understanding the meaning of the sentence. We propose a method to alleviate this problem by augmenting NMT systems with discrete translation lexicons that efficiently encode translations of these low-frequency words. We describe a method to calculate the lexicon probability of the next word in the translation candidate by using the attention vector of the NMT model to select which source word lexical probabilities the model should focus on. We test two methods to combine this probability with the standard NMT probability: (1) using it as a bias, and (2) linear interpolation. Experiments on two corpora show an improvement of 2.0-2.3 BLEU and 0.13-0.44 NIST score, and faster convergence time.},
@@ -488,10 +522,10 @@
 	Bdsk-Url-1 = {https://arxiv.org/abs/1312.6173}}
 
 @article{Kim:2019aa,
-	Abstract = {Transfer learning or multilingual model is essential for low-resource neural machine translation (NMT), but the applicability is limited to cognate languages by sharing their vocabularies. This paper shows effective techniques to transfer a pre-trained NMT model to a new, unrelated language without shared vocabularies. We relieve the vocabulary mismatch by using cross-lingual word embedding, train a more language-agnostic encoder by injecting artificial noises, and generate synthetic data easily from the pre-training data without back-translation. Our methods do not require restructuring the vocabulary or retraining the model. We improve plain NMT transfer by up to +5.1% BLEU in five low-resource translation tasks, outperforming multilingual joint training by a large margin. We also provide extensive ablation studies on pre-trained embedding, synthetic data, vocabulary size, and parameter freezing for a better understanding of NMT transfer.},
+	Abstract = {Transfer learning or multilingual model is essential for low-resource neural machine translation (NMT), but the applicability is limited to cognate languages by sharing their vocabularies. This paper shows effective techniques to transfer a pre-trained NMT model to a new, unrelated language without shared vocabularies. We relieve the vocabulary mismatch by using cross-lingual word embedding, train a more language-agnostic encoder by injecting artificial noises, and generate synthetic data easily from the pre-training data without back-translation. Our methods do not require restructuring the vocabulary or retraining the model. We improve plain NMT transfer by up to +5.1\% BLEU in five low-resource translation tasks, outperforming multilingual joint training by a large margin. We also provide extensive ablation studies on pre-trained embedding, synthetic data, vocabulary size, and parameter freezing for a better understanding of NMT transfer.},
 	Author = {Yunsu Kim and Yingbo Gao and Hermann Ney},
 	Date-Added = {2020-06-03 18:27:16 +0200},
-	Date-Modified = {2020-06-03 18:27:16 +0200},
+	Date-Modified = {2020-09-09 14:37:09 +0200},
 	Eprint = {1905.05475},
 	Month = {05},
 	Title = {Effective Cross-lingual Transfer of Neural Machine Translation Models without Shared Vocabularies},
@@ -791,7 +825,7 @@
 		<key>group name</key>
 		<string>Machine Translation</string>
 		<key>keys</key>
-		<string>Johnson:2016aa,Conneau:2017aa,Kim:2019aa,Baziotis:2020aa,Ha:2017aa,Lakew:2018aa,Arivazhagan:2019aa,Lakew:2019aa,Ha:2016aa,Lakew:2018ab,Firat:2016aa,Blackwood:2018aa,Vaswani:2017aa,Koehn:2017aa,Nguyen:2017aa,Zoph:2016aa,Arthur:2016aa</string>
+		<string>Johnson:2016aa,Conneau:2017aa,Kim:2019aa,Baziotis:2020aa,Ha:2017aa,Lakew:2018aa,Arivazhagan:2019aa,Lakew:2019aa,Ha:2016aa,Lakew:2018ab,Firat:2016aa,Blackwood:2018aa,Vaswani:2017aa,Koehn:2017aa,Nguyen:2017aa,Zoph:2016aa,Arthur:2016aa,lu-etal-2018-neural,aharoni-etal-2019-massively</string>
 	</dict>
 	<dict>
 		<key>group name</key>

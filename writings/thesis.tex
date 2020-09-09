@@ -27,8 +27,7 @@
 \maketitle
 
 \begin{abstract}
-  The concept of \emph{palindromes} is introduced, and some method for
-  finding palindromes is developed.
+  We explore the transferability of a multilingual neural machine translation model to unseen languages when the transfer is grounded solely on the cross-lingual word embeddings. Our experimental results show that the translation knowledge can transfer weakly to other languages and that the degree of transferability depends on the languages' relatedness. We also discuss the limiting aspects of the multilingual architectures that cause the weak translation transfer and suggest how to mitigate the limitations. 
 \end{abstract}
 
 \tableofcontents
@@ -48,9 +47,13 @@ Last but not least, I would like to say a thank you to my parents for their unco
 
 \chapter{Introduction}
 
-Palindromes are fun. I've tried to find some.
-In Chapter \ref{chap:prev} previous work is reviewed, and
-Chapter \ref{chap:results} is about my results.
+The multilingual neural machine translation (NMT) aims at training a single translation model between multiple languages \parencite{Johnson:2016aa,aharoni-etal-2019-massively}. Among the appealing points of multilingual NMT models are their ability for zero-shot learning, to generalize and transfer a translation model to unseen language pairs \parencite{Johnson:2016aa}. In zero-shot learning, a multilingual model trained on a set of language pairs is tested on an unseen language pair whose elements are still in the set of individual training languages. The knowledge in this setting is transferred across the shared parameters of the model. 
+
+\cite{Kim:2019aa} argues that one of the critical components responsible for the knowledge transfer in multilingual NMT is the embedding layers which train a cross-lingual vector space for all words of the languages. They show that multilingual translation models can be transferred to new languages if the model's cross-lingual vector space is aligned to the new language's vector space. However, the success of their approach is at the cost of aligning the word vectors and retraining the new language's translation model.
+
+This research studies the importance of word representation in the multilingual NMT transfer model in a more controlled setting based on the pre-trained cross-lingual word embeddings \parencite{Bojanowski:2016aa,Ammar:2016aa,Joulin:2018aa,Ruder:2019aa}. More specifically, we examine the transferability of a multilingual NMT when it is applied to a new test language.  We use cross-lingual word embeddings as the source of transfer knowledge to the test languages and leave the translation model's shared parameters to model the interrelationships between the training languages. Our setting is different from the zero-shot setting of \cite{Johnson:2016aa} in the way that one of the test languages does not belong to the set of individual training languages. It is also different from the \cite{Kim:2019aa}'s setting, in that it does not retrain the embeddings and model parameters. 
+
+We hypothesize that a multilingual NMT model trained with pre-trained cross-lingual word embeddings should transfer reasonably to a new test language if the word representation has any role in the model's transferability. Our preliminary results on a set of test languages show that the translation model transfers only weakly to the unseen languages, and the amount of the transferability depends on the similarity of the test language to the training languages.
 
 \chapter{Background}
 \label{chap:background}
@@ -228,9 +231,12 @@ For NMT systems focused on low resource language, \cite{Qi:2018aa} looked into t
 
 Moreover, aligned word embeddings do not work well for morphologically rich languages such as Russian and Belarusian. \cite{Qi:2018aa} argues that this may be mainly due to the sparsity in the word embeddings files. Plus, most of the previous works target zero-shot language pairs, not on completely unseen languages. For language pairs $A \rightarrow \text{EN}$ and $\text{EN} \rightarrow B$, they are all interested in the unseen language pair $A \rightarrow B$. For language pairs that include an unseen language $C$, whether it is on the source side, or the target side, it remains to see how universal word embeddings could help translate in this scenario.
 
-\chapter{Previous Work}
-\label{chap:previous}
+\section{Previous Work}
+\label{sec:previous_work}
 
+The transferability of multilingual neural machine translation models is vital from both the theoretical and practical perspectives. The theoretical importance of these models come to the way that they find the correspondence between language pairs \parencite{Johnson:2016aa,lu-etal-2018-neural}. The practical importance is due to their effective use for the translation of low-resource languages \parencite{Zoph:2016aa,Nguyen:2017aa}. \cite{Johnson:2016aa} shows that multilingual NMT trained on a massive training set can generalize reasonably well in the zero-shot learning setting. This capability is further examined by \cite{aharoni-etal-2019-massively}, demonstrating that multilingual NMT models transfer better when trained on a massive training set. \cite{Kim:2019aa} shows that multilingual NMT models can be transferred to a new language when their embedding spaces are realigned to the embeddings of the new language.
+
+Cross-lingual word embeddings are important for the translation of low-resource languages. They could either be used as external auxiliary information \parencite{Conneau:2017aa,Lakew:2019aa}, or as the embedding layer directly \parencite{neishi-etal-2017-bag,artetxe-etal-2017-learning}. \cite{Qi:2018aa} explored how effective are aligned pre-trained word embeddings in an NMT system. They found that regardless of languages, alignment is useful as long as it is applied in a multilingual setting. They believe that since both the source and the target side vector spaces are already aligned, the NMT system will learn how to transform a similar fashion from the source language to the target language. It is then interesting to see how far can aligned word embeddings could go beyond known languages. Zero-shot translation analyzed this question by testing the multilingual NMT system on unseen language pairs --- language in either source or target side of the translation is known to the system, but their paired combination remains unknown. In this work, we would like to take a step further to see how aligned word embeddings would work for zero-resource languages -- Languages that are entirely unseen to the multilingual NMT setting.
 
 \chapter{Methodalogy}
 \label{chap:method}
