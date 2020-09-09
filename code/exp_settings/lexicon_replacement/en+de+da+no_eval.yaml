@@ -15,5 +15,5 @@ en+de+da+no_eval: !LoadSerialized
         vocab_file: '{DATA_OUT}/train.tgt.vocab'
     - path: evaluate.0.src_file
       val: '{DATA_OUT}/test.tok.norm.src.sv'
-    - path: evaluate.0.perform_inference
-      val: False
+    - path: evaluate.0.ref_file
+      val: '{DATA_OUT}/test.tok.norm.tgt.sv'
