@@ -28,7 +28,8 @@ def replace_words(hyp_path, output_path, src_emb_path, tgt_emb_path):
                     result = line
                 else:
                     result = _replace_words_in_line(line, src_emb, tgt_emb, tree)
-                output_file.write(result + '\n')
+                    result += '\n'
+                output_file.write(result)
 
 def _replace_words_in_line(line, src_emb, tgt_emb, tree):
     result = []

@@ -31,14 +31,14 @@ cd scripts/rescoring
 
 python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.0 --threshold 0 --langid __sv__
 
-# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.0.25 --threshold 0.25 --langid __sv__
+python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.0.25 --threshold 0.25 --langid __sv__
 
-# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.0.5 --threshold 0.5 --langid __sv__
+python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.0.5 --threshold 0.5 --langid __sv__
 
-# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.1 --threshold 1 --langid __sv__
+python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.1 --threshold 1 --langid __sv__
 
-# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.2 --threshold 2 --langid __sv__
+python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.2 --threshold 2 --langid __sv__
 
-# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.3 --threshold 3 --langid __sv__
+python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.3 --threshold 3 --langid __sv__
 
-# python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.3 --threshold 3 --langid __sv__
+python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.3 --threshold 3 --langid __sv__
