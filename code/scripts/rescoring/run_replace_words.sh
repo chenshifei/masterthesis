@@ -41,4 +41,4 @@ python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en
 
 python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.3 --threshold 3 --langid __sv__
 
-python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.3 --threshold 3 --langid __sv__
+python3 replace_words.py ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv ../../embeddings/wiki.sv.align.vec ../../embeddings/wiki.no.align.vec --output ../../corpus/preproc/lexicon_replacement/en+de+da+no_en+de+da+no/test.tok.norm.src.sv.4 --threshold 4 --langid __sv__

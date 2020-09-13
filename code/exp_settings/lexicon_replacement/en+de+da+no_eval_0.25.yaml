@@ -1,4 +1,4 @@
-en+de+da+no_eval: !LoadSerialized
+en+de+da+no_eval_0.25: !LoadSerialized
   filename: output/en+de+da+no_lexicon_replacement/en+de+da+no.mod
   overwrite:
     - path: preproc
@@ -14,6 +14,6 @@ en+de+da+no_eval: !LoadSerialized
       val: !Vocab
         vocab_file: '{DATA_OUT}/train.tgt.vocab'
     - path: evaluate.0.src_file
-      val: '{DATA_OUT}/test.tok.norm.src.sv.0'
+      val: '{DATA_OUT}/test.tok.norm.src.sv.0.25'
     - path: evaluate.0.ref_file
       val: '{DATA_OUT}/test.tok.norm.tgt.sv'

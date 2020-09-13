@@ -30,4 +30,10 @@ source thesis_env/bin/activate
 
 export DEFAULT_REPORT_PATH="output/reports/{EXP}"
 
-xnmt --dynet-gpu exp_settings/lexicon_replacement/en+de+da+no_eval.yaml
+# xnmt --dynet-gpu exp_settings/lexicon_replacement/en+de+da+no_eval.yaml
+xnmt --dynet-gpu exp_settings/lexicon_replacement/en+de+da+no_eval_0.25.yaml
+xnmt --dynet-gpu exp_settings/lexicon_replacement/en+de+da+no_eval_0.5.yaml
+xnmt --dynet-gpu exp_settings/lexicon_replacement/en+de+da+no_eval_1.yaml
+xnmt --dynet-gpu exp_settings/lexicon_replacement/en+de+da+no_eval_2.yaml
+xnmt --dynet-gpu exp_settings/lexicon_replacement/en+de+da+no_eval_3.yaml
+# xnmt --dynet-gpu exp_settings/lexicon_replacement/en+de+da+no_eval_4.yaml
