@@ -50,19 +50,15 @@ Last but not least, I would like to say a thank you to my parents for their unco
 
 The multilingual neural machine translation (NMT) aims at training a single translation model between multiple languages \parencite{Johnson:2016aa,aharoni-etal-2019-massively}. Among the appealing points of multilingual NMT models are their ability for zero-shot learning, to generalize and transfer a translation model to unseen language pairs \parencite{Johnson:2016aa}. In zero-shot learning, a multilingual model trained on a set of language pairs is tested on an unseen language pair whose elements are still in the set of individual training languages. The knowledge in this setting is transferred across the shared parameters of the model. 
 
-\cite{Kim:2019aa} argues that one of the critical components responsible for the knowledge transfer in multilingual NMT is the embedding layers which train a cross-lingual vector space for all words of the languages. They show that multilingual translation models can be transferred to new languages if the model's cross-lingual vector space is aligned to the new language's vector space. However, the success of their approach is at the cost of aligning the word vectors and retraining the new language's translation model.
+\textcite{Kim:2019aa} argues that one of the critical components responsible for the knowledge transfer in multilingual NMT is the embedding layers which train a cross-lingual vector space for all words of the languages. They show that multilingual translation models can be transferred to new languages if the model's cross-lingual vector space is aligned to the new language's vector space. However, the success of their approach is at the cost of aligning the word vectors and retraining the new language's translation model.
 
-This research studies the importance of word representation in the multilingual NMT transfer model in a more controlled setting based on the pre-trained cross-lingual word embeddings \parencite{Bojanowski:2016aa,Ammar:2016aa,Joulin:2018aa,Ruder:2019aa}. More specifically, we examine the transferability of a multilingual NMT when it is applied to a new test language.  We use cross-lingual word embeddings as the source of transfer knowledge to the test languages and leave the translation model's shared parameters to model the interrelationships between the training languages. Our setting is different from the zero-shot setting of \cite{Johnson:2016aa} in the way that one of the test languages does not belong to the set of individual training languages. It is also different from the \cite{Kim:2019aa}'s setting, in that it does not retrain the embeddings and model parameters. 
+This research studies the importance of word representation in the multilingual NMT transfer model in a more controlled setting based on the pre-trained cross-lingual word embeddings \parencite{Bojanowski:2016aa,Ammar:2016aa,Joulin:2018aa,Ruder:2019aa}. More specifically, we examine the transferability of a multilingual NMT when it is applied to a new test language.  We use cross-lingual word embeddings as the source of transfer knowledge to the test languages and leave the translation model's shared parameters to model the interrelationships between the training languages. Our setting is different from the zero-shot setting of \textcite{Johnson:2016aa} in the way that one of the test languages does not belong to the set of individual training languages. It is also different from the \textcite{Kim:2019aa}'s setting, in that it does not retrain the embeddings and model parameters. 
 
 We hypothesize that a multilingual NMT model trained with pre-trained cross-lingual word embeddings should transfer reasonably to a new test language if the word representation has any role in the model's transferability. Our results on a set of test languages show that the translation model transfers only weakly to the unseen languages, and the amount of the transferability depends on the similarity of the test language to the training languages. Furthermore, when using aligned pre-trained word embeddings as the only transferable knowledge source, the performance will be negatively affected by the transformed output vector space, which need to be addressed in order to achieve meaningful translations.
 
 The rest of the thesis is organized below:
 
-Chapter \ref{chap:background} talks about the background and previous works when working in the transferability of multilingual word embeddings scope, including information about word embeddings, multilingual translation and related works from others.
-
-Chapter \ref{chap:method} introduces our experiment method, whose result are discussed and analyzed in Chapter \ref{chap:results}.
-
-Finally, Chapter \ref{chap:conclusion} gives out our conclusion. We also show samples of our multilingual NMT model in the Appendix \ref{chap:example_output}.
+Chapter \ref{chap:background} talks about the background and previous works when working in the transferability of multilingual word embeddings scope, including information about word embeddings, multilingual translation and related works from others. Chapter \ref{chap:method} introduces our experiment method, whose result are discussed and analyzed in Chapter \ref{chap:results}. Finally, Chapter \ref{chap:conclusion} gives out our conclusion. We also show samples of our multilingual NMT model in Appendix \ref{chap:example_output}.
 
 \chapter{Background}
 \label{chap:background}
@@ -70,31 +66,22 @@ Finally, Chapter \ref{chap:conclusion} gives out our conclusion. We also show sa
 \section{Word Embeddings}
 \subsection{Representing Words in Vectors}
 
-In Natural Language Processing, people need to convert the natural representation of words into forms that are more efficient for computers to process. The idea started with statistical language modeling introduced by \cite{bengio2003neural}. In 2013, \cite{Mikolov:2013aa} introduced Word2Vec, which encapsulates words and their latent information into vectors. Besides the benefit that it simplifies representation and storage of words for computers, it also enables the possibilities to calculate words and their semantic meanings just as vectors.
+In Natural Language Processing, people need to convert the natural representation of words into forms that are more efficient for computers to process. The idea started with statistical language modeling, which was introduced to Machine Translation in the early nighties \parencite{brown-etal-1990-statistical}, followed by \textcite{bengio2003neural} who powered statistical langauge modeling with neural networks. \textcite{Mikolov:2013aa} introduced Word2Vec, which encapsulates words and their latent information into vectors. Besides the benefit that it simplifies representation and storage of words for computers, it enables the possibilities to calculate words and their semantic meanings just as vectors.
 
-Take an example of vocabulary $V=\{\text{king}, \text{queen}, \text{man}, \text{woman}\}$, if we convert these words into vectors such as 
-
-\begin{align*}
-  \vec{k} &= \text{vec}(\text{king})\\
-  \vec{q} &= \text{vec}(\text{queen})\\
-  \vec{m} &= \text{vec}(\text{man})\\
-  \vec{w} &= \text{vec}(\text{woman})
-\end{align*}
-
-We could have an equation of 
+Take an example of vocabulary $V=\{\text{water}, \text{hydrogen},  \text{oxygen}$\}, if we convert these words into vectors, we could have an equation of
 
 \begin{equation}
   \label{equa:semantic_vectors}
-  \vec{q}=\vec{k}-\vec{m}+\vec{w}
+  \vec{w}=\vec{h}+\vec{o}
 \end{equation}
 
-It is meaningful from both the mathematical perspective and the linguistic perspective. Figure \ref{fig:semantic_vectors} illustrates both perspectives in a vector space that contains these four vectors. Geometrically, the angle between $\vec{k}$ and $\vec{q}$ is small, together with the angle between $\vec{m}$ and $\vec{w}$. From the cosine similarity definition below
+\noindent where $\vec{w} = \text{vec}(\text{water})$, $\vec{h} = \text{vec}(\text{hydrogen})$ and $\vec{o} = \text{vec}(\text{oxygen})$. From either the individual word (vector) prespective and the united equation prespective, Equation \ref{equa:semantic_vectors} is meaningful mathematically and semantically.
+
+Mathematically, we can observe a small geometric angle between $\vec{h}$ and $\vec{o}$. From the cosine similarity definition below,
 
 \begin{equation*}
-  sim(x, y) = \cos(\theta) = \frac{x \cdot y}{||x||||y||}
+  \text{sim}(x, y) = \cos(\theta) = \frac{x \cdot y}{||x||||y||}
 \end{equation*}
-
-It indicates that the cosine similarities of every two of them are high. Besides, Equation \ref{equa:semantic_vectors} is correct in this vector space too. We could get such an equation from basic vector calculation definitions.
 
 \begin{figure}
   \centering
@@ -107,9 +94,6 @@ It indicates that the cosine similarities of every two of them are high. Besides
     %Straight Lines [id:da3468248594605029]
     \draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ]   (70.15,221.35) -- (91.04,133.95) ;
     \draw [shift={(91.5,132)}, rotate = 463.44] [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
-    %Straight Lines [id:da060011766798584776]
-    \draw [color={rgb, 255:red, 80; green, 227; blue, 194 }  ,draw opacity=1 ][fill={rgb, 255:red, 182; green, 34; blue, 34 }  ,fill opacity=1 ]   (70.15,221.35) -- (98.61,163.79) ;
-    \draw [shift={(99.5,162)}, rotate = 476.31] [color={rgb, 255:red, 80; green, 227; blue, 194 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
     %Straight Lines [id:da268618270283273]
     \draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (70.15,221.35) -- (127.85,182.12) ;
     \draw [shift={(129.5,181)}, rotate = 505.79] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
@@ -118,50 +102,50 @@ It indicates that the cosine similarities of every two of them are high. Besides
     \draw [shift={(133.5,192)}, rotate = 515.14] [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
 
     % Text Node
-    \draw (83,108) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{k}$};
+    \draw (83,108) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{w}$};
     % Text Node
-    \draw (101,142) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{q}$};
+    \draw (132,166) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{h}$};
     % Text Node
-    \draw (132,166) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{m}$};
-    % Text Node
-    \draw (138,183) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{w}$};
+    \draw (138,183) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\vec{o}$};
   \end{tikzpicture}
   \caption{Illustraion of a vector space where Equation \ref{equa:semantic_vectors} exists.}
   \label{fig:semantic_vectors}
 \end{figure}
 
-Semantically, the word ``king'' and ``queue'' are closely related in the same category as well as the word ``man'' and ``woman''. It is meaningful to say ``queue'' is a ``king'' being replaced its ``man'' part by a female.
+\noindent the smaller the angle $\theta$ between $\vec{h}$ and $\vec{o}$ is, the higher their cosine similarity is. In other words, when $\theta$ is zero, the cosine similarity $\text{sim}(x, y) \in [0, 1]$ will also approach its upper bound one. Also, as illustrated in Figure \ref{fig:semantic_vectors}, vector $\vec{w}$ is roughly the sum of vector $\vec{h}$ and $\vec{o}$.
 
-To turn words into vectors, one could use a simple one-hot encoding. Like in the example above we could make $\vec{k}=[1, 0, 0, 0]$. However, these one-hot vectors can merely capture any latent semantic information between different words. Recent vectorized word representations, or word embeddings, were learned through neural networks, such as Word2Vec, which learns word embeddings through a Skip-gram model or a Continuous Bag of Words model \parencite{Mikolov:2013ab}. Both models are shown in Figure \ref{fig:skip_gram_and_cbow}.
+Semantically, words ``hydrogen'' and ``oxygen'' are similar since they point to two chemical elements. Adding them together is like how people would ignite the mixture of hydrogen and oxygen to produce water.
+
+To turn words into vectors, one could use a simple one-hot encoding. Like in the example above we could make $\vec{w}=[1, 0, 0]$. However, these one-hot vectors cannot capture any latent semantic information between different words, nor to reflect the inflections between stems and their variants. Such as the  word ``hydrogen'' and its stem ``hydro-''.
+
+Recent vectorized word representations (word embeddings) were learned through neural networks.  Compared to the naive one-hot vectors, word embeddings contains affluent information that links word together. One of the examples is Word2Vec, which learns word representations through a Skip-gram model or a Continuous Bag of Words (CBOW) model \parencite{Mikolov:2013ab}. Both models are shown in Figure \ref{fig:skip_gram_and_cbow}.
 
 \begin{figure}
-  \label{fig:skip_gram_and_cbow}
   \centering
   \includegraphics[width=0.8\textwidth]{skip_gram_and_cbow_models.png}
   \caption{The Skip-gram and the CBOW model. \parencite{Mikolov:2013ac}}
+  \label{fig:skip_gram_and_cbow}
 \end{figure}
 
 \subsubsection{The Skip-gram model}
+The Skip-gram model can produce vector representations that are good at predicting the words surrounding the target word $w$ within the context size of $C$. The probability of a context word $w_k \in \{w_{-C}, w_{-C+1} ..., w_{C-1}, w_C\}$ given a target word $w$ is:
 
-When given a target word $w$, the model can produce vector representations that are good at predicting the words surrounding $w$ within the context size of $C$. The probability of a context word $w_k$ given a target word $w$ is:
-
-\begin{equation}
+\begin{equation*}
   P(w_k|w)=\frac{\exp({v_{w_k}^\prime}^\intercal v_w)}{\sum_{i=1}^{|V|}\exp({v^\prime_i}^\intercal v_w)}
-\end{equation}
+\end{equation*}
 
-Here $|V|$ means the size of the whole vocabulary from the corpus. Both $v^\prime$ and $v$ stand for the input vector representation, and the output vector representation of a word \parencite{Mikolov:2013aa}. The aforementioned one-hot vectors are used in the Skip-gram model too. They can initialize the input representation $v^\prime$.
+\noindent Here $|V|$ means the size of the whole vocabulary from the corpus. $v$ stands for the input vector representations and it is initialized by one-hot vectors. $v^\prime$ is the desired output vector, who will be updated throughout the whole neural network training process. 
 
 \subsubsection{The Continuous Bag of Words model (CBOW)}
+The CBOW model works like the other side of the coin. It predicts the target word $w$ based on a bunch of context words $w_k \in \{w_{-C}, w_{-C+1} ..., w_{C-1}, w_C\}$ within the window size $C$, as the formula below:
 
-The other model, CBOW, works just like the other side of the coin. It predicts the target word $w$ based on a bunch of context words $w_{-C}, w_{-C+1} ..., w_{C-1}, w_C$ within the window size $C$, as the formula below:
+\begin{equation*}
+  P(w|w_k)=\frac{\exp({v^\prime_w}^\intercal \bar{v}_{w_k})}{\sum^{|V|}_{i=1}\exp({v^\prime_{w_i}}^\intercal \bar{v}_{w_k})}
+\end{equation*}
 
-\begin{equation}
-  P(w|w_{-C}, w_{-C+1} ..., w_{C-1}, w_C)=\frac{\exp({v^\prime_w}^\intercal \bar{v}_{w_k})}{\sum^{|V|}_{i=1}\exp({v^\prime_{w_i}}^\intercal \bar{v}_{w_k})}
-\end{equation}
+\noindent Here $\bar{v}_{w_k}$ means the sum of the context word $w_k$'s vectorized representation, while $v^\prime_w$ means the input vector representations of word $w$, same as the one in the Skip-gram model.
 
-Here $\bar{v}_{w_k}$ means the sum of the context word $w_k$'s vectorized representation, while $v^\prime_w$ means the input vector representations of word $w$ as in the Skip-gram model.
-
-The difference between these two models is that the CBOW model predicts the target word from multiple given context words, while the Skip-gram model predicts the context words from one given center word. Hence the Skip-gram model is better at predicting rare words because all of the words are treated equally in the \textit{word AND context} relationship. While in the CBOW model, frequent words have advantages over rare words as they will have higher probabilities in a given context. The Skip-gram model is arguably the most popular method to learn word embeddings as it is both fast and robust, especially with less frequent words in the corpus. \parencite{levy-etal-2015-improving}
+By definition, the difference between these two models is that the CBOW model predicts the target word from multiple given context words, while the Skip-gram model predicts the context words from one given center word. In practice, the Skip-gram model is better at predicting rare words, while frequent words have advantages over rare words in the CBOW model. The Skip-gram model is arguably the most popular method to learn word embeddings, especially when learning less frequent words in the corpus \parencite{levy-etal-2015-improving}.
 
 \subsection{Multilingual Word Embeddings}
 \label{sec:multilingual_word_embeddings}
@@ -169,42 +153,44 @@ The difference between these two models is that the CBOW model predicts the targ
 Learned from approaches like the Skip-gram model or the CBOW model, vectorized word representations tend to cluster words with similar semantics \parencite{Mikolov:2013ac}. It then becomes attractive to see whether we could fit two or more languages into the same vector space. Word embeddings that consist of more than one language are called multilingual word embeddings.
 
 \begin{figure}
-  \label{fig:vec_space_align}
   \centering
   \includegraphics[width=0.8\textwidth]{vector_spaces_alignment.png}
   \caption{Aligning bilingual vector spaces. \parencite{Conneau:2017aa}}
+  \label{fig:vec_space_align}
 \end{figure}
 
-In the multilingual scenario, it is vital to align words in two different vector spaces to make word embeddings from different languages comparable. Figure \ref{fig:vec_space_align} illustrated the alignment method from \cite{Conneau:2017aa}. Suppose there is a set of word pairs in their associated vectorized representation $\{x_i, y_i\}_{i\in \{1, ..., n\}}$, the two vector spaces were aligned by a rotation matrix $W \in \mathbb{R}^{d \times d}$ as shown in process \textbf{(B)}, where we try to optimize the formula 
+In the multilingual scenario, alignment in two different vector spaces is vital in order to make word embeddings from different languages comparable. Figure \ref{fig:vec_space_align} illustrated the alignment method from \textcite{Conneau:2017aa}. Suppose there is a set of word pairs $\{x_i, y_i\}$ where ${i\in \{1, ..., n\}}$, the two vector spaces were aligned by a rotation matrix $W \in \mathbb{R}^{d \times d}$ as shown in process \textbf{(B)}, where we try to optimize the formula 
 
 \begin{equation*}
   \min_{W \in \mathbb{R}^{d \times d}} \frac{1}{n}\sum_{i=1}^n \ell(Wx_i, y_i)
 \end{equation*}
 
-Here $\ell$ is the loss function and it is usually the square loss function $\ell_2(x, y)=||x-y||^2$. Then $W$ is further refined in process \textbf{(C)}, where we choose frequent words as anchor points and minimize the distance between each correspondent anchor points by an energy function. After this, the refined $W$ is then used to map all words in the dictionary during the inference process. We obtain the translation $t(i)$ of a given source word $i$ in the formula
+\noindent Here $\ell$ is the loss function and it is usually the square loss function $\ell(x, y)=||x-y||^2$. Then $W$ is further refined in process \textbf{(C)}, where we choose frequent words as anchor points and minimize the distance between each correspondent anchor points by an energy function. After this, the refined $W$ is then used to map all words in the dictionary during the inference process. We obtain the translation $t(i)$ of a given source word $i$ in the formula
 
 \begin{equation*}
-  t(i) \in \argmin_{j\in \{1, ..., N\}} \ell(Wx_i, y_j)
+  t(i) = \argmin_{j\in \{1, ..., N\}} \ell(Wx_i, y_j)
 \end{equation*}
 
-Again, the loss function $\ell$ is typically the square loss function. However, using the square loss function could make the model suffer from the ``hubness problem''. \cite{Conneau:2017aa} counter reacted to the ``hubness'' problem by introducing the cross-domain similarity local scaling (CSLS), whose detail is beyond this thesis's scope.
+Despite the mathematically proven theoretical feasibility, we need data to drive the alignment process. Lexicon is the most common form of such seed parallel data, though there are other kinds of alignment using data from sentence or documents \parencite{Ruder:2019aa}.
 
-Despite the theoretical feasibility proven by mathematic formulas, we need data to drive the alignment process. Take bilingual word embeddings as the first step, their initial alignment data for adversarial learning of the rotation matrix $W$ could come from a bilingual dictionary \parencite{Mikolov:2013ac}. Also, there are other kinds of alignment using aligned data from sentence level, or even document level, even though word-level information is most common. By using word-level information, we can start with a pivot language (usually English) and map each other monolingual word embeddings by looking up translation dictionaries. This mapping process could also start with vectors only, where we choose a bilingual word embedding that shares a language (also typically English) with other bilingual embeddings and choose the other bilingual word embeddings by aligning their shared language subspace. Sentence-level parallel data is similar to the corpus in Machine Translation (MT), which contains sentence-aligned texts \parencite{Hermann:2013aa}. Document-level information is more common in the form of topic-aligned or class-aligned, such as Wikipedia data \parencite{vulic-moens-2013-study}. The alignment process of multilingual word embeddings is roughly the same as bilingual word embeddings, using parallel data from either word-level, sentence-level, or document-level \parencite{Ruder:2019aa}.
+By using word-level information, we can start with a pivot language (usually English) and map each other monolingual word embeddings by looking the same word up in a dictionary \parencite{Mikolov:2013ac}. Sentence-level parallel data is similar to the role of corpora in Machine Translation (MT) since they both contain mapped sentences \parencite{Hermann:2013aa}. Document-level information is usually topic-aligned or class-aligned, such as data of the same Wikipedia item \parencite{vulic-moens-2013-study}.
+
+Recent development in word alignment has showed possibilities for less supervision and smaller seed data size to initiate the alignment process \parencite{Ruder:2019aa}. Though it is still unclear if multilingual word embedding alignment can run without parallel data or supervison \parencite{Dyer1365879}, there are evidences that even distant language pairs have an accurate linear mapping \parencite{Mikolov:2013ac}. If such linear mapping does exist for every language in the word, and if it can be accquired through deep learning, people could build machine translation systems that are able to translate words in unseen languages.
 
 \subsection{fastText}
 \label{sec:fasttext}
 
-In this work, we have chosen fastText aligned word vectors\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}} \parencite{Joulin:2018aa} as my vectorized word representation. They are based on the pre-trained vectors computed from the Wikipedia corpus using fastText \parencite{Bojanowski:2016aa}. Not only because of the soon to be talked good performance, but fastText aligned word embeddings also has a large selection of languages available to use out of the box. It is ideal for implementing the cross-lingual experiments on aligned word embeddings.
+In this work, we have chosen fastText aligned word vectors\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}} \parencite{Joulin:2018aa} as the vectorized word representation. They are based on the pre-trained monolingual vectors computed from the Wikipedia corpus using fastText \parencite{Bojanowski:2016aa}.
 
-fastText is an extension of the original Word2Vec methods, which uses sub-words to augment low-frequency and unseen words. Take word \texttt{low-key} as an example. As a whole word, its possibility in a given document would be much lower than its components, \texttt{low} and \texttt{key}. fastText learns its vectorized representation from a smaller n-gram sub-word level. It divides the whole word into sub-words units as below if we assume $n=3$
+fastText is an extension of the original Word2Vec methods, which uses sub-words to augment low-frequency and unseen words. Take word \texttt{low-key} as an example. As a whole word, its possibility in a given document would be much lower than its components, \texttt{low} and \texttt{key}. fastText learns its vectorized representation from a smaller n-gram sub-word level. It divides the whole word \texttt{low-key} into sub-words units (assume $n=3$)
 
 \begin{equation*}
   \mathtt{\text{<}lo, low, ow\text{-}, w\text{-}k, \text{-}ke, key, ey\text{>}}
 \end{equation*}
 
-Each sub-word has its own vectorized representation learned through a CBOW or Skip-gram model as in Word2Vec. The word vector for the whole word unit \texttt{<low-key>} is then the sum of all of its sub-word units' vectors. Hence its rareness would be compensated by two more frequent subwords \texttt{low} and \texttt{key}, even if it might not appear in the training document at all.
+\noindent Each sub-word has its own vectorized representation learned through a CBOW or Skip-gram model as in Word2Vec. The word vector for the whole word unit \texttt{<low-key>} is then the sum of all of its sub-word vectors. Hence its rareness would be compensated by two more frequent subwords \texttt{low} and \texttt{key}, even if it might not appear in the training document at all.
 
-In terms of multilingual alignment, fastText improves the standard solution to the hubness problem by directly including the Relaxed CSLS (RCSLS) criterion into the model during both the learning and the inference phase. Before the work of \cite{Joulin:2018aa}, inverted softmax (ISF) \cite{Smith:2017aa} or CSLS \parencite{Conneau:2017aa} was only used in the inference time to address the hubness problem while square loss is still the loss function used in the training time. However, since both the ISF and the CSLS are not consistent with the square loss function in the training time, they will create a discrepancy between the learning of the translation model and the inference. According to the authors, fastText outperforms other alignment approaches by 3 to 4\% on average.
+In addition to the advantage in representing rare words, fastText aligned word embeddings also has a large collection of languages available out of the box, making it attractive to cross-lingual word embedding experiments. In the following Section \ref{sec:initial_exp_settings}, some experiment languages have no publically available pre-trained aligned word embeddings in other formats except fastText. Thus fastText was selected in this thesis to save effort on training and alignemnt multilingual word embeddings, making it possible to concentrate more on experiments themselves.
 
 \section{Multilingual Neural Machine Translation (MNMT) Systems}
 
@@ -213,18 +199,18 @@ In terms of multilingual alignment, fastText improves the standard solution to t
 Neural Machine Translation (NMT) uses neural networks to learn the translation relationship between a source and a target language. Its power has gone over the traditional Statistical Machine Translation (SMT) and enabled things that were impossible in the past. One of that is Multilingual Neural Machine Translation, as shown in the Figure \ref{fig:google_mnmt}, it uses the same attentional encoder-decoder model as bilingual NMT but trains it on a multilingual corpus \parencite{Johnson:2016aa}. The benefit of such a multilingual system does not necessarily stop at higher translation performance between common languages like English, French, or Spanish; it also leverages additional information from high resource languages to low resource languages in the same semantic space \parencite{Ha:2016aa}. People identify this information leverage as a special form of transfer learning \parencite{Zoph:2016aa}, which could happen both in the horizontal or vertical direction \parencite{Lakew:2019aa}: In the horizontal direction, knowledge transfers from pre-trained data (such as word embeddings or language models) to the raw test data; in the vertical direction, knowledge transfers from languages to languages, which could either transfer from high resource to low resource languages or from seen languages to unseen languages. The latter is called zero-shot translation.
 
 \begin{figure}
-  \label{fig:google_mnmt}
   \centering
   \includegraphics[width=0.8\textwidth]{google_mnmt_architecture.png}
-  \caption{Google's MNMT Architecturef from \parencite{Johnson:2016aa}}. 
+  \caption{Google's MNMT Architecturef from \parencite{Johnson:2016aa}}.
+  \label{fig:google_mnmt}
 \end{figure}
 
 \subsection{Zero-shot Machine Translation Systems}
 \label{sec:zero_shot_mt}
 
-Zero-shot translation stands for translation between language pairs invisible to the multilingual NMT system during the training time. E.g., we build a multilingual NMT system with training language pairs of German-English and French-English while test its performance on a German-French scenario. In 2016, \cite{Johnson:2016aa} first published their result on a zero-shot MT system. Their multilingual MT system, including an encoder, decoder, and attention module, requires no change to a standard NMT system. The only modification is in the training corpus, where they had introduced an artificial token at the beginning of each source sentence to denote the translation target language. \cite{Ha:2016aa} also showed that their universal encoder and decoder model is capable of zero-shot MT. The concept of translation between unseen language pairs is attractive, especially for low-resource language pairs, though these two models both underperformed than a pivot based system.
+Zero-shot translation stands for translation between language pairs invisible to the multilingual NMT system during the training time. E.g., we build a multilingual NMT system with training language pairs of German-English and French-English while test its performance on a German-French scenario. In 2016, \textcite{Johnson:2016aa} first published their result on a zero-shot MT system. Their multilingual MT system, including an encoder, decoder, and attention module, requires no change to a standard NMT system. The only modification is in the training corpus, where they had introduced an artificial token at the beginning of each source sentence to denote the translation target language. \textcite{Ha:2016aa} also showed that their universal encoder and decoder model is capable of zero-shot MT. The concept of translation between unseen language pairs is attractive, especially for low-resource language pairs, though these two models both underperformed than a pivot based system.
 
-There are two reasons that could explain the gap between a zero-shot system and a pivot based system, language bias \parencite{Ha:2016aa, Ha:2017aa, Arivazhagan:2019aa} and poor generalization \parencite{Arivazhagan:2019aa}. Language bias means that during inference, the MT system tends to decode the target sentence into the wrong language, usually copying the source language or the bridging language \cite{Ha:2016aa}. It could be the consequence of always translating all source languages into the bridging language, hence make the model difficult to learn to translate the desired target language \parencite{Arivazhagan:2019aa}.
+There are two reasons that could explain the gap between a zero-shot system and a pivot based system, language bias \parencite{Ha:2016aa, Ha:2017aa, Arivazhagan:2019aa} and poor generalization \parencite{Arivazhagan:2019aa}. Language bias means that during inference, the MT system tends to decode the target sentence into the wrong language, usually copying the source language or the bridging language \textcite{Ha:2016aa}. It could be the consequence of always translating all source languages into the bridging language, hence make the model difficult to learn to translate the desired target language \parencite{Arivazhagan:2019aa}.
 
 The other potential reason for the worse performance of a zero-shot system is poor generalization \parencite{Arivazhagan:2019aa}. When a zero-shot system is trained purely on the end-to-end translation objective, the model prefers to overfit the supervised translation direction features than learn more transferable language features.
 
@@ -233,13 +219,13 @@ To fix these two problems, there has been work on improving the preprocessing pr
 \section{Previous Work}
 \label{sec:previous_work}
 
-The transferability of multilingual neural machine translation models is vital from both the theoretical and practical perspectives. The theoretical importance of these models come to the way that they find the correspondence between language pairs \parencite{Johnson:2016aa,lu-etal-2018-neural}. The practical importance is due to their effective use for the translation of low-resource languages \parencite{Zoph:2016aa,Nguyen:2017aa}. \cite{Johnson:2016aa} shows that multilingual NMT trained on a massive training set can generalize reasonably well in the zero-shot learning setting. This capability is further examined by \cite{aharoni-etal-2019-massively}, demonstrating that multilingual NMT models transfer better when trained on a massive training set. \cite{Kim:2019aa} shows that multilingual NMT models can be transferred to a new language when their embedding spaces are realigned to the embeddings of the new language.
+The transferability of multilingual neural machine translation models is vital from both the theoretical and practical perspectives. The theoretical importance of these models come to the way that they find the correspondence between language pairs \parencite{Johnson:2016aa,lu-etal-2018-neural}. The practical importance is due to their effective use for the translation of low-resource languages \parencite{Zoph:2016aa,Nguyen:2017aa}. \textcite{Johnson:2016aa} shows that multilingual NMT trained on a massive training set can generalize reasonably well in the zero-shot learning setting. This capability is further examined by \textcite{aharoni-etal-2019-massively}, demonstrating that multilingual NMT models transfer better when trained on a massive training set. \textcite{Kim:2019aa} shows that multilingual NMT models can be transferred to a new language when their embedding spaces are realigned to the embeddings of the new language.
 
 In terms of the application of pre-trained aligned word embeddings in a multilingual NMT system, there are some successful applications, such as using the aligned embeddings as the embedding layer \parencite{neishi-etal-2017-bag, Artetxe:2017aa}, as the substitution of a supervised dictionary \parencite{Conneau:2017aa}, or as an external supplementary extension \parencite{inproceedings}. There are even cases where people successfully trained a MT system using very little or none parallel data \parencite{Conneau:2017aa} and heavily rely on aligned word embeddings. Nevertheless, in most MT systems, using pre-trained word embeddings purely as the embedding layer will not outperform other models such as Transformers \parencite{Vaswani:2017aa} and its other evolutions, largely because the training data for an MT system is usually several orders of magnitude larger than the monolingual pre-trained word embeddings. Typically pre-trained word embeddings are mainly introduced in MT systems dealing with low-resource languages.
 
-For NMT systems focused on low resource language, \cite{Qi:2018aa} looked into the question of when and why are pre-trained word embeddings useful. They found that pre-trained word embeddings are consistently useful for all languages. The gains would be more visible if the source and target language are similar, such as languages within the same family. Also, pre-trained word embeddings work well only on MT systems with moderate performance. Pre-trained word embeddings can not work when there is not enough data to train a basic MT system. Finally, aligned word embeddings are useful in a multilingual MT system. For bilingual MT systems, pre-trained word embeddings do not necessarily need to be aligned.
+For NMT systems focused on low resource language, \textcite{Qi:2018aa} looked into the question of when and why are pre-trained word embeddings useful. They found that pre-trained word embeddings are consistently useful for all languages. The gains would be more visible if the source and target language are similar, such as languages within the same family. Also, pre-trained word embeddings work well only on MT systems with moderate performance. Pre-trained word embeddings can not work when there is not enough data to train a basic MT system. Finally, aligned word embeddings are useful in a multilingual MT system. For bilingual MT systems, pre-trained word embeddings do not necessarily need to be aligned.
 
-Moreover, aligned word embeddings do not work well for morphologically rich languages such as Russian and Belarusian. \cite{Qi:2018aa} argues that this may be mainly due to the sparsity in the word embeddings files. Plus, most of the previous works target zero-shot language pairs, not on completely unseen languages. For language pairs $A \rightarrow \text{EN}$ and $\text{EN} \rightarrow B$, they are all interested in the unseen language pair $A \rightarrow B$. For language pairs that include an unseen language $C$, whether it is on the source side, or the target side, it remains to see how universal word embeddings could help translate in this scenario.
+Moreover, aligned word embeddings do not work well for morphologically rich languages such as Russian and Belarusian. \textcite{Qi:2018aa} argues that this may be mainly due to the sparsity in the word embeddings files. Plus, most of the previous works target zero-shot language pairs, not on completely unseen languages. For language pairs $A \rightarrow \text{EN}$ and $\text{EN} \rightarrow B$, they are all interested in the unseen language pair $A \rightarrow B$. For language pairs that include an unseen language $C$, whether it is on the source side, or the target side, it remains to see how universal word embeddings could help translate in this scenario.
 
 It is then interesting to see how far can aligned word embeddings could go beyond known languages. As mentioned in Section \ref{sec:zero_shot_mt}, zero-shot translation analyzed this question by testing the multilingual NMT system on unseen language pairs --- language in either source or target side of the translation is known to the system, but their paired combination remains unknown. In this work, we would like to take a step further to see how aligned word embeddings would work for zero-resource languages -- Languages that are entirely unseen to the multilingual NMT setting.
 
@@ -250,17 +236,17 @@ In this chapter, we will perform experiments in a universal word embedding based
 
 \section{Theoratical Feasibility}
 
-As mentioned in Section \ref{sec:multilingual_word_embeddings}, \cite{Mikolov:2013ac} showed that there is a linear relationship between similar word embeddings in different languages. For each word pairs, assume their vector representations are $\{x_i, y_i\}_{i=1}^n$, we could calculate a transformation matrix $W$ such that $Wx_i$ approximates to $y_i$. In practice, people can learn $W$ by optimizing the following target function.
+As mentioned in Section \ref{sec:multilingual_word_embeddings}, \textcite{Mikolov:2013ac} showed that there is a linear relationship between similar word embeddings in different languages. For each word pairs, assume their vector representations are $\{x_i, y_i\}_{i=1}^n$, we could calculate a transformation matrix $W$ such that $Wx_i$ approximates to $y_i$. In practice, people can learn $W$ by optimizing the following target function.
 
 \begin{equation*}
   \min_W\sum_{i=1}^n||Wx_i-y_i||^2
 \end{equation*}
 
-\cite{Mikolov:2013ac} also showed their result in the word/phrase translation task for the approximated word embedding mappings. For some subsets of words, around 70\% of word embeddings match precisely with each other according to the P@5 score. If we relax the cosine similarity threshold to 0.6, the P@5 score would be as high as 90\%.
+\textcite{Mikolov:2013ac} also showed their result in the word/phrase translation task for the approximated word embedding mappings. For some subsets of words, around 70\% of word embeddings match precisely with each other according to the P@5 score. If we relax the cosine similarity threshold to 0.6, the P@5 score would be as high as 90\%.
 
 To convert words into vectors to be calculated in the neural network, NMT systems should treat each word as a word embedding. The value of these word embeddings could be learned directly during translation, but then the initialization is a crucial step since poor initialization could lead to slow converge or worse local minima \parencite{glorot2010understanding}. The situation could be even more challenging when translating with very few parallel corpora since there is no data to help the embedding layer converge to its ideal state. Hence the word embedding mapping technique above becomes appealing.
 
-\cite{Qi:2018aa} explored how effective it is by using aligned pre-trained word embeddings in an NMT system. They found that regardless of languages, alignment is useful as long as it is applied in a multilingual setting. They believe that since both the source and the target side vector spaces are already aligned, the NMT system will learn how to transform a similar fashion from the source language to the target language.
+\textcite{Qi:2018aa} explored how effective it is by using aligned pre-trained word embeddings in an NMT system. They found that regardless of languages, alignment is useful as long as it is applied in a multilingual setting. They believe that since both the source and the target side vector spaces are already aligned, the NMT system will learn how to transform a similar fashion from the source language to the target language.
 
 Therefore, translating a completely unseen language is to test the transferability from known languages to an unknow language. It can be viewed as the question below --- Given a vector space $Z$ that consists of aligned word embeddings $\{a_i, b_i, c_i, ...\}$, how much does the NMT system knows about an unseen language $A$ if it was only trained on the remaining languages? In theory, since the word embeddings are clustered by their semantic meanings in the same vector space $Z$, we should be able to build loose mappings between the semantic centers from both the source and the target sides. The generalization ability of the system is the key to answer this question. Hence we conducted some experiments below.
 
@@ -281,23 +267,23 @@ The equation below means that the multilingual NMT system is tested on the test 
   C_{\text{TEST}} = \{(x, y)\cup(y,x) \mid x \in Z_{\text{TRAIN}} \text{ and } y \in Z_{\text{TEST}}\}
 \end{equation}
 
-we designed the experiments and picked up the training and target languages based on Language Similarity. \cite{Qi:2018aa} observed that pre-trained word embeddings are useful for languages from the same language family. The closer their relationship is, the higher the performance improvement is. Aligned word embeddings will also be beneficial if applied in a multilingual NMT system consisting of languages from the same language family.
+we designed the experiments and picked up the training and target languages based on Language Similarity. \textcite{Qi:2018aa} observed that pre-trained word embeddings are useful for languages from the same language family. The closer their relationship is, the higher the performance improvement is. Aligned word embeddings will also be beneficial if applied in a multilingual NMT system consisting of languages from the same language family.
 
 \subsection{Corpus and Preprocessing}
 
-we have used the TED talk subtitle corpus from \cite{Qi:2018aa} \footnote{\url{https://github.com/neulab/word-embeddings-for-nmt}} to train the multilingual NMT. The whole corpus has roughly $\num{2.7e6}$ sentences split into three parts, train, dev, test at the ratio of $0.95:0.025:0.025$.
+we have used the TED talk subtitle corpus from \textcite{Qi:2018aa} \footnote{\url{https://github.com/neulab/word-embeddings-for-nmt}} to train the multilingual NMT. The whole corpus has roughly $\num{2.7e6}$ sentences split into three parts, train, dev, test at the ratio of $0.95:0.025:0.025$.
 
-To build up the corpus for each experiment, the author has modified the original script from \cite{Qi:2018aa} and added a few customized features. In short, the script will extract shared sentences from each part of the split corpus to form up a common intersection used in training, developing, and testing. Since the experiments consist of languages that are relatively common in the TED project, this fine-tuned corpus is not too different from the original corpus, hence after all the sizes for the train, dev, and test split were kept.
+To build up the corpus for each experiment, the author has modified the original script from \textcite{Qi:2018aa} and added a few customized features. In short, the script will extract shared sentences from each part of the split corpus to form up a common intersection used in training, developing, and testing. Since the experiments consist of languages that are relatively common in the TED project, this fine-tuned corpus is not too different from the original corpus, hence after all the sizes for the train, dev, and test split were kept.
 
-For preprocessing, since the original TED corpus is already tokenized by Moses. Then the system \cite{Neubig:2018aa} turned all of the text into lower cases and applied a sentence length filter to remove any long sentences with more than 60 words. This sentence length filter prevents inferior performance in training. After that, when building the i2w and w2i index for the pre-trained embeddings, we have also removed any words that are less frequent than two times to stop the system from overfitting by low-frequency words. All of the preprocess functions are built upon the built-in XNMT preprocess features \parencite{Neubig:2018aa}.
+For preprocessing, since the original TED corpus is already tokenized by Moses. Then the system \textcite{Neubig:2018aa} turned all of the text into lower cases and applied a sentence length filter to remove any long sentences with more than 60 words. This sentence length filter prevents inferior performance in training. After that, when building the i2w and w2i index for the pre-trained embeddings, we have also removed any words that are less frequent than two times to stop the system from overfitting by low-frequency words. All of the preprocess functions are built upon the built-in XNMT preprocess features \parencite{Neubig:2018aa}.
 
 \subsection{Neural Network}
 
-The neural network is a modified version of the one from \cite{Qi:2018aa}, which is built with XNMT \cite{Neubig:2018aa}. The only change is doubling the encoding layer to a 2-layer-bidirectional LSTM network, thus having more parameters to accommodate the additional information in a multilingual scenario. Everything else is the same as the original experiment settings, including the encoder-decoder model with attention \parencite{Bahdanau:2014aa} with a beam size of $5$, trained using batches of size $32$, dropout set to $0.1$, the Adam optimizer \parencite{Kingma:2014aa} and the evaluation metric BLEU score \parencite{papineni-etal-2002-bleu}. The initial learning starts at $0.0002$ and decays by $0.5$ when development BLEU score decreases \parencite{Denkowski:2017aa}.
+The neural network is a modified version of the one from \textcite{Qi:2018aa}, which is built with XNMT \textcite{Neubig:2018aa}. The only change is doubling the encoding layer to a 2-layer-bidirectional LSTM network, thus having more parameters to accommodate the additional information in a multilingual scenario. Everything else is the same as the original experiment settings, including the encoder-decoder model with attention \parencite{Bahdanau:2014aa} with a beam size of $5$, trained using batches of size $32$, dropout set to $0.1$, the Adam optimizer \parencite{Kingma:2014aa} and the evaluation metric BLEU score \parencite{papineni-etal-2002-bleu}. The initial learning starts at $0.0002$ and decays by $0.5$ when development BLEU score decreases \parencite{Denkowski:2017aa}.
 
 \subsection{Embeddings}
 
-As metioned in Section \ref{sec:fasttext}, the embeddings used in the experiments are fastText aligned word embeddings\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}}. They are based on the pre-trained vectors on Wikipedia\footnote{\url{https://www.wikipedia.org/}} using fastText \parencite{Bojanowski:2016aa}. The alignment is performed using RCSLS as in \cite{Joulin:2018aa}.
+As metioned in Section \ref{sec:fasttext}, the embeddings used in the experiments are fastText aligned word embeddings\footnote{\url{https://fasttext.cc/docs/en/aligned-vectors.html}}. They are based on the pre-trained vectors on Wikipedia\footnote{\url{https://www.wikipedia.org/}} using fastText \parencite{Bojanowski:2016aa}. The alignment is performed using RCSLS as in \textcite{Joulin:2018aa}.
 
 Each of the fastText word embedding file is language-specific and contains word embeddings in 300 dimensions. We concatenated different language files to build up multilingual word embedding files for the multilingual NMT system. If there is a shared word $w$ with two different vector values $\vec{v_a}$ and $\vec{v_b}$ in different embedding files, the average value of both vectors $\vec{v_{mean}}$ will be the new vector.
 
@@ -335,11 +321,11 @@ In the results shown in Table \ref{table:initial_results}, Swedish, Hungarian an
 
 In XNMT, one can also see the individual precision scores form 1 to 4 grams in the translation text. By looking at that details, all three languages had a significantly better unigram precision score than their bigram, trigram, and quadgram precision score. The bigram precision score in Swedish was about half of its unigram scores. The precison score on trigrams and quadgrams are close to 0 on all languages, which again is a sign showing the multilingual NMT system has little transferability from known training languages to an unknown test language.
 
-To increase the transferability from known languages to unknown languages, we have tried various techniques, such as increasing dropout rate. We have observed small improvements (average 0.5 BLEU score increase), but since this technique improves the zero-shot performance at the cost of supervised translation directions \cite{Arivazhagan:2019aa}, we decided to explore other approaches in below.
+To increase the transferability from known languages to unknown languages, we have tried various techniques, such as increasing dropout rate. We have observed small improvements (average 0.5 BLEU score increase), but since this technique improves the zero-shot performance at the cost of supervised translation directions \textcite{Arivazhagan:2019aa}, we decided to explore other approaches in below.
 
 \section{The Effect of Source/Target Language Annotation}
 
-Previous initial results opened up some follow up experiments to see what could be improved. The first improvement is to alter the way the target language annotation in the source sentences, inspired by \cite{Blackwood:2018aa}. In the original corpus building script, it will add a custom \verb|__{lang_id}__| token at the front of each source sentence, as suggested by \cite{Johnson:2016aa}. A sentence in the annotated source text whose target language is German would look like 
+Previous initial results opened up some follow up experiments to see what could be improved. The first improvement is to alter the way the target language annotation in the source sentences, inspired by \textcite{Blackwood:2018aa}. In the original corpus building script, it will add a custom \verb|__{lang_id}__| token at the front of each source sentence, as suggested by \textcite{Johnson:2016aa}. A sentence in the annotated source text whose target language is German would look like 
 
 \begin{verbatim}
   __de__ and we struggle with how to deal with them .
@@ -568,9 +554,9 @@ Finally, when comparing the results of lexicon replacement on the input vector s
 
 From the observation in the last section, we hypothesis that a large amount of error in the output is because the output layer of the model's decoder does not provide any mechanism to transfer the translation knowledge between languages. The layer has one entry per each word in the entire vocabulary set. The entries are activated independently, one at each time. Since the model does not see any example from the unseen test languages during the training phase, the output connections corresponding to the unseen words are down-weighted during the training phase. Hence, it is improbable for the model to output words from the unseen languages, except for those shared with the training languages.
 
-The above discussion suggests that the multilingual NMT architecture of \cite{Johnson:2016aa} might transfer better to unseen languages if the decoder and the encoder embeddings are in the same vector spaces. A simple way to reach such an alignment between the two embedding spaces is to add a regularization cost based on the divergence of the two spaces from each other to the loss function of the multilingual model, just like what we have demostrated in our lexicon replacement experiments. We consider this as a future step for this research. Another potential step to be explored in the future is to provide the translation model with information about the language relatedness e.g., to use language embeddings \parencite{littell-etal-2017-uriel} together with the cross-lingual embeddings. Moreover, a more in-depth error analysis is required to address the other potential limitations of the multilingual model transfer based on the cross-lingual embeddings.
+The above discussion suggests that the multilingual NMT architecture of \textcite{Johnson:2016aa} might transfer better to unseen languages if the decoder and the encoder embeddings are in the same vector spaces. A simple way to reach such an alignment between the two embedding spaces is to add a regularization cost based on the divergence of the two spaces from each other to the loss function of the multilingual model, just like what we have demostrated in our lexicon replacement experiments. We consider this as a future step for this research. Another potential step to be explored in the future is to provide the translation model with information about the language relatedness e.g., to use language embeddings \parencite{littell-etal-2017-uriel} together with the cross-lingual embeddings. Moreover, a more in-depth error analysis is required to address the other potential limitations of the multilingual model transfer based on the cross-lingual embeddings.
 
-Finally, we would like to emphasize that this is still an ongoing research and some caveats about the results. We examine the translation transfer on a relatively small set of languages with a more in-depth analysis of only one language. It will be interesting to consider a more extensive language set and study how the model transfer perform in different language families. We have tested only one set of cross-lingual embeddings. Although we believe it is unlikely to see marginally different results from other sets of embeddings (especially when it comes to conventional word vectors), it is still worth exploring how other sets of embeddings (e.g., the multilingual contextualized cross-lingual embeddings \cite{devlin-etal-2019-bert} and the multilingual sub-word embeddings \cite{Heinzerling:2017aa}) perform in this scenario. 
+Finally, we would like to emphasize that this is still an ongoing research and some caveats about the results. We examine the translation transfer on a relatively small set of languages with a more in-depth analysis of only one language. It will be interesting to consider a more extensive language set and study how the model transfer perform in different language families. We have tested only one set of cross-lingual embeddings. Although we believe it is unlikely to see marginally different results from other sets of embeddings (especially when it comes to conventional word vectors), it is still worth exploring how other sets of embeddings (e.g., the multilingual contextualized cross-lingual embeddings \textcite{devlin-etal-2019-bert} and the multilingual sub-word embeddings \textcite{Heinzerling:2017aa}) perform in this scenario. 
 
 \appendix
 \chapter{Example Output from the Multilingual NMT Model}
