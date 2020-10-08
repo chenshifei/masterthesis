@@ -1,12 +1,25 @@
 %% This BibTeX bibliography file was created using BibDesk.
 %% https://bibdesk.sourceforge.io/
 
-%% Created for Shifei Chen at 2020-10-06 16:21:23 +0200 
+%% Created for Shifei Chen at 2020-10-08 14:12:24 +0200 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@article{Wu:2016aa,
+	Abstract = {Neural Machine Translation (NMT) is an end-to-end learning approach for automated translation, with the potential to overcome many of the weaknesses of conventional phrase-based translation systems. Unfortunately, NMT systems are known to be computationally expensive both in training and in translation inference. Also, most NMT systems have difficulty with rare words. These issues have hindered NMT's use in practical deployments and services, where both accuracy and speed are essential. In this work, we present GNMT, Google's Neural Machine Translation system, which attempts to address many of these issues. Our model consists of a deep LSTM network with 8 encoder and 8 decoder layers using attention and residual connections. To improve parallelism and therefore decrease training time, our attention mechanism connects the bottom layer of the decoder to the top layer of the encoder. To accelerate the final translation speed, we employ low-precision arithmetic during inference computations. To improve handling of rare words, we divide words into a limited set of common sub-word units ("wordpieces") for both input and output. This method provides a good balance between the flexibility of "character"-delimited models and the efficiency of "word"-delimited models, naturally handles translation of rare words, and ultimately improves the overall accuracy of the system. Our beam search technique employs a length-normalization procedure and uses a coverage penalty, which encourages generation of an output sentence that is most likely to cover all the words in the source sentence. On the WMT'14 English-to-French and English-to-German benchmarks, GNMT achieves competitive results to state-of-the-art. Using a human side-by-side evaluation on a set of isolated simple sentences, it reduces translation errors by an average of 60\% compared to Google's phrase-based production system.},
+	Author = {Yonghui Wu and Mike Schuster and Zhifeng Chen and Quoc V. Le and Mohammad Norouzi and Wolfgang Macherey and Maxim Krikun and Yuan Cao and Qin Gao and Klaus Macherey and Jeff Klingner and Apurva Shah and Melvin Johnson and Xiaobing Liu and {\L}ukasz Kaiser and Stephan Gouws and Yoshikiyo Kato and Taku Kudo and Hideto Kazawa and Keith Stevens and George Kurian and Nishant Patil and Wei Wang and Cliff Young and Jason Smith},
+	Date-Added = {2020-10-08 14:10:56 +0200},
+	Date-Modified = {2020-10-08 14:12:24 +0200},
+	Eprint = {1609.08144},
+	Month = {09},
+	Title = {Google's Neural Machine Translation System: Bridging the Gap between Human and Machine Translation},
+	Url = {https://arxiv.org/pdf/1609.08144.pdf},
+	Year = {2016},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAoLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy8xNjA5LjA4MTQ0LnBkZk8RAVIAAAAAAVIAAgAADE1hY2ludG9zaCBIRAAAAAAAAAAAAAAAAAAAAAAAAABCRAAB/////w4xNjA5LjA4MTQ0LnBkZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAAAAAAAAAAAAAAMAAwAACiBjdQAAAAAAAAAAAAAAAAAGUGFwZXJzAAIALi86VXNlcnM6c2hpZmVpOkRvY3VtZW50czpQYXBlcnM6MTYwOS4wODE0NC5wZGYADgAeAA4AMQA2ADAAOQAuADAAOAAxADQANAAuAHAAZABmAA8AGgAMAE0AYQBjAGkAbgB0AG8AcwBoACAASABEABIALFVzZXJzL3NoaWZlaS9Eb2N1bWVudHMvUGFwZXJzLzE2MDkuMDgxNDQucGRmABMAAS8AABUAAgAN//8AAAAIAA0AGgAkAE8AAAAAAAACAQAAAAAAAAAFAAAAAAAAAAAAAAAAAAABpQ==},
+	Bdsk-Url-1 = {https://arxiv.org/abs/1609.08144}}
 
 @inproceedings{aji-etal-2020-neural,
 	Abstract = {Transfer learning improves quality for low-resource machine translation, but it is unclear what exactly it transfers. We perform several ablation studies that limit information transfer, then measure the quality impact across three language pairs to gain a black-box understanding of transfer learning. Word embeddings play an important role in transfer learning, particularly if they are properly aligned. Although transfer learning can be performed without embeddings, results are sub-optimal. In contrast, transferring only the embeddings but nothing else yields catastrophic results. We then investigate diagonal alignments with auto-encoders over real languages and randomly generated sequences, finding even randomly generated sequences as parents yield noticeable but smaller gains. Finally, transfer learning can eliminate the need for a warm-up phase when training transformer models in high resource language pairs.},
@@ -886,7 +899,7 @@
 		<key>group name</key>
 		<string>Machine Translation</string>
 		<key>keys</key>
-		<string>Johnson:2016aa,Conneau:2017aa,Kim:2019aa,Baziotis:2020aa,Ha:2017aa,Lakew:2018aa,Arivazhagan:2019aa,Lakew:2019aa,Ha:2016aa,Lakew:2018ab,Firat:2016aa,Blackwood:2018aa,Vaswani:2017aa,Koehn:2017aa,Nguyen:2017aa,Zoph:2016aa,Arthur:2016aa,lu-etal-2018-neural,aharoni-etal-2019-massively,devlin-etal-2019-bert,brown-etal-1990-statistical,aji-etal-2020-neural</string>
+		<string>Johnson:2016aa,Conneau:2017aa,Kim:2019aa,Baziotis:2020aa,Ha:2017aa,Lakew:2018aa,Arivazhagan:2019aa,Lakew:2019aa,Ha:2016aa,Lakew:2018ab,Firat:2016aa,Blackwood:2018aa,Vaswani:2017aa,Koehn:2017aa,Nguyen:2017aa,Zoph:2016aa,Arthur:2016aa,lu-etal-2018-neural,aharoni-etal-2019-massively,devlin-etal-2019-bert,brown-etal-1990-statistical,aji-etal-2020-neural,Wu:2016aa</string>
 	</dict>
 	<dict>
 		<key>group name</key>
