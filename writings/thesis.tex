@@ -308,8 +308,6 @@ In this way, there are possibilities that both of the unique semantic values in 
 \chapter{Results and Analysis}
 \label{chap:results}
 
-As anticipated, Swedish will get the best result among all three test languages. Its performance could even be on the same level as the baseline multilingual NMT consists of only the training languages --- EN, DE, and FR. The other two test languages' performance will not be close to the Swedish one, and they could be less than 10 BLEU scores.
-
 \begin{table}
   \centering
   \begin{tabular}{|r*{5}{|l}|}
@@ -329,16 +327,16 @@ As anticipated, Swedish will get the best result among all three test languages.
   \label{table:initial_results}
 \end{table}
 
-In the results shown in Table \ref{table:initial_results}, Swedish, Hungarian and Hebrew all got unpredicted low BLEU scores. The expected high perfromance from Swedish did not appear in the experiment result. All of the three languages only achieved around 1 BLEU score. Also, since the system hardly translates any of the languages, it is hard to tell the relationship between language similarity and the model's performance. Nevertheless, the relatively low results on the test languages compared with the training languages indicate that cross-lingual embeddings are not rich enough for the model transfer in machine translation. However, when it comes to a random setting with no pre-trained embeddings, we see that the translation model trained with cross-lingual embeddings performs substantially better (Avg BLEU=1.2) than a model trained with random embeddings (BLEU=0.1).
+In the results shown in Table \ref{table:initial_results}, Swedish, Hungarian and Hebrew all got unanticipated low BLEU scores. Even though Swedish is closer to the training languages, the expected high perfromance from Swedish did not appear in the experiment result. All of the three languages only achieved around 1 BLEU score. Also, since the system hardly translates any of the languages (as examples in \ref{sec:initial_output}), it is hard to tell the relationship between language similarity and the model's performance. However, when it comes to random initialized embedding layers without pre-trained embeddings, cross-lingual word embeddings still provides better initialization than nothing. We see the translation model trained with cross-lingual embeddings performs substantially better (Avg BLEU=1.2) than a model trained with random initialized embeddings (BLEU=0.1).
 
-In XNMT, one can also see the individual precision scores form 1 to 4 grams in the translation text. By looking at that details, all three languages had a significantly better unigram precision score than their bigram, trigram, and quadgram precision score. The bigram precision score in Swedish was about half of its unigram scores. The precison score on trigrams and quadgrams are close to 0 on all languages, which again is a sign showing the multilingual NMT system has little transferability from known training languages to an unknown test language.
+By looking at individual 1-4 gram precision scores, all three languages had a significantly better unigram precision score than their bigram, trigram, and quadgram precision score. For example in Swedish its bigram precision score in Swedish was about half of its unigram scores. The precison score on trigrams and quadgrams are close to 0 on all languages, which again is a sign showing the multilingual NMT system has little transferability from known training languages to an unknown test language, and that transferability only happens at word level.
 
-To increase the transferability from known languages to unknown languages, we have tried various techniques, such as increasing dropout rate. We have observed small improvements (average 0.5 BLEU score increase), but since this technique improves the zero-shot performance at the cost of supervised translation directions \textcite{Arivazhagan:2019aa}, we decided to explore other approaches in below.
+We have tried increasing the dropout rate to 0.3 in order to transfer more information from known languages to unknown languages, but we only observed small improvements (average 0.5 BLEU score increase). Since this technique improves the zero-shot performance at the cost of supervised translation directions \textcite{Arivazhagan:2019aa}, we decided to explore other approaches in below.
 
 \section{The Effect of Source/Target Language Annotation}
 \label{sec:results_source_and_target_annotation}
 
-Previous initial results opened up some follow up experiments to see what could be improved. The first improvement is to alter the way the target language annotation in the source sentences, inspired by \textcite{Blackwood:2018aa}. In the original corpus building script, it will add a custom \verb|__{lang_id}__| token at the front of each source sentence, as suggested by \textcite{Johnson:2016aa}. A sentence in the annotated source text whose target language is German would look like 
+Inspired by \textcite{Blackwood:2018aa}, the first improvement is to alter the way the target language annotation in the source sentences. In the original corpus building script, it will add a custom \verb|__{lang_id}__| token at the front of each source sentence, as suggested by \textcite{Johnson:2016aa}. A sentence in the annotated source text whose target language is German would look like 
 
 \begin{verbatim}
   __de__ and we struggle with how to deal with them .
@@ -375,14 +373,16 @@ When it needs to be translated into German, the annotation would then become
   \label{table:altering_lang_id}
 \end{table}
 
-The results are in Table \ref{table:altering_lang_id}. Adding a source token together with the target token did not change the overall result much, but removing the target token had a negative impact on the final BLEU score. This discovery is in line with previous claims and results \parencite{Johnson:2016aa, Blackwood:2018aa}, as the multilingual NMT system requires a target token at the beginning of each sentence to help identify the target language. The difference between different langauge annotations indicated that a word embedding based multilingual NMT system would also automatically learn the source language during training. People should only annotate the target language into the source text.
+The results are in Table \ref{table:altering_lang_id}. Adding a source token together with the target token did not change the overall result much, but removing the target token had a negative impact on the final BLEU score. This observation is in line with previous claims and results \parencite{Johnson:2016aa, Blackwood:2018aa} that the multilingual NMT system requires a target token at the beginning of each sentence to help identify the target language.
+
+Compared with \textcite{Blackwood:2018aa}, our experiments with altered language annotation did not improved the model's transferability to unknown languages. Even though our target specified annotation also yields the best results, the multilingual NMT model still can not learn to output the correct language since the desired target token remains unseen to the system. Altering target token annotation is not effective in our experiments.
 
 \section{The Effect of Language Similarity}
 \label{sec:langauge_similarity}
 
-Previous hypothesis believes that Swedish will perform better the Hungarian and Hebrew for its closer relationship to the training languages. To deeper undetstand the question, we have further designed experiments to see if language similarity will improve the results.
+To deeper undetstand how and why Swedish benefited from its language similarity to our training languages, we have further designed experiments to see the effect of language similarity.
 
-The additional experiments will still use Swedish as the test langauge while remove French as the training language to homogenize the training language set more towards Swedish. In the previous training language set, French is the only training language that is Romanic. By replacing French with Danish, all of the training languages are now Germanic, as well as the test language Swedish. We have also included two more Germanic languages as the training language, Dutch (NL) and Norwegian (NO). We began with experiment trained on English, German and Danish, and added the additional training languages one by one in the next two expriments. Everything else is the same. The results are shown in Table \ref{table:language_similarity}.
+The additional experiments will still use Swedish as the test langauge while remove French as the training language to homogenize the training language set more towards Swedish. In the previous training language set, French is the only training language that is Romanic. By replacing French with Danish, all of the training languages are now Germanic, as well as the test language Swedish. We have also included two more Germanic languages to the training language set, Dutch (NL) and Norwegian (NO). We began with an experiment trained on English, German and Danish, and added the additional training languages one by one in the next two expriments. Everything else is the same. The results are shown in Table \ref{table:language_similarity}.
 
 \begin{table}
   \centering
@@ -417,13 +417,11 @@ The system has obtained 1.7 BLEU score on the EN+DE+FR to SV experiment. It show
 
 \section{The Effect of the Transformed Vector Space}
 
-In addition to the low language similarity between the training languages and the test languages (except in the case of Swedish), we also hypothesis that the poor transferability is due to transformed vector space in the translation model. We believe that after a series of linear opeartion from the neural network onto the word embeddings, the output vector space is no longer aligned with the input vector space.
+In addition to the role of language similarity between the training languages and the test languages, we also hypothesis that the poor transferability of our multilingual NMT model to unseen languages is due to transformed vector space in the translation model. After a series of linear opeartion from the neural network onto the word embeddings, the output vector space is no longer aligned with the input vector space. This is based on the hypothesis that our NMT system have already learned the genrally mapping between words in the source vector space and the ones in the target vector space, even though the correct word in the target word space hasn't been seen by the system during training. However since every aligned word embeddings are grouped by their semantics, the correct target word should also be around the wrong output word.
 
-The whole experiment is based on the hypothesis that our NMT system have already learned the genrally mapping between words in the source vector space and the ones in the target vector space, even though the correct word in the target word space hasn't been seen by the system during training. However since every aligned word embeddings are grouped by their semantics, the correct target word should also be around the wrong output word.
+By looking closely from the predicted translation in Table \ref{table:initial_results}, we have observed the contrary --- almost none of the words in the output text is translated to the correct word in the desired languages. They were either translated into one of the training languages, or were entirely copied from the source text. The BLEU score gains were from punctuations and a small collection of words shared between languages (e.g. property nouns).
 
-By looking closely from the predicted translation in Table \ref{table:initial_results}, we have observed the contrary --- Almost non of the words in the output text got translated to the correct word in the desired languages. They were either translated into one of the training languages, or were entirely copied directly from the source text, see Appendix \ref{chap:example_output}. The BLEU score gains were from punctuations and a small collection of words shared between languages (e.g. property nouns).
-
-Taking a step further, when analyze both translation directions there are other traces to support our transformed vector space hypothesis. We have conducted comparisions on both directions on the Swedish language experiment, as shown in Table \ref{table:directional_results}. When tranlsating from SV to the combined EN+DE+DA text, we could achieve almost 6 BLEU scores, which is much better than the nearly zero score when translating from the other direction. Also compared to the combined precision scores on the same experiment from Table \ref{table:language_similarity}, the results of the translation direction EN+DE+DA to SV contributed almost nothing to the combined translation performance.
+Taking a step further, when analyzing both translation directions there are other traces to support our transformed vector space hypothesis. We have conducted comparisions on both directions on the Swedish language experiment, as shown in Table \ref{table:directional_results}. When tranlsating from SV to the combined EN+DE+DA text, we could achieve almost 6 BLEU scores, which is much better than the nearly zero score when translating from the other direction. Also compared to the combined precision scores on the same experiment from Table \ref{table:language_similarity}, the results of the translation direction EN+DE+DA $\rightarrow$ SV contributed almost nothing to the combined translation performance.  We present the sample output of both directions in Appendix \ref{sec:directional_output}.
 
 \begin{table}
   \centering
@@ -444,9 +442,9 @@ Thus, it is highly possible to suspect the output vectors from the model's decod
 
 \subsection{Lexicon Replacement By Euclidean Distance}
 
-Suppose we now have a vector space $S$ that contains aligned word embeddings in the unknown language and the known languages, respectively. We donate them as $W_x$ and $W_k$ For each $w_x\in W_x$ there exists at least one mapping to a target word in the known languages $w_k \in W_k$. We are looking for that specific $w_k$ that are with in a specific radius of the original $w_s$. The distance should still be relatively small so that $w_s$ and $w_k$ are both considered to be a effective translation of each other.
+Suppose we have a vector space $S$ that contains aligned word embeddings in the unknown language and the known languages, respectively. We donate them as $W_x$ and $W_k$. For each $w_x\in W_x$, there exists at least one mapping to a target word in the known languages $w_k \in W_k$. We are looking for that specific $w_k$ that are with in a specific radius of the original $w_s$. The distance should still be relatively small so that $w_s$ and $w_k$ are both considered to be an effective translation of each other.
 
-In theory to determine the nearyby neighbour $w_k$ we can use different kinds of metrics. Here we have chosen to use the Euclidean distance where determines the distance between $w_s$ and $w_k$ as
+In theory, to determine the nearyby neighbour $w_k$, we can use different kinds of metrics. Here we have chosen to use the Euclidean distance where determines the distance between $w_s$ and $w_k$ as
 
 \begin{equation}
   d(w_s, w_k)=\sqrt{\sum_{i=1}^n{(w_{s_i}-w_{k_i})}^2}
@@ -454,9 +452,9 @@ In theory to determine the nearyby neighbour $w_k$ we can use different kinds of
 
 The distance $d$ is a variable here and its value needs to be determined as well. Hence there are experiments to test the distance argument $d$ by different experiments, ranging from $d=0.25$ to $d=5$.
 
-The algorithm is described in Algorithm \ref{algo:subsitution}
+The algorithm is described in Algorithm \ref{algo:subsitution}.
 
-\begin{algorithm}[H]
+\begin{algorithm}[h]
   \SetAlgoLined
   \KwIn{hypothesis $H$, source language embeddings $E_s$, target language embeddings $E_t$, distance threshold $D$}
   \KwResult{Updated hypothesis $H^\prime$ with words being replaced by their neighbors in the desired language}
@@ -577,14 +575,18 @@ Finally, it is worth exploring how other sets of embeddings would enhance the tr
 \chapter{Example Output from the Multilingual NMT Model}
 \label{chap:example_output}
 
-\section{Results from the Initial Experiment}
+\section{Example Output from the Initial Experiment}
+\label{sec:initial_output}
+
 This sample output is taken from the SV $\leftrightarrow$ EN+DE+FR experiment, described in Section \ref{sec:initial_exp_settings}. Its perfromance result is in Table \ref{table:initial_results}.
 
 We haved sampled 20 sentences from the output file. Each of the languages (SV, EN, DE and FR) as the target translation langauge has 5 examples.
 
 \includepdf[pages=-,scale=0.9,pagecommand={}]{mt_example_output/en+de+fr+sv.pdf}
 
-\section{Results from the Language Similarity Experiment}
+\section{Example Output from the Directional Translation Experiment}
+\label{sec:directional_output}
+
 This sample output is taken from the SV $\leftrightarrow$ EN+DE+DA experiment, described in Section \ref{sec:langauge_similarity}. Its perfromance result is in Table \ref{table:language_similarity}.
 
 We haved sampled 20 sentences from the output file. Each of the languages (SV, EN, DE and DA) as the target translation langauge has 5 examples.
