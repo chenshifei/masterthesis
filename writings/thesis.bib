@@ -1,12 +1,27 @@
 %% This BibTeX bibliography file was created using BibDesk.
 %% https://bibdesk.sourceforge.io/
 
-%% Created for Shifei Chen at 2020-10-08 14:12:24 +0200 
+%% Created for Shifei Chen at 2020-10-18 16:50:31 +0200 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@inproceedings{koehn-etal-2007-moses,
+	Address = {Prague, Czech Republic},
+	Author = {Koehn, Philipp and Hoang, Hieu and Birch, Alexandra and Callison-Burch, Chris and Federico, Marcello and Bertoldi, Nicola and Cowan, Brooke and Shen, Wade and Moran, Christine and Zens, Richard and Dyer, Chris and Bojar, Ond{\v{r}}ej and Constantin, Alexandra and Herbst, Evan},
+	Booktitle = {Proceedings of the 45th Annual Meeting of the Association for Computational Linguistics Companion Volume Proceedings of the Demo and Poster Sessions},
+	Date-Added = {2020-10-18 16:50:28 +0200},
+	Date-Modified = {2020-10-18 16:50:28 +0200},
+	Month = jun,
+	Pages = {177--180},
+	Publisher = {Association for Computational Linguistics},
+	Title = {{M}oses: Open Source Toolkit for Statistical Machine Translation},
+	Url = {https://www.aclweb.org/anthology/P07-2045.pdf},
+	Year = {2007},
+	Bdsk-File-1 = {YnBsaXN0MDDSAQIDBFxyZWxhdGl2ZVBhdGhZYWxpYXNEYXRhXxAmLi4vLi4vLi4vRG9jdW1lbnRzL1BhcGVycy9wMDctMjA0NS5wZGZPEQFKAAAAAAFKAAIAAAxNYWNpbnRvc2ggSEQAAAAAAAAAAAAAAAAAAAAAAAAAQkQAAf////8McDA3LTIwNDUucGRmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAAAAAAAAAAAAAADAAMAAAogY3UAAAAAAAAAAAAAAAAABlBhcGVycwACACwvOlVzZXJzOnNoaWZlaTpEb2N1bWVudHM6UGFwZXJzOnAwNy0yMDQ1LnBkZgAOABoADABwADAANwAtADIAMAA0ADUALgBwAGQAZgAPABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASACpVc2Vycy9zaGlmZWkvRG9jdW1lbnRzL1BhcGVycy9wMDctMjA0NS5wZGYAEwABLwAAFQACAA3//wAAAAgADQAaACQATQAAAAAAAAIBAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAGb},
+	Bdsk-Url-1 = {https://www.aclweb.org/anthology/P07-2045}}
 
 @article{Wu:2016aa,
 	Abstract = {Neural Machine Translation (NMT) is an end-to-end learning approach for automated translation, with the potential to overcome many of the weaknesses of conventional phrase-based translation systems. Unfortunately, NMT systems are known to be computationally expensive both in training and in translation inference. Also, most NMT systems have difficulty with rare words. These issues have hindered NMT's use in practical deployments and services, where both accuracy and speed are essential. In this work, we present GNMT, Google's Neural Machine Translation system, which attempts to address many of these issues. Our model consists of a deep LSTM network with 8 encoder and 8 decoder layers using attention and residual connections. To improve parallelism and therefore decrease training time, our attention mechanism connects the bottom layer of the decoder to the top layer of the encoder. To accelerate the final translation speed, we employ low-precision arithmetic during inference computations. To improve handling of rare words, we divide words into a limited set of common sub-word units ("wordpieces") for both input and output. This method provides a good balance between the flexibility of "character"-delimited models and the efficiency of "word"-delimited models, naturally handles translation of rare words, and ultimately improves the overall accuracy of the system. Our beam search technique employs a length-normalization procedure and uses a coverage penalty, which encourages generation of an output sentence that is most likely to cover all the words in the source sentence. On the WMT'14 English-to-French and English-to-German benchmarks, GNMT achieves competitive results to state-of-the-art. Using a human side-by-side evaluation on a set of isolated simple sentences, it reduces translation errors by an average of 60\% compared to Google's phrase-based production system.},
