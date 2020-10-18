@@ -220,34 +220,40 @@ We use BLEU \parencite{papineni-etal-2002-bleu} as one of our evaluation metrics
 
 \subsection{Corpus and Preprocessing}
 
-we use the TED talk subtitle corpus from \textcite{Qi:2018aa} to train the multilingual NMT.\footnote{\url{https://github.com/neulab/word-embeddings-for-nmt}} The whole corpus has roughly $\num{2.7e6}$ sentences split into three parts, train, dev, test at the ratio of $0.95:0.025:0.025$.
+we use the TED talk subtitle corpus from \textcite{Qi:2018aa} to train the multilingual NMT.\footnote{\url{https://github.com/neulab/word-embeddings-for-nmt}} The whole corpus is split into three parts, train, dev, test at the ratio of $0.95:0.025:0.025$.
 
 For preprocessing, since the original TED corpus is already tokenized by Moses \parencite{koehn-etal-2007-moses}, we did not add additional tokenization steps. We turned all of the text into lower cases and applied a sentence length filter to remove all long sentences with more than 60 words. After that, when building the index to word (i2w) and the word to index (w2i) table for the pre-trained embeddings, we have also removed words that are less frequent than two times to stop the system from overfitting by low-frequency words.
 
-All of the preprocess functions are built upon the built-in XNMT preprocess features \parencite{Neubig:2018aa}. After preprocessing, each of the training corpora has about $480000$ sentences, and the test corpus is about $70000$ sentences long across all language combinations.
-
-\subsection{Neural Network}
-
-Our neural network is a modified version of the one from \textcite{Qi:2018aa}, which is built with XNMT \parencite{Neubig:2018aa}. The only change is doubling the encoding layer to a 2-layer-bidirectional LSTM network, thus having more parameters to accommodate the additional information in a multilingual scenario. Everything else is the same as the original experiment settings, see Table \ref{table:hyperparameters}. We use BLEU score \parencite{papineni-etal-2002-bleu} as well as 1-4gram precision scores as our evaluation metrics. The initial learning starts at $0.0002$ and decays by $0.5$ when the development BLEU score decreases \parencite{Denkowski:2017aa}.
+All of the preprocess functions are built upon the built-in XNMT preprocess features \parencite{Neubig:2018aa}. Table \ref{table:preprocessing} contains the corpus size for all of the training and test language sets.
 
 \begin{table}
   \centering
-  \begin{tabular}{|r|l|}
+  \begin{tabular}{r|rrr}
     \hline
-    Hyperparameter & Value \\ [0.25ex]
+    \textbf{Language} & \textbf{train} & \textbf{dev} & \textbf{test} \\ [0.25ex]
     \hline\hline
-    Beam size & 5 \\
+    EN+DE+FR & 1013478 & N/A & N/A \\
+    +SV & N/A & 9390 & 12423 \\
+    +HU & N/A & 20332 & 25606 \\
+    +HE & N/A & 24554 & 28546 \\
     \hline
-    Batch size & 32 \\ 
+    EN+DE+DA & 491537 & N/A & N/A \\
+    +SV & N/A & 8037 & 9344 \\
     \hline
-    Dropout & 0.1 \\
+    EN+DE+DA+NL & 1225511 & N/A & N/A \\
+    +SV & N/A & 11126 & 13378 \\
     \hline
-    Optimizer & Adam \parencite{Kingma:2014aa} \\
+    EN+DE+DA+NL+NO & 1322133 & N/A & N/A \\
+    +SV & N/A & 12304 & 14430 \\
     \hline
   \end{tabular}
-  \caption{Hyperparameter settings)}
-  \label{table:hyperparameters}
+  \caption{Number of sentences in each language combination after preprocessing}
+  \label{table:preprocessing}
 \end{table}
+
+\subsection{Neural Network}
+
+Our neural network is a modified version of the one from \textcite{Qi:2018aa}, which is built with XNMT \parencite{Neubig:2018aa}. The only change is doubling the encoding layer to a 2-layer-bidirectional LSTM network, thus having more parameters to accommodate the additional information in a multilingual scenario. Everything else is the same as the original experiment settings: we set the beam size to $5$, the batch size to $32$ and the dropout rate to $0.1$. The optimizer used in our experiments is the Adam Optimizer \parencite{Kingma:2014aa}. We use BLEU score \parencite{papineni-etal-2002-bleu} as well as 1-4gram precision scores as our evaluation metrics. The initial learning starts at $0.0002$ and decays by $0.5$ when the development BLEU score decreases \parencite{Denkowski:2017aa}.
 
 \subsection{Embeddings}
 
@@ -265,16 +271,13 @@ There will also be a different attempt in our experiments where the system treat
 
 \begin{table}
   \centering
-  \begin{tabular}{|r*{5}{|l}|}
+  \begin{tabular}{r|*{5}{l}}
     \hline
-    Language & BLEU & 1gram & 2gram & 3gram & 4gram \\ [0.25ex]
+    \textbf{Language} & \textbf{BLEU} & \textbf{1gram} & \textbf{2gram} & \textbf{3gram} & \textbf{4gram} \\ [0.25ex]
     \hline\hline
     EN+DE+FR & 29.22 & 0.57 & 0.34 & 0.24 & 0.16 \\
-    \hline
     SV & 1.12 & 0.16 & 0.02 & 0.00 & 0.00 \\ 
-    \hline
     HU & 1.12 & 0.18 & 0.02 & 0.00 & 0.00 \\
-    \hline
     HE & 1.02 & 0.16 & 0.02 & 0.00 & 0.00 \\
     \hline
   \end{tabular}
@@ -297,16 +300,14 @@ The additional experiments will still use Swedish as the test language while rem
 
 \begin{table}
   \centering
-  \begin{tabular}{|r*{5}{|l}|}
+  \begin{tabular}{r|*{5}{l}}
     \hline
-    Language & BLEU & 1gram & 2gram & 3gram & 4gram \\ [0.25ex]
+    \textbf{Language} & \textbf{BLEU} & \textbf{1gram} & \textbf{2gram} & \textbf{3gram} & \textbf{4gram} \\ [0.25ex]
     \hline\hline
     EN+DE+FR & 1.12 & 0.16 & 0.02 & 0.00 & 0.00 \\
     \hline
     EN+DE+DA & 4.1 & 0.28 & 0.07 & 0.02 & 0.01 \\
-    \hline
     +NL & 3.3 & 0.23 & 0.05 & 0.02 & 0.00 \\ 
-    \hline
     +NO & 4.7 & 0.31 & 0.07 & 0.03 & 0.01 \\
     \hline
   \end{tabular}
@@ -336,12 +337,11 @@ Taking a step further, when analyzing both translation directions, there are oth
 
 \begin{table}
   \centering
-  \begin{tabular}{|r*{5}{|l}|}
+  \begin{tabular}{r|*{5}{l}}
     \hline
-    Language & BLEU & 1gram & 2gram & 3gram & 4gram \\ [0.25ex]
+    \textbf{Language} & \textbf{BLEU} & \textbf{1gram} & \textbf{2gram} & \textbf{3gram} & \textbf{4gram} \\ [0.25ex]
     \hline\hline
     EN+DE+DA $\rightarrow$ SV & 0.65 & 0.14 & 0.01 & 0.00 & 0.00 \\
-    \hline
     SV $\rightarrow$ EN+DE+DA & 6.00 & 0.33 & 0.08 & 0.03 & 0.01 \\
     \hline
   \end{tabular}
@@ -399,26 +399,19 @@ The BLEU scores are shown in Table \ref{table:lexicon_replacement}. To demonstra
 
 \begin{table}
   \centering
-  \begin{tabular}{|r*{5}{|l}|}
+  \begin{tabular}{r|*{5}{l}}
     \hline
-    $d$ value & BLEU & 1gram & 2gram & 3gram & 4gram \\ [0.25ex]
+    \textbf{$d$ value} & \textbf{BLEU} & \textbf{1gram} & \textbf{2gram} & \textbf{3gram} & \textbf{4gram} \\ [0.25ex]
     \hline\hline
     SV $\leftrightarrow$ EN+DE+DA & 4.1 & 0.28 & 0.07 & 0.02 & 0.01 \\
     \hline
     No replacement & 2.99 & 0.27 & 0.05 & 0.02 & 0.00 \\
-    \hline
     0.25 & 2.99 & 0.27 & 0.05 & 0.02 & 0.00 \\
-    \hline
     0.5 & 2.99 & 0.27 & 0.05 & 0.02 & 0.00 \\
-    \hline
     1 & 6.18 & 0.34 & 0.10 & 0.04 & 0.01 \\
-    \hline
     2 & 6.17 & 0.34 & 0.10 & 0.04 & 0.01 \\
-    \hline
     3 & 6.17 & 0.34 & 0.10 & 0.04 & 0.01 \\
-    \hline
     4 & 6.17 & 0.34 & 0.10 & 0.04 & 0.01 \\
-    \hline
     0 & 6.00 & 0.33 & 0.08 & 0.03 & 0.01 \\
     \hline
   \end{tabular}
