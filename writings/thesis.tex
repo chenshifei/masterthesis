@@ -28,15 +28,13 @@
 \maketitle
 
 \begin{abstract}
-  Zero-shot translation is capable of translating unseen language pairs by learning information from its training language and applying it to a test language. It requires no corpus of the training language and the test language pair. Thus for low-resource languages, zero-shot translation provides an appealing solution to the lack of available materials, as it could leverage knowledge learned from high-resource languages to low-resource languages.
+  Zero-shot translation is a transfer learning setup that refers to the ability of neural machine translation to generalize translation information into unseen language pairs. It provides an appealing solution to the lack of available materials for low-resource languages by transferring knowledge from high-resource languages.
 
-  People categorize zero-shot translation as an example of transfer learning since it transfers knowledge from its training languages to its test languages. So far, zero-shot translation mainly focuses on unseen language pairs whose individual component is still known to the system. There are fewer reports on transfer learning in machine translation being carried out on completely unknown test languages. This thesis pushes the boundary of zero-shot translation and explores the possibility of transferring learning from training languages to unknown test languages in a multilingual Neural Machine Translation (NMT) system.
+  So far, zero-shot translation mainly focuses on unseen language \textit{pairs} whose individual component is still known to the system. There are fewer reports on transfer learning in machine translation being carried out on completely unknown test languages. This thesis pushes the boundary of zero-shot translation and explores the possibility of transferring learning from training languages to unknown test languages in a multilingual Neural Machine Translation (NMT) system.
  
-  Based on the fact that zero-shot translation systems primarily learn language invariant features, we use cross-lingual word embeddings as the only knowledge source since they are good at capturing the similar word semantic distributions in the same vector space. By conducting experiments on an encoder-decoder multilingual NMT model with an attention module, we have also examined the relationship of language similarity and transferability.
+  Based on the fact that zero-shot translation systems primarily learn language invariant features, we use cross-lingual word embeddings as the only knowledge source since they are good at capturing the semantic similarity of words from different languages in the same vector space. By conducting experiments on an encoder-decoder multilingual NMT model with an attention module, we have examined the relationship of language similarity and the transferability of unseen languages.
  
-  We hypothesize that our multilingual NMT model with cross-lingual word embeddings should transfer reasonably even to completely unknown languages. However, we observe little transferability from the training language to other completely unseen test languages from our experiments. The minor transferability only happens between highly-related languages from our experiment because of their shared vocabularies.
- 
-  The lack of regularization in our attentional encoder-decoder model caused the transformation of the output vector space and made it no longer aligned with the input vector space. To mitigate such architectural shortcomings of our multilingual translation model, we provide suggestions that could better share embedding layers from the training language to unknown languages.
+  We hypothesize that our multilingual NMT model with cross-lingual word embeddings should transfer reasonably even to completely unknown languages. However, we observe little transferability from the training languages to unseen test languages due to the transformed output vector space. Such minor transferability only happens between highly-related languages with a large number of shared vocabularies.
 \end{abstract}
 
 \tableofcontents
@@ -275,7 +273,7 @@ fastText is an extension of the original Word2Vec methods that uses sub-words to
 
 Each of the fastText word embedding file is language-specific and contains word embeddings of 300 dimensions. We concatenated different language files to build up our cross-lingual word embedding files for the multilingual NMT system. The embeddings are frozen during the whole training to remain the original alignment throughout the whole experiments. If there is a shared word with two different vector values in different language embedding files, both vectors' average value will be used.
 
-There will also be a different attempt in our experiments where the system treats each word as a unique word even though they might have the same spelling. Both of the results will be available below in Section \ref{sec:langauge_similarity}.
+There will also be a different attempt in our experiments where the system treats each word as a unique word even though they might have the same spelling. Both of the results will be available below in Section \ref{sec:language_similarity}.
 
 
 \chapter{Results and Analysis}
@@ -304,7 +302,7 @@ By looking at individual 1-4 gram precision scores, all three languages had a si
 We have tried increasing the dropout rate to 0.3 and observed small improvements (average 0.5 BLEU score increase). As \textcite{Arivazhagan:2019aa} have pointed out, this technique improves the zero-shot performance at the cost of supervised translation directions. Thus we decided to explore other approaches below.
 
 \section{The Effect of Language Similarity}
-\label{sec:langauge_similarity}
+\label{sec:language_similarity}
 
 In the above results from Table \ref{table:initial_results}, even though all of the BLEU scores from three test languages are relatively low, Swedish achieves the best result. To better understand whether and how Swedish benefits from its language similarity to our training languages, we have further designed experiments to see the effect of language similarity.
 
@@ -379,10 +377,10 @@ The algorithm is described in Algorithm \ref{algo:subsitution}.
 
 \begin{algorithm}[h]
   \SetAlgoLined
-  \KwIn{hypothesis $H$, source language embeddings $E_s$, target language embeddings $E_t$, distance threshold $D$}
-  \KwResult{Updated hypothesis $H^\prime$ with words being replaced by their neighbors in the desired language}
+  \KwIn{Translation hypothesis $H$, source language embeddings $E_s$, target language embeddings $E_t$, distance threshold $D$}
+  \KwResult{Updated translation hypothesis $H^\prime$ with words being replaced by their neighbors in the desired language}
 
-  Build KD-tree $T$ from $E_s$
+  Build KD-tree $T$ from $E_s$ \\
   \For(each line $l$ in the source hypothesis $H$){$l \in H$}{
     \For(each word $w$ in line $l$){$w \in l$}{
       \uIf{$w$ is a punctuation}{
@@ -479,7 +477,7 @@ Finally, when comparing the results of lexicon replacement on the input vector s
 \chapter{Conclusion and Future Work}
 \label{chap:conclusion}
 
-In this thesis, we have explored the transferability and generalizability of cross-lingual word embeddings on unknown languages. From the achievement of zero-shot machine translation, we took a step further and expected moderate performance from those word embeddings as if they would transfer knowledge learned from the test languages onto other completely unknown languages. However, our experiment results suggested that only slight knowledge transfer happened between closely related languages, which echoes back to some of the findings that the embedding layer along in a multilingual NMT system is not enough to handle the knowledge transfer \parencite{aji-etal-2020-neural}.
+In this thesis, we have explored the transferability and generalizability of cross-lingual word embeddings on unknown languages. From the achievement of zero-shot machine translation, we took a step further and expected moderate performance from those word embeddings as if they would transfer knowledge learned from training languages onto other completely unknown languages. However, our experiment results suggested that only slight knowledge transfer happened between closely related languages, which echoes back to some of the findings that the embedding layer along in a multilingual NMT system is not enough to handle the knowledge transfer \parencite{aji-etal-2020-neural}.
 
 Despite the weak performance, we analyzed whether language similarity is vital to transfer learning on unknown languages. We agree with the conclusion of \textcite{Qi:2018aa} that language similarity is the main factor of transferability between languages. When transferring knowledge to unknown languages, we only observe transferability between highly related languages, particularly between languages that share a large portion of their vocabularies, i.e., Swedish, Danish, and Norwegian. The multilingual NMT model in our settings primarily learns word-level translation. Without the help of similar words, the little transferability would disappear too.
 
@@ -496,7 +494,7 @@ Finally, it is worth exploring how other sets of embeddings would enhance cross-
 \section{Example Output from the Directional Translation Experiment}
 \label{sec:directional_output}
 
-This sample output is taken from the SV $\leftrightarrow$ EN+DE+DA experiment, described in Section \ref{sec:langauge_similarity}. Its perfromance result is in Table \ref{table:language_similarity}.
+This sample output is taken from the SV $\leftrightarrow$ EN+DE+DA experiment, described in Section \ref{sec:language_similarity}. Its perfromance result is in Table \ref{table:language_similarity}.
 
 We have sampled 20 sentences from the output file. Each of the languages (SV, EN, DE and DA) as the target translation language has five examples.
 
