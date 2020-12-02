@@ -1,6 +1,8 @@
+# Cross-lingual Word Embeddings beyond Zero-shot Machine Translation
+
 This is the thesis work for the Language Technology Programm in Uppsala University.
 
-Link to [Diva](https://www.diva-portal.org/smash/record.jsf?aq2=%5B%5B%5D%5D&c=2&af=%5B%5D&searchType=SIMPLE&sortOrder2=title_sort_asc&query=cross-lingual+word+embeddings+beyond+&language=en&pid=diva2%3A1491850&aq=%5B%5B%5D%5D&sf=all&aqe=%5B%5D&sortOrder=author_sort_asc&onlyFullText=false&noOfRows=50&dswid=6597) (Where the thesis was officially archived)
+[Link to Diva](https://www.diva-portal.org/smash/record.jsf?aq2=%5B%5B%5D%5D&c=2&af=%5B%5D&searchType=SIMPLE&sortOrder2=title_sort_asc&query=cross-lingual+word+embeddings+beyond+&language=en&pid=diva2%3A1491850&aq=%5B%5B%5D%5D&sf=all&aqe=%5B%5D&sortOrder=author_sort_asc&onlyFullText=false&noOfRows=50&dswid=6597) (Where the thesis was officially archived)
 
 There is also a folder called `extended_abstract`, which contains this [SLTC 2020](https://spraakbanken.gu.se/en/sltc2020/program) paper of the same title.
 
